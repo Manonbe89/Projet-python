@@ -5,3 +5,4 @@ class Inventory:
         self.stuff = [] 
         self.usuableItem = []
 
+#+, msg puis syncronise
