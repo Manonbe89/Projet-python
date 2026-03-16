@@ -59,3 +59,6 @@ class Player:
 
     def __addMoney__(self, monney_add):
         self.money +=monney_add
+
+    def __setsom__(self):
+        self.armor=0
