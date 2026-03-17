@@ -10,7 +10,6 @@ class Player:
         self.magic = 10
         self.magic_armor = 10
         self.speed = 10
-        self.curent_sprite
 
     def __getName__(self):
         return self.name
@@ -59,6 +58,3 @@ class Player:
 
     def __addMoney__(self, monney_add):
         self.money +=monney_add
-
-    def __setsom__(self):
-        self.armor=0
