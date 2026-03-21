@@ -1,30 +1,28 @@
 #import Equipement
 
 class Inventory:
-    def init(self):
+    def __init__(self):
         self.stuff = [] 
         self.consumable_Item = []
-        self.usuable_Item = []
+        self.usable_Item = []
 
-#+, msg puis syncronise
-
-    def get_consumable_Item(self):
+#getters
+    def _get_stuff(self):
+        return self.stuff
+    
+    def _get_consumable_Item(self):
         return self.consumable_Item
 
-    def get_usuable_Item(self):
-        return self.usuable_Item
+    def _get_usable_Item(self):
+        return self.usable_Item
     
-    def set_consumable_Item(self, Item):
-        consumable_Item += Item
+#setters
+    def _set_stuff(self, Item):
+        self.stuff.append(Item)
 
-    def set_usuable_Item(self, Item):
-        usuable_Item += Item
+    def _set_consumable_Item(self, Item):
+        self.consumable_Item.append(Item)
 
-#test
-try:
-    inv = Inventory
-    inv.set_consumable_Item("bracelet")
-    print(inv.get_consumable_Item())
+    def _set_usable_Item(self, Item):
+        self.usable_Item.append(Item)
 
-except TypeError as e:
-    print(f"Erreur lors de la création de l'objet : {e}")   
