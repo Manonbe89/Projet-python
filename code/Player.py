@@ -38,7 +38,7 @@ class Player(pygame.sprite.Sprite):
     
     def _animate(self, dt):
         self.frame_index += 4*dt
-        if self.frame_index >= len(self.animation[self.statut]):
+        if self.frame_index >= len(self.animations[self.statut]):
             self.frame_index = 0
         self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (64,64))
 
@@ -67,16 +67,16 @@ class Player(pygame.sprite.Sprite):
             self.moving = False
 
     def _move(self, dt):
-        if self.direction.magnitude > 0:
+        if self.direction.magnitude() > 0:
             self.direction = self.direction.normalize()
         
         self.pos.x += self.direction.x * self.speed * dt
         self.rect.centerx = round(self.pos.x)
-        self.collision("horizontal")
+        self._collision("horizontal")
 
         self.pos.y += self.direction.y * self.speed * dt
         self.rect.centery = round(self.pos.y)
-        self.collision("vertical")
+        self._collision("vertical")
 
     def _collision(self, direction):
         for sprite in self.collision_sprites.sprites():
