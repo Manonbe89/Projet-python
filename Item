@@ -1,15 +1,14 @@
 import pygame
 
-pygame.init()       #lance pygame
+pygame.init()                           #lance pygame
+clock = pygame.time.Clock()
 screen = pygame.display.set_mode((500, 500))
 
-
 class Item: 
-    def __init__(self, id, name):
-        self.name =[]
+    def __init__(self, id, name, picture):
         self.id = id
         self.name = name
-        picture = pygame.image.load("C:/Users/manon/Documents/Projet python S4/Frames/Map test.png")
+        self.picture = picture
 
     def _get_Name_(self):
         return self.name
@@ -17,13 +16,20 @@ class Item:
     def _get_Id_(self):
         return self.id
     
-    def _set_Id_(self, new_id):
-        self.id = new_id
-    
     def _display_Picture_(self, picture, screen):
-        screen.blit(picture, (250, 250))
+        while(True):
+            for event in pygame.event.get():        #permet de sortir de la fenetre
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    exit()
+            screen.blit(picture, (0, 0))            #met l'image en 0 0
+            pygame.display.update()                 #met a jour l'image
+            clock.tick(30)                          #dit de s'actualiser tt les 30 ticks
+        
 
-truc = 1
-item = Item()
-while(truc == 1):
-    item.__display_Picture_(screen)
+#Test
+picture1 = pygame.image.load("C:/Users/manon/Documents/Projet python S4/Projet-python/Images\Map test.png")
+item1 = Item( 10, 'Casque', picture1)
+print ("Nom du 1er item : ", item1._get_Name_())
+print ("Id du 1er item : ", item1._get_Id_())
+item1._display_Picture_(picture1, screen)   #montre l'image correspondant à l'item 1
