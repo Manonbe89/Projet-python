@@ -1,7 +1,7 @@
 import pygame
 import config
 
-class Generic(pygame.sprite.Sprite):
+class Wall(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups):
         super().__init__(groups)
         self.image = surf
