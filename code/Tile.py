@@ -8,6 +8,7 @@ class Tile(pygame.sprite.Sprite):
         self.objects={}
         self.teleporters={}
         self.tile_map = surf
+        self.screen = pygame.display.set_mode((1000,500))
 
     def _add_enter(self, x, y, name):
         self.enters[name]=(x, y)
@@ -19,3 +20,4 @@ class Tile(pygame.sprite.Sprite):
         self.teleporters=[teleporter]=(x,y)
 
     def _charge(self):
+        screen.blit.
