@@ -17,14 +17,15 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (64,64))
         self.name = new_name
         self.money = 0
-        self.life = 10
-        self.attack = 10
-        self.armor = 10
-        self.magic = 10
-        self.magic_armor = 10
-        self.stat_speed = 10
+        self.player_stat = {
+            "life" : 10,
+            "attack" : 10,
+            "armor" : 10,
+            "magic armor" : 10,
+            "magic" : 10,
+            "speed" : 10
+            }
         self.game = game
-
         self.rect = self.image.get_rect(center = pos)
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
@@ -109,44 +110,5 @@ class Player(pygame.sprite.Sprite):
     def _get_Money(self):
         return self.money
     
-    def _get_Life(self):
-        return self.life
-    
-    def _get_Attack(self):
-        return self.attack
-    
-    def _getArmor(self):
-        return self.armor
-    
-    def _getMagic(self):
-        return self.magic
-    
-    def _getMagicArmor(self):
-        return self.magic_armor
-    
-    def _getSpeed(self):
-        return self.stat_speed
-    
-    def _getCurentSprite(self):
-        return self.curent_sprite
-    
-    def _addLife(self, life_add):
-        self.life += life_add
-
-    def _addAttack(self, attack_add):
-        self.atatck += attack_add
-
-    def _addArmor(self, armor_add):
-        self.armor += armor_add
-
-    def _addMagic(self, magic_add):
-        self.magic += magic_add
-
-    def _addMagicArmor(self, magic_armor_add):
-        self.magic_armor += magic_armor_add
-
-    def _addSpeed(self, speed_add):
-        self.speed += speed_add
-
-    def _addMoney(self, monney_add):
-        self.money +=monney_add
+    def _get_stat(self):
+        return self.player_stat
