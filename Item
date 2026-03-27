@@ -1,0 +1,29 @@
+import pygame
+
+pygame.init()       #lance pygame
+screen = pygame.display.set_mode((500, 500))
+
+
+class Item: 
+    def __init__(self, id, name):
+        self.name =[]
+        self.id = id
+        self.name = name
+        picture = pygame.image.load("C:/Users/manon/Documents/Projet python S4/Frames/Map test.png")
+
+    def _get_Name_(self):
+        return self.name
+    
+    def _get_Id_(self):
+        return self.id
+    
+    def _set_Id_(self, new_id):
+        self.id = new_id
+    
+    def _display_Picture_(self, picture, screen):
+        screen.blit(picture, (250, 250))
+
+truc = 1
+item = Item()
+while(truc == 1):
+    item.__display_Picture_(screen)
