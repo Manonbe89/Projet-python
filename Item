@@ -25,11 +25,3 @@ class Item:
             screen.blit(picture, (0, 0))            #met l'image en 0 0
             pygame.display.update()                 #met a jour l'image
             clock.tick(30)                          #dit de s'actualiser tt les 30 ticks
-        
-
-#Test
-picture1 = pygame.image.load("C:/Users/manon/Documents/Projet python S4/Projet-python/Images\Map test.png")
-item1 = Item( 10, 'Casque', picture1)
-print ("Nom du 1er item : ", item1._get_Name_())
-print ("Id du 1er item : ", item1._get_Id_())
-item1._display_Picture_(picture1, screen)   #montre l'image correspondant à l'item 1
