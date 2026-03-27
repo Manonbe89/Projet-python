@@ -4,7 +4,7 @@ import Game
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, new_name, game, groups, collision_sprites):
+    def __init__(self, pos, name, game, groups, collision_sprites):
         super().__init__(groups)
         self.collision_sprites = collision_sprites
         self.game = Game.Game()
@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.statut = 'down_sp'
         self.sp_statut = ['up_sp', 'down_sp', 'left_sp', 'right_sp']
         self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (64,64))
-        self.name = new_name
+        self.name = name
         self.money = 0
         self.player_stat = {
             "life" : 10,
