@@ -8,15 +8,19 @@ class Player(pygame.sprite.Sprite):
         super().__init__(groups)
         self.collision_sprites = collision_sprites
         self.game = Game.Game()
+
         self.base_titles = Tilesheet("", 50, 50, 1, 1 )
         self.animations = {}
         self.moving =False
+
         self.frame_index = 0
         self.statut = 'down_sp'
         self.sp_statut = ['up_sp', 'down_sp', 'left_sp', 'right_sp']
         self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (64,64))
+
         self.name = name
         self.money = 0
+
         self.player_stat = {
             "life" : 10,
             "attack" : 10,
@@ -25,10 +29,11 @@ class Player(pygame.sprite.Sprite):
             "magic" : 10,
             "speed" : 10
             }
-        self.game = game
+        
         self.rect = self.image.get_rect(center = pos)
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
+        self.hitbox = self.rect.copy().inflate(-20, -20)
         self.speed =200
 
     def _check_sprite(self):
@@ -41,17 +46,18 @@ class Player(pygame.sprite.Sprite):
         self.frame_index += 4*dt
         if self.frame_index >= len(self.animations[self.statut]):
             self.frame_index = 0
-        self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (64,64))
+        self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (50,50))
 
     def _input(self, actions):
+        self.direction.y = 0
+        self.direction.x = 0
+
         if actions['move up']:
             self.statut = 'up'
             self.direction.y -= 1
         elif actions['move down']:
             self.statut = 'down'
             self.direction.y = 1
-        else:
-            self.direction.y = 0
 
         if actions['move left']:
             self.statut = 'left'
@@ -59,8 +65,6 @@ class Player(pygame.sprite.Sprite):
         elif actions['move right']:
             self.statut = 'right'
             self.direction.x = 1
-        else:
-            self.direction.x = 0
 
     def _get_statut(self):
         if self.direction.magnitude() == 0:
@@ -70,32 +74,38 @@ class Player(pygame.sprite.Sprite):
     def _move(self, dt):
         if self.direction.magnitude() > 0:
             self.direction = self.direction.normalize()
-        
+
+        #déplacement horizontal
         self.pos.x += self.direction.x * self.speed * dt
-        self.rect.centerx = round(self.pos.x)
+        self.hitbox.centerx = round(self.pos.x)
         self._collision("horizontal")
 
+        #déplacement vertical
         self.pos.y += self.direction.y * self.speed * dt
-        self.rect.centery = round(self.pos.y)
+        self.hitbox.centery = round(self.pos.y)
         self._collision("vertical")
+
+        #mise à jour du rect (affichage)
+        self.rect.center = self.hitbox.center
 
     def _collision(self, direction):
         for sprite in self.collision_sprites.sprites():
             if hasattr(sprite, "hitbox"):
-                if sprite.hitbox.colliderect(self.rect):
+                if self.hitbox.colliderect(sprite.hitbox):
+
                     if direction == "horizontal":
-                        if self.direction.x > 0:
-                            self.rect.right = sprite.hitbox.left
-                        if self.direction.x < 0 : 
-                            self.rect.left = sprite.hitbox.right
-                        self.pos.x = self.rect.centerx
+                        if self.direction.x > 0:  # droite
+                            self.hitbox.right = sprite.hitbox.left
+                        elif self.direction.x < 0:  # gauche
+                            self.hitbox.left = sprite.hitbox.right
+                        self.pos.x = self.hitbox.centerx
 
                     if direction == "vertical":
-                        if self.direction.y > 0:
-                            self.rect.right = sprite.hitbox.top
-                        if self.direction.y < 0 : 
-                            self.rect.left = sprite.hitbox.bottom
-                        self.pos.y = self.rect.centery
+                        if self.direction.y > 0:  # bas
+                            self.hitbox.bottom = sprite.hitbox.top
+                        elif self.direction.y < 0:  # haut
+                            self.hitbox.top = sprite.hitbox.bottom
+                        self.pos.y = self.hitbox.centery
     
     def update(self, dt):
         self._input(self.game.actions)

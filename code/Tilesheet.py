@@ -1,15 +1,21 @@
 import pygame
 
 class Tilesheet:
-    def __init__(self, file_name, widht, heights, rows, cols):
-        image = pygame.image.load(file_name).convert_alpha()
-        self.title_table = []
-        for title_x in range (0, cols):
-            line = []
-            self.title_table.append(line)
-            for title_y in range (0, rows):
-                rect = (title_x * widht, title_y * heights, widht, heights)
-                line.append(image.subsurface(rect).convert_alpha())
+    def __init__(self, file_name, tile_width, tile_height, rows, cols):
+        # Chargement sécurisé
+        try:
+            self.image = pygame.image.load(file_name).convert_alpha()
+        except:
+            raise FileNotFoundError(f"Impossible de charger l'image : {file_name}")
 
-    def get_title(self, x, y):
-        return self.title_table[x][y]
+        self.tile_table = []
+
+        for y in range(rows):        # lignes
+            row = []
+            for x in range(cols):    # colonnes
+                rect = (x * tile_width, y * tile_height, tile_width, tile_height)
+                row.append(self.image.subsurface(rect))
+            self.tile_table.append(row)
+
+    def get_tile(self, row, col):
+        return self.tile_table[row][col]
