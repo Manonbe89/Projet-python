@@ -145,14 +145,17 @@ class Player(pygame.sprite.Sprite):
         if self.direction.magnitude() > 0:
             self.direction = self.direction.normalize()
 
+        #déplacement horizontal
         self.pos.x += self.direction.x * self.speed * dt
         self.hitbox.centerx = round(self.pos.x)
         self._collision("horizontal")
 
+        #déplacement vertical
         self.pos.y += self.direction.y * self.speed * dt
         self.hitbox.centery = round(self.pos.y)
         self._collision("vertical")
 
+        #mise à jour du rect (affichage)
         self.rect.center = self.hitbox.center
 
     def _collision(self, direction):
@@ -161,16 +164,16 @@ class Player(pygame.sprite.Sprite):
                 if self.hitbox.colliderect(sprite.hitbox):
 
                     if direction == "horizontal":
-                        if self.direction.x > 0:
+                        if self.direction.x > 0:  # droite
                             self.hitbox.right = sprite.hitbox.left
-                        elif self.direction.x < 0:
+                        elif self.direction.x < 0:  # gauche
                             self.hitbox.left = sprite.hitbox.right
                         self.pos.x = self.hitbox.centerx
 
                     if direction == "vertical":
-                        if self.direction.y > 0:
+                        if self.direction.y > 0:  # bas
                             self.hitbox.bottom = sprite.hitbox.top
-                        elif self.direction.y < 0:
+                        elif self.direction.y < 0:  # haut
                             self.hitbox.top = sprite.hitbox.bottom
                         self.pos.y = self.hitbox.centery
     
@@ -180,6 +183,15 @@ class Player(pygame.sprite.Sprite):
         self._check_sprite()
         self._move(dt)
         self._animate(dt)
+
+    def _get_Name(self):
+        return self.name
+    
+    def _get_Money(self):
+        return self.money
+    
+    def _get_stat(self):
+        return self.player_stat
 
 # PROGRAMME DE TEST
 
