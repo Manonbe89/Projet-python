@@ -2,13 +2,14 @@ import pygame
 import Wall
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, groups, surf):
+    def __init__(self, groups, surf, collision_sprites):
         super().__init__(groups)
 
         self.enters = {}
         self.objects = {}
         self.teleporters = {}
         self.tile_map = surf
+        self.collision_sprites = collision_sprites
 
     def _add_enter(self, x, y, name):
         self.enters[name] = (x, y)
