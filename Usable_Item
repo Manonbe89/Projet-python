@@ -1,9 +1,0 @@
-#enfant.py
-
-from parent import Item
-
-class Usable_Item (Item):
-    def __init__(self, id, name, picture):
-        self.id = id
-        self.name = name
-        self.picture = picture
