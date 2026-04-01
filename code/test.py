@@ -15,6 +15,7 @@ class FakeTilesheet:
     def __init__(self, *args, **kwargs):
         pass
 
+
 # CLASSE WALL
 
 class Wall(pygame.sprite.Sprite):
