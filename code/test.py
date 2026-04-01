@@ -24,8 +24,8 @@ class Wall(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
 
         self.hitbox = self.rect.copy().inflate(
-            -self.rect.width * 0.6,
-            -self.rect.height * 0.75
+            -self.rect.width * 0,
+            -self.rect.height * 0
         )
 
 
@@ -74,7 +74,7 @@ class Player(pygame.sprite.Sprite):
 
         # sprite de test
         test_img = pygame.Surface((64, 64))
-        test_img.fill((0, 0, 255))
+        test_img.fill((255, 0, 150))
         self.animations = {
             "down_sp": [test_img],
             "up_sp": [test_img],
