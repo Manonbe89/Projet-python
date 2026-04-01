@@ -1,3 +1,5 @@
+#parent.py
+
 import pygame
 
 pygame.init()                           #lance pygame
