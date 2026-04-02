@@ -1,6 +1,7 @@
 import pygame
 import config
 
+#obstacle constituer d'un rectangle, d'une hitbox et d'un groupe (pour réunir tous les obstacles dans une meme liste)
 class Wall(pygame.sprite.Sprite):
     def __init__(self, pos, surf, groups):
         super().__init__(groups)
