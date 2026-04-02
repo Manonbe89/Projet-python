@@ -52,8 +52,8 @@ class Tile:
         teleporter.rect.topleft = (x, y)
         self.teleporters[name] = teleporter
 
-    def _draw(self, screen):
-        screen.blit(self.tile_map, (0, 0))
+    def _draw(self, screen, x_cam, y_cam):
+        screen.blit(self.tile_map, (x_cam, y_cam))
         for obj in self.objects.values():
             screen.blit(obj.image, obj.rect)
 
@@ -104,7 +104,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = pos)
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
-        self.hitbox = self.rect.copy().inflate(-20, -20)
+        self.hitbox = self.rect.copy().inflate(0,0)
         self.speed =200
 
     def _check_sprite(self):
@@ -194,6 +194,12 @@ class Player(pygame.sprite.Sprite):
     def _get_stat(self):
         return self.player_stat
     
+    def _get_pos(self, coo):
+        if coo == 0 : 
+            return self.pos.x
+        if coo == 1 :
+            return self.pos.y
+    
 # CLASSE CAMERA
 
 class Camera : 
@@ -203,15 +209,15 @@ class Camera :
         self.y_cam = 0
         self.x_min = 0
         self.y_min = 0
-        self.x_max = 800
-        self.y_max = 800
+        self.x_max = 1000
+        self.y_max = 1000
 
     def _update_cam(self, scree_height, screen_widht, x_player, y_player):
         if x_player > self.x_min and x_player < self.x_max:
-            self.x_cam = x_player + screen_widht /2
+            self.x_cam = x_player - screen_widht /2
 
         if y_player > self.y_min and y_player < self.y_max:
-            self.y_cam = y_player + scree_height /2
+            self.y_cam = y_player - scree_height /2
 
 # PROGRAMME DE TEST
 
@@ -235,6 +241,10 @@ tile._add_object("mur", 300, 200, wall_surface)
 # JOUEUR
 player = Player((100, 100), "Test", None, all_sprites, collision_sprites)
 
+#CAMERA
+
+camera = Camera()
+
 running = True
 while running:
     dt = clock.tick(60) / 1000
@@ -252,8 +262,13 @@ while running:
         'move right': keys[pygame.K_RIGHT],
     }
 
+    x_player = player._get_pos(0)
+    y_player = player._get_pos(1)
+    camera._update_cam(800,600, x_player, y_player)
+    
+
     all_sprites.update(dt)
-    tile._draw(screen)
+    tile._draw(screen, camera.x_cam, camera.y_cam)
     all_sprites.draw(screen)
 
     pygame.display.flip()
