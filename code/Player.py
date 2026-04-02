@@ -122,3 +122,9 @@ class Player(pygame.sprite.Sprite):
     
     def _get_stat(self):
         return self.player_stat
+    
+    def _get_pos(self, coo):
+        if coo == 0 : 
+            return self.pos.x
+        if coo == 1 :
+            return self.pos.y
