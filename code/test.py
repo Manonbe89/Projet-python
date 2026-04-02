@@ -74,7 +74,7 @@ class Player(pygame.sprite.Sprite):
         self.sp_statut = ['up_sp', 'down_sp', 'left_sp', 'right_sp']
 
         # sprite de test
-        test_img = pygame.Surface((64, 64))
+        test_img = pygame.Surface((50, 50))
         test_img.fill((255, 0, 150))
         self.animations = {
             "down_sp": [test_img],
@@ -87,7 +87,7 @@ class Player(pygame.sprite.Sprite):
             "right": [test_img],
         }
 
-        self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (64,64))
+        self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (50,50))
 
         self.name = name
         self.money = 0
