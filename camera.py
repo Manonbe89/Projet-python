@@ -13,7 +13,7 @@ class Camera :
 
     def _update_cam(self, scree_height, screen_widht, x_player, y_player):
         if x_player > self.x_min and x_player < self.x_max:
-            self.x_cam = 0
+            self.x_cam = x_player + screen_widht /2
 
         if y_player > self.y_min and y_player < self.y_max:
-            self.y_cam = 0
+            self.y_cam = y_player + scree_height /2
