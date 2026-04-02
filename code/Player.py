@@ -129,8 +129,11 @@ class Player(pygame.sprite.Sprite):
     def _get_Money(self):
         return self.money
     
-    def _get_stat(self):
-        return self.player_stat
+    def _get_stat(self, stat):
+        return self.player_stat[stat]
+    
+    def _set_stat(self, stat, change):
+        self.player_stat[stat]+=change
     
     def _get_pos(self, coo):
         if coo == 0 : 
