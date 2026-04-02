@@ -1,4 +1,7 @@
-from parent import Item
+import pygame
+from item import Item
+#from player import Player
+
 
 class Usable_Item (Item):
     def __init__(self, id, name, picture, usage):
@@ -7,5 +10,21 @@ class Usable_Item (Item):
         self.picture = picture
         self.usage = usage
 
-    def _Use_Item_(self):
-        #à définir
+    def _get_Usage_(self):
+        return self.usage
+
+    def _Use_Item_(self, life):
+        uitem = Usable_Item()
+        print("Vous utilisez :", uitem._get_Name_())
+        #player = Player(self, pos, name, game, groups, collision_sprites):
+        
+        if(uitem._get_Usage_() == "régénérer"):
+            life += 1                                       #a revoir
+            print("Vous gagnez 1 coeur")
+            #player._set_life(+1)
+
+
+#Item
+picture1 = pygame.image.load("Images/Map test.png")
+uitem1 = Usable_Item(10, "potion", picture1, "régénerer")
+uitem1._Use_Item_()
