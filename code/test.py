@@ -53,7 +53,7 @@ class Tile:
         self.teleporters[name] = teleporter
 
     def _draw(self, screen, x_cam, y_cam):
-        screen.blit(self.tile_map, (x_cam, y_cam))
+        screen.blit(self.tile_map, (0,0))
         for obj in self.objects.values():
             screen.blit(obj.image, obj.rect)
 
