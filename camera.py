@@ -24,5 +24,5 @@ class Camera:
         self.position.y = max(0, min(self.position.y, self.map_height - self.screen_height))
 
     def apply(self, rect):
-        # retourne un rect décalé par la caméra
+        # retourne le rect décalé de l'inverse du décalage (car si on se décale vers le haut il faut que l'objet aille vers le bas)
         return rect.move(-self.position.x, -self.position.y)
