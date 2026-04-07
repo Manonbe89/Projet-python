@@ -27,8 +27,8 @@ class Tile:
         teleporter.rect.topleft = (x, y)
         self.teleporters[name] = teleporter
 
-    #charge la map et les différents élements qui lui sont associé
-    def _draw(self, screen):
-        screen.blit(self.tile_map, (0, 0))
+    #charge la map et les différents élements qui lui sont associé en prenant en compte la camera
+    def _draw(self, screen, camera):
+        screen.blit(self.tile_map, (-camera.position.x, -camera.position.y))
         for obj in self.objects.values():
-            screen.blit(obj.image, obj.rect)
+            screen.blit(obj.image, camera.apply(obj.rect))
