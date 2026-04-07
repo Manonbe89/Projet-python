@@ -52,10 +52,10 @@ class Tile:
         teleporter.rect.topleft = (x, y)
         self.teleporters[name] = teleporter
 
-    def _draw(self, screen, x_cam, y_cam):
-        screen.blit(self.tile_map, (0,0))
+    def _draw(self, screen, camera):
+        screen.blit(self.tile_map, (-camera.position.x, -camera.position.y))
         for obj in self.objects.values():
-            screen.blit(obj.image, obj.rect)
+            screen.blit(obj.image, camera.apply(obj.rect))
 
 
 # CLASSE PLAYER
@@ -202,22 +202,29 @@ class Player(pygame.sprite.Sprite):
     
 # CLASSE CAMERA
 
-class Camera : 
+class Camera:
+    def __init__(self, screen_width, screen_height):
+        self.position = pygame.math.Vector2()
+        self.screen_width = screen_width
+        self.screen_height = screen_height
 
-    def __init__(self):
-        self.x_cam = 0
-        self.y_cam = 0
-        self.x_min = 0
-        self.y_min = 0
-        self.x_max = 1000
-        self.y_max = 1000
+        # limites de la map
+        self.map_width = 1000
+        self.map_height = 1000
 
-    def _update_cam(self, scree_height, screen_widht, x_player, y_player):
-        if x_player > self.x_min and x_player < self.x_max:
-            self.x_cam = x_player - screen_widht /2
+    def update(self, player):
+        # centre la caméra sur le joueur
+        self.position.x = player.rect.centerx - self.screen_width // 2
+        self.position.y = player.rect.centery - self.screen_height // 2
 
-        if y_player > self.y_min and y_player < self.y_max:
-            self.y_cam = y_player - scree_height /2
+        # empêche la caméra de sortir de la map
+        self.position.x = max(0, min(self.position.x, self.map_width - self.screen_width))
+        self.position.y = max(0, min(self.position.y, self.map_height - self.screen_height))
+
+    def apply(self, rect):
+        # retourne un rect décalé par la caméra
+        return rect.move(-self.position.x, -self.position.y)
+
 
 # PROGRAMME DE TEST
 
@@ -229,7 +236,7 @@ all_sprites = pygame.sprite.Group()
 collision_sprites = pygame.sprite.Group()
 
 # MAP
-map_surface = pygame.Surface((800, 600))
+map_surface = pygame.Surface((1000, 1000))
 map_surface.fill((80, 180, 80))
 tile = Tile(map_surface, collision_sprites)
 
@@ -242,8 +249,7 @@ tile._add_object("mur", 300, 200, wall_surface)
 player = Player((100, 100), "Test", None, all_sprites, collision_sprites)
 
 #CAMERA
-
-camera = Camera()
+camera = Camera(800, 600)
 
 running = True
 while running:
@@ -262,14 +268,13 @@ while running:
         'move right': keys[pygame.K_RIGHT],
     }
 
-    x_player = player._get_pos(0)
-    y_player = player._get_pos(1)
-    camera._update_cam(800,600, x_player, y_player)
-    
-
+    # UPDATE
     all_sprites.update(dt)
-    tile._draw(screen, camera.x_cam, camera.y_cam)
-    all_sprites.draw(screen)
+    camera.update(player)
+
+    # DRAW
+    tile._draw(screen, camera)
+    screen.blit(player.image, camera.apply(player.rect))
 
     pygame.display.flip()
 
