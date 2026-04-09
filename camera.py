@@ -11,7 +11,7 @@ class Camera:
         self.map_width = 1000
         self.map_height = 1000
 
-    def update(self, player):
+    def _update(self, player):
         # centre la caméra sur le joueur
         self.position.x = player.rect.centerx - self.screen_width // 2
         self.position.y = player.rect.centery - self.screen_height // 2
@@ -23,6 +23,6 @@ class Camera:
         self.position.x = max(0, min(self.position.x, self.map_width - self.screen_width))
         self.position.y = max(0, min(self.position.y, self.map_height - self.screen_height))
 
-    def apply(self, rect):
+    def _apply(self, rect):
         # retourne le rect décalé de l'inverse du décalage (car si on se décale vers le haut il faut que l'objet aille vers le bas)
         return rect.move(-self.position.x, -self.position.y)
