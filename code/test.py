@@ -15,6 +15,27 @@ class FakeTilesheet:
     def __init__(self, *args, **kwargs):
         pass
 
+# CLASSE Collision_groups :
+
+class Collision_groups : 
+    # prend les différents groupe du super groupe en entré
+    def __init__(self, *groups):
+        self.groups = groups
+
+    # copie les sprite des différents objet des différents groupe en evitant les doublons
+    def _sprites(self):
+        combined = set()
+        for g in self.groups:
+            combined.update(g.sprites())
+        return list(combined)
+
+    # permet l'itération (for x in Collision_groups)
+    def __iter__(self):
+        return iter(self.sprites())
+
+    #permet d'utiliser la methode len(Collision_groups)
+    def __len__(self):
+        return len(self.sprites())
 
 # CLASSE WALL
 
@@ -33,21 +54,33 @@ class Wall(pygame.sprite.Sprite):
 # CLASSE TILE
 
 class Tile:
-    def __init__(self, surf, collision_sprites):
+    def __init__(self, surf, solid_walls, breakable_walls, pushable_walls):
         self.enters = {}
         self.objects = {}
         self.teleporters = {}
         self.tile_map = surf
-        self.collision_sprites = collision_sprites
+        self.solid_walls = solid_walls
+        self.brekable_walls = breakable_walls
+        self.pushable_walls = pushable_walls
 
     def _add_enter(self, x, y, name):
         self.enters[name] = (x, y)
 
-    def _add_object(self, name, x, y, surf):
-        wall = Wall((x, y), surf, self.collision_sprites)
-        key = f"{name}_{x}_{y}"
+    def _add_solid_walls(self, name, x, y, surf):
+        wall = Wall((x, y), surf, self.solid_walls)
+        key = f"solid_{name}_{x}_{y}"
         self.objects[key] = wall
 
+    def _add_breakable_walls(self, name, x, y, surf):
+        wall = Wall((x, y), surf, self.brekable_walls)
+        key = f"breakable_{name}_{x}_{y}"
+        self.objects[key] = wall
+
+    def _add_pushable_walls(self, name, x, y, surf):
+        wall = Wall((x, y), surf, self.pushable_walls)
+        key = f"pushable_{name}_{x}_{y}"
+        self.objects[key] = wall   
+    
     def _add_teleporter(self, name, teleporter, x, y):
         teleporter.rect.topleft = (x, y)
         self.teleporters[name] = teleporter
@@ -61,21 +94,14 @@ class Tile:
 # CLASSE PLAYER
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, name, game, groups, collision_sprites):
+    def __init__(self, pos, name, game, groups, collision_groups):
         super().__init__(groups)
-        self.collision_sprites = collision_sprites
+        self.collision_groups = collision_groups
         self.game = FakeGame()
 
-        self.base_titles = FakeTilesheet("", 50, 50, 1, 1 )
-        self.moving =False
-
-        self.frame_index = 0
-        self.statut = 'down_sp'
-        self.sp_statut = ['up_sp', 'down_sp', 'left_sp', 'right_sp']
-
-        # sprite de test
+        self.base_titles = FakeTilesheet("", 50, 50, 1, 1 )         #portfolio des sprites
         test_img = pygame.Surface((50, 50))
-        test_img.fill((255, 0, 150))
+        test_img.fill((0, 0, 255))
         self.animations = {
             "down_sp": [test_img],
             "up_sp": [test_img],
@@ -85,8 +111,12 @@ class Player(pygame.sprite.Sprite):
             "up": [test_img],
             "left": [test_img],
             "right": [test_img],
-        }
+        }                                  #les sprites
+        self.moving =False
 
+        self.frame_index = 0
+        self.statut = 'down_sp'
+        self.sp_statut = ['up_sp', 'down_sp', 'left_sp', 'right_sp']    #les sprites statiques
         self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (50,50))
 
         self.name = name
@@ -104,25 +134,29 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = pos)
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
-        self.hitbox = self.rect.copy().inflate(0,0)
+        self.hitbox = self.rect.copy().inflate(0, 0)
         self.speed =200
 
+    #regarde si le personnage est immobile ou en mouvement (utile notament pour savoir quelle sprite charger)
     def _check_sprite(self):
         if self.statut not in self.sp_statut:
             self.moving = True
         else:
             self.moving = False
     
+    #change le sprite du joueur (pour animer un déplacement)
     def _animate(self, dt):
         self.frame_index += 4*dt
         if self.frame_index >= len(self.animations[self.statut]):
             self.frame_index = 0
         self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (50,50))
 
+    #regarde les input de déplacement du joueur et modifie les paramètre de déplacement en fonction
     def _input(self, actions):
         self.direction.y = 0
         self.direction.x = 0
 
+        #déplacement en y (haut, bas)
         if actions['move up']:
             self.statut = 'up'
             self.direction.y -= 1
@@ -130,6 +164,7 @@ class Player(pygame.sprite.Sprite):
             self.statut = 'down'
             self.direction.y = 1
 
+        #déplacement en x (gauche, droite)
         if actions['move left']:
             self.statut = 'left'
             self.direction.x -= 1
@@ -137,11 +172,13 @@ class Player(pygame.sprite.Sprite):
             self.statut = 'right'
             self.direction.x = 1
 
+    #transforme les sprite de mouvement en sprite statique
     def _get_statut(self):
         if self.direction.magnitude() == 0:
             self.statut = self.statut.split('_')[0] + '_sp'
             self.moving = False
 
+    #permet de déplacé la position du joueur et sa hitbox
     def _move(self, dt):
         if self.direction.magnitude() > 0:
             self.direction = self.direction.normalize()
@@ -159,8 +196,9 @@ class Player(pygame.sprite.Sprite):
         #mise à jour du rect (affichage)
         self.rect.center = self.hitbox.center
 
+    #regarde si le joueur rencontre un obstacle et retourne en arrière si c'est la cas
     def _collision(self, direction):
-        for sprite in self.collision_sprites.sprites():
+        for sprite in self.collision_groups._sprites():
             if hasattr(sprite, "hitbox"):
                 if self.hitbox.colliderect(sprite.hitbox):
 
@@ -178,6 +216,7 @@ class Player(pygame.sprite.Sprite):
                             self.hitbox.top = sprite.hitbox.bottom
                         self.pos.y = self.hitbox.centery
     
+    #update l'ensemble des fonctions de déplacements du joueur pour créer une animation fluide
     def update(self, dt):
         self._input(self.game.actions)
         self._get_statut()
@@ -191,8 +230,11 @@ class Player(pygame.sprite.Sprite):
     def _get_Money(self):
         return self.money
     
-    def _get_stat(self):
-        return self.player_stat
+    def _get_stat(self, stat):
+        return self.player_stat[stat]
+    
+    def _set_stat(self, stat, change):
+        self.player_stat[stat]+=change
     
     def _get_pos(self, coo):
         if coo == 0 : 
@@ -233,22 +275,36 @@ screen = pygame.display.set_mode((800, 600))
 clock = pygame.time.Clock()
 
 all_sprites = pygame.sprite.Group()
-collision_sprites = pygame.sprite.Group()
+solid_walls = pygame.sprite.Group()
+breakable_walls = pygame.sprite.Group()
+pushable_walls = pygame.sprite.Group()
+
+# SUPER GROUP
+
+collision_groups = Collision_groups(solid_walls, breakable_walls, pushable_walls)
 
 # MAP
 map_surface = pygame.Surface((1000, 1000))
 map_surface.fill((80, 180, 80))
-tile = Tile(map_surface, collision_sprites)
+tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls)
 
 # MUR
 wall_surface = pygame.Surface((100, 100))
 wall_surface.fill((120, 60, 20))
-tile._add_object("mur", 300, 200, wall_surface)
+tile._add_solid_walls("mur", 300, 200, wall_surface)
+
+wall_surface = pygame.Surface((100, 100))
+wall_surface.fill((120, 60, 20))
+tile._add_solid_walls("mur", 500, 200, wall_surface)
+
+wall_surface = pygame.Surface((100, 100))
+wall_surface.fill((120, 60, 20))
+tile._add_solid_walls("mur", 300, 500, wall_surface)
 
 # JOUEUR
-player = Player((100, 100), "Test", None, all_sprites, collision_sprites)
+player = Player((100, 100), "Test", None, all_sprites, collision_groups)
 
-#CAMERA
+# CAMERA
 camera = Camera(800, 600)
 
 running = True
