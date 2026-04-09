@@ -140,3 +140,6 @@ class Player(pygame.sprite.Sprite):
             return self.pos.x
         if coo == 1 :
             return self.pos.y
+        
+    def _set_money(self, money_add):
+        self.money +=self.money_add
