@@ -4,9 +4,9 @@ import Game
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, name, game, groups, collision_sprites):
+    def __init__(self, pos, name, game, groups, collision_groups):
         super().__init__(groups)
-        self.collision_sprites = collision_sprites
+        self.collision_groups = collision_groups
         self.game = Game.Game()
 
         self.base_titles = Tilesheet("", 50, 50, 1, 1 )         #portfolio des sprites
@@ -97,7 +97,7 @@ class Player(pygame.sprite.Sprite):
 
     #regarde si le joueur rencontre un obstacle et retourne en arrière si c'est la cas
     def _collision(self, direction):
-        for sprite in self.collision_sprites.sprites():
+        for sprite in self.collision_groups.sprites():
             if hasattr(sprite, "hitbox"):
                 if self.hitbox.colliderect(sprite.hitbox):
 
