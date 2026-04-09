@@ -295,11 +295,11 @@ tile._add_solid_walls("mur", 300, 200, wall_surface)
 
 wall_surface = pygame.Surface((100, 100))
 wall_surface.fill((120, 60, 20))
-tile._add_solid_walls("mur", 500, 200, wall_surface)
+tile._add_pushable_walls("mur", 500, 200, wall_surface)
 
 wall_surface = pygame.Surface((100, 100))
 wall_surface.fill((120, 60, 20))
-tile._add_solid_walls("mur", 300, 500, wall_surface)
+tile._add_breakable_walls("mur", 300, 500, wall_surface)
 
 # JOUEUR
 player = Player((100, 100), "Test", None, all_sprites, collision_groups)
