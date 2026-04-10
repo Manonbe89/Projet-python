@@ -23,5 +23,3 @@ class Equipement(Item):
             return self.magic_defense
         elif (stat == "speed"):
             return self.speed
-
-    
