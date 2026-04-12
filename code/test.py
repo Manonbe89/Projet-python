@@ -15,6 +15,44 @@ class FakeTilesheet:
     def __init__(self, *args, **kwargs):
         pass
 
+# CLASSE NPC
+
+class NPC(pygame.sprite.Sprite):
+    def __init__(self, name, surf, pos, quote, groups):
+        super().__init__(groups)
+        self.name = name
+        self.image = surf
+        self.rect = self.image.get_rect(topleft=pos)
+        self.quote = quote
+
+        self.hitbox = self.rect.copy().inflate(
+            -self.rect.width * 0,
+            -self.rect.height * 0
+        )
+
+    def _show_quote(self, screen, font):
+        box_color=(0, 0, 0)
+        text_color=(255, 255, 255)
+        # dimensions de la boîte
+        width = screen.get_width()
+        height = 120
+        x = 0
+        y = screen.get_height() - height
+
+        # dessiner la boîte
+        dialogue_rect = pygame.Rect(x, y, width, height)
+        pygame.draw.rect(screen, box_color, dialogue_rect)
+
+        # rendu du texte
+        text_surface = font.render(f"{self.name} : {self.quote}", True, text_color)
+
+        # position du texte
+        text_x = x + 20
+        text_y = y + 20
+
+        screen.blit(text_surface, (text_x, text_y))
+
+
 # CLASSE Collision_groups :
 
 class Collision_groups : 
@@ -54,7 +92,7 @@ class Wall(pygame.sprite.Sprite):
 # CLASSE TILE
 
 class Tile:
-    def __init__(self, surf, solid_walls, breakable_walls, pushable_walls):
+    def __init__(self, surf, solid_walls, breakable_walls, pushable_walls, npc_group):
         self.enters = {}
         self.objects = {}
         self.teleporters = {}
@@ -62,6 +100,7 @@ class Tile:
         self.solid_walls = solid_walls
         self.brekable_walls = breakable_walls
         self.pushable_walls = pushable_walls
+        self.npc_group = npc_group
 
     def _add_enter(self, x, y, name):
         self.enters[name] = (x, y)
@@ -84,6 +123,11 @@ class Tile:
     def _add_teleporter(self, name, teleporter, x, y):
         teleporter.rect.topleft = (x, y)
         self.teleporters[name] = teleporter
+
+    def _add_npc(self, name, surf, x, y, quote):
+        npc = NPC(name, surf, (x, y), quote, self.npc_group)
+        key = f"npc_{name}_{x}_{y}"
+        self.objects[key] = npc
 
     def _draw(self, screen, camera):
         screen.blit(self.tile_map, (-camera.position.x, -camera.position.y))
@@ -241,7 +285,44 @@ class Player(pygame.sprite.Sprite):
             return self.pos.x
         if coo == 1 :
             return self.pos.y
-    
+
+# CLASSE INTERACTION :
+
+class Inreraction:
+    def __init__(self, player):
+        self.player = player
+        self.last_space_action = False
+        self.in_action = False
+
+    def _interact_npc(self, npc_group, screen, font):
+        space_action = self.player.game.actions['space']
+        space = space_action and not self.last_space_action
+        
+        npc = self._search_npc(npc_group)
+        
+        if self.in_action :
+            if space :
+                self.in_action = False
+
+            else :
+                if npc is not None:
+                    npc._show_quote(screen, font)
+
+        else :
+            if npc is not None and space:
+                self.in_action = True
+                npc._show_quote(screen, font)
+
+        self.last_space_action = space_action
+
+    def _search_npc(self, npc_group):
+        interaction_rect = self.player.hitbox.copy()
+        interaction_rect.inflate_ip(20, 20)
+        for npc in npc_group:
+            if interaction_rect.colliderect(npc.hitbox):
+                return npc
+        return None
+
 # CLASSE CAMERA
 
 class Camera:
@@ -278,15 +359,19 @@ all_sprites = pygame.sprite.Group()
 solid_walls = pygame.sprite.Group()
 breakable_walls = pygame.sprite.Group()
 pushable_walls = pygame.sprite.Group()
+npc_group = pygame.sprite.Group()
+
+font = pygame.font.Font(None, 32)
+
 
 # SUPER GROUP
 
-collision_groups = Collision_groups(solid_walls, breakable_walls, pushable_walls)
+collision_groups = Collision_groups(solid_walls, breakable_walls, pushable_walls, npc_group)
 
 # MAP
 map_surface = pygame.Surface((1000, 1000))
 map_surface.fill((80, 180, 80))
-tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls)
+tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls, npc_group)
 
 # MUR
 wall_surface = pygame.Surface((100, 100))
@@ -301,11 +386,19 @@ wall_surface = pygame.Surface((100, 100))
 wall_surface.fill((120, 60, 20))
 tile._add_breakable_walls("mur", 300, 500, wall_surface)
 
+# NPC
+npc_surface = pygame.Surface((50, 50))
+npc_surface.fill((255, 0, 0))
+tile._add_npc("Jean", npc_surface, 500, 500, "Boujour Aventurier !")
+
 # JOUEUR
 player = Player((100, 100), "Test", None, all_sprites, collision_groups)
 
 # CAMERA
 camera = Camera(800, 600)
+
+# INTERACTION
+interaction = Inreraction(player)
 
 running = True
 while running:
@@ -322,6 +415,7 @@ while running:
         'move down': keys[pygame.K_DOWN],
         'move left': keys[pygame.K_LEFT],
         'move right': keys[pygame.K_RIGHT],
+        'space': keys[pygame.K_SPACE]
     }
 
     # UPDATE
@@ -331,6 +425,9 @@ while running:
     # DRAW
     tile._draw(screen, camera)
     screen.blit(player.image, camera.apply(player.rect))
+
+    # INTERACTION
+    interaction._interact_npc(npc_group, screen, font)
 
     pygame.display.flip()
 
