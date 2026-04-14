@@ -354,6 +354,7 @@ class Camera:
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
 clock = pygame.time.Clock()
+game = FakeGame()
 
 all_sprites = pygame.sprite.Group()
 solid_walls = pygame.sprite.Group()
@@ -392,7 +393,7 @@ npc_surface.fill((255, 0, 0))
 tile._add_npc("Jean", npc_surface, 500, 500, "Boujour Aventurier !")
 
 # JOUEUR
-player = Player((100, 100), "Test", None, all_sprites, collision_groups)
+player = Player((100, 100), "Test", game, all_sprites, collision_groups)
 
 # CAMERA
 camera = Camera(800, 600)
