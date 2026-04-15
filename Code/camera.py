@@ -8,8 +8,8 @@ class Camera:
         self.screen_height = screen_height
 
         # limites de la map (peut etre à mettre en parametre si on fait des maps de taille différentes)
-        self.map_width = 1000
-        self.map_height = 1000
+        self.map_width = 4000
+        self.map_height = 4000
 
     def _update(self, player):
         # centre la caméra sur le joueur

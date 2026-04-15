@@ -1,16 +1,23 @@
 import pygame
-import Tilesheet
-import Game
-
+from game import Game
+from tilesheet import Tilesheet
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, name, game, groups, collision_groups):
         super().__init__(groups)
         self.collision_groups = collision_groups
-        self.game = Game.Game()
+        self.game = Game()
 
-        self.base_titles = Tilesheet("", 50, 50, 1, 1 )         #portfolio des sprites
-        self.animations = {}                                    #les sprites de mouvement
+        test_img = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
+        self.base_titles = Tilesheet("Images/Perso vue de devant.png", 50, 50, 1, 1 )         #portfolio des sprites
+        self.animations = {"down_sp": [test_img],
+                           "up_sp": [test_img],
+                           "left_sp": [test_img],
+                           "right_sp": [test_img],
+                           "down": [test_img],
+                           "up": [test_img],
+                           "left": [test_img],
+                           "right": [test_img],}                                    #les sprites de mouvement
         self.moving =False
 
         self.frame_index = 0
@@ -97,7 +104,7 @@ class Player(pygame.sprite.Sprite):
 
     #regarde si le joueur rencontre un obstacle et retourne en arrière si c'est la cas
     def _collision(self, direction):
-        for sprite in self.collision_groups.sprites():
+        for sprite in self.collision_groups._sprites():
             if hasattr(sprite, "hitbox"):
                 if self.hitbox.colliderect(sprite.hitbox):
 
