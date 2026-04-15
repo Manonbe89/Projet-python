@@ -1,6 +1,13 @@
 import pygame
+import sys
 from item import Item
 from player import Player
+
+pygame.init()   #initialisation de pygame
+
+#initialisations pour le texte
+
+
 
 class Usable_Item (Item):
     def __init__(self, id, name, picture, usage):
@@ -12,9 +19,18 @@ class Usable_Item (Item):
     def _get_Usage_(self):
         return self.usage
 
-    def _Use_Item_(self, player, uitem):
-        print("Vous utilisez :", uitem._get_Name_())
-        
-        if (uitem._get_Name_() == "épée du voyageur"):
-            player._set_stat("attack", 5)
-            print ("Vous gagnez 5 points d'attaque")
+    def _Use_Item_(self, player, uitem, screen, font):
+           
+           for event in pygame.event.get() :
+            if event.type == pygame.QUIT :
+                pygame.quit()
+                sys.exit()
+            
+            if event.type == pygame.KEYDOWN :           # vérifie si l'événement keydown s'est produit ou non
+                 if event.key == pygame.K_i :           # vérifie si la touche "i" a été pressée
+                    screen.blit(font.render("Vous utilisez :" + uitem._get_Name_(), True, (255, 255, 255)), (300, 200))  #affiche le texte
+                    
+                    if (uitem._get_Name_() == "épée du voyageur"):
+                         player._set_stat("attack", 5)
+                         screen.blit(font.render("Vous gagnez 5 points d'attaque", True, (255, 255, 255)), (50, 50)) 
+                         pygame.display.flip()

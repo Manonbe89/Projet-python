@@ -9,8 +9,8 @@ from game import Game
 
 pygame.init()
 
-screen = pygame.display.set_mode((1000,500))
-pygame.display.set_caption('jeux')
+screen = pygame.display.set_mode((1000,500))        #définition de la fenêtre
+pygame.display.set_caption('jeux')                  #nom de la fenêtre
 clock = pygame.time.Clock()
 
 game = Game()
@@ -32,7 +32,7 @@ map_surface = pygame.Surface((4000, 4000))
 map_surface.fill((80, 180, 80))
 tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls)
 
-#ma partie
+#ma partie (test)
 player = Player ((0,0), "truc", None, all_sprites, collision_groups)
 uitem = Usable_Item (0, "épée du voyageur", 0, "attaquer")
 
@@ -61,9 +61,7 @@ while True:
     tile._draw(screen, camera)
     screen.blit(player.image, camera._apply(player.rect))
 
-    uitem._Use_Item_(player, uitem)
+    uitem._Use_Item_(player, uitem, screen, test_font)
 
     n=n+10
     pygame.display.flip()
-
-pygame.quit()
