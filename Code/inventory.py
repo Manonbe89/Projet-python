@@ -7,7 +7,7 @@ class Inventory:
         self.stuff = [] 
         self.consumable_Item = []
         self.usable_Item = []
-        self.image = pygame.image.load('C:/Users/manon/Documents/Projet python S4/Frames/Inventaire.png').convert_alpha() #permet d'afficher l'image
+        self.image = pygame.image.load('Images/Inventaire.png').convert_alpha() #permet d'afficher l'image
         self.open_inventory = False
 
 #getters
