@@ -1,4 +1,5 @@
 import pygame
+from inventory import Inventory
 from player import Player
 from usable_Item import Usable_Item
 from collision_group import Collision_groups
@@ -14,6 +15,7 @@ pygame.display.set_caption('jeux')                  #nom de la fenêtre
 clock = pygame.time.Clock()
 
 game = Game()
+inventory = Inventory()
 
 # GROUPES (pas exploité (sauf all_sprites) mais nécessaire pour faire des déplacements)
 all_sprites = pygame.sprite.Group()
@@ -43,6 +45,8 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+        
+        inventory._check_inventory_status(event)
 
     # INPUT
     keys = pygame.key.get_pressed()
@@ -61,7 +65,8 @@ while True:
     tile._draw(screen, camera)
     screen.blit(player.image, camera._apply(player.rect))
 
-    uitem._Use_Item_(player, uitem, screen, test_font)
+    uitem._Use_Item_(player, uitem, screen, test_font, event)
+    inventory._display_inventory(screen)                            #affiche l'inventaire si la condition est respectée
 
     n=n+10
     pygame.display.flip()

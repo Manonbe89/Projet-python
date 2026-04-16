@@ -1,10 +1,14 @@
 #import Equipement
+import pygame
+import sys
 
 class Inventory:
     def __init__(self):
         self.stuff = [] 
         self.consumable_Item = []
         self.usable_Item = []
+        self.image = pygame.image.load('C:/Users/manon/Documents/Projet python S4/Frames/Inventaire.png').convert_alpha() #permet d'afficher l'image
+        self.open_inventory = False
 
 #getters
     def _get_stuff(self):
@@ -25,3 +29,12 @@ class Inventory:
 
     def _set_usable_Item(self, Item):
         self.usable_Item.append(Item)
+
+    def _check_inventory_status(self, event):
+        if event.type == pygame.KEYDOWN :           # vérifie si l'événement keydown s'est produit ou non
+             if event.key == pygame.K_i :           # vérifie si la touche "i" a été pressée
+                self.open_inventory = not self.open_inventory       #inverse l'état de self.open_inventory
+
+    def _display_inventory(self, screen):
+        if self.open_inventory == True : 
+            screen.blit(self.image, (125, 0))        #affiche l'écran d'inventaire
