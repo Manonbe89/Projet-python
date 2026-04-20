@@ -7,7 +7,7 @@ class Inventory:
         self.stuff = [] 
         self.consumable_Item = []
         self.usable_Item = []
-        self.image = pygame.image.load('Images/Inventaire.png').convert_alpha() #permet d'afficher l'image
+        self.image = pygame.image.load('C:/Users/manon/Documents/Projet python S4/Frames/Inventaire_test.png').convert_alpha() #permet d'afficher l'image
         self.open_inventory = False
 
 #getters
@@ -31,10 +31,10 @@ class Inventory:
         self.usable_Item.append(Item)
 
     def _check_inventory_status(self, event):
-        if event.type == pygame.KEYDOWN :           # vérifie si l'événement keydown s'est produit ou non
-             if event.key == pygame.K_i :           # vérifie si la touche "i" a été pressée
+        if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
+             if event.key == pygame.K_i :                           # vérifie si la touche "i" a été pressée
                 self.open_inventory = not self.open_inventory       #inverse l'état de self.open_inventory
 
     def _display_inventory(self, screen):
         if self.open_inventory == True : 
-            screen.blit(self.image, (125, 0))        #affiche l'écran d'inventaire
+            screen.blit(self.image, (175, 100))                     #affiche l'écran d'inventaire

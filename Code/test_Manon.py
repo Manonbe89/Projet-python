@@ -10,7 +10,7 @@ from game import Game
 
 pygame.init()
 
-screen = pygame.display.set_mode((1000,500))        #définition de la fenêtre
+screen = pygame.display.set_mode((900,600))        #définition de la fenêtre  avant 1000 500
 pygame.display.set_caption('jeux')                  #nom de la fenêtre
 clock = pygame.time.Clock()
 
@@ -47,6 +47,7 @@ while True:
             exit()
         
         inventory._check_inventory_status(event)
+        uitem._check_item_status_(event)
 
     # INPUT
     keys = pygame.key.get_pressed()
@@ -65,8 +66,8 @@ while True:
     tile._draw(screen, camera)
     screen.blit(player.image, camera._apply(player.rect))
 
-    uitem._Use_Item_(player, uitem, screen, test_font, event)
     inventory._display_inventory(screen)                            #affiche l'inventaire si la condition est respectée
+    uitem._Use_Item_(player, uitem, screen, test_font)
 
     n=n+10
     pygame.display.flip()
