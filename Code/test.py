@@ -4,7 +4,8 @@ from npc import NPC
 from player import Player
 from tile import Tile
 from collision_group import Collision_groups
-from interaction import Inreraction
+from game import Game
+from interaction import Interaction
 
 # PROGRAMME DE TEST
 
