@@ -53,4 +53,4 @@ class Tile:
     def _draw(self, screen, camera):
         screen.blit(self.tile_map, (-camera.position.x, -camera.position.y))
         for obj in self.objects.values():
-            screen.blit(obj.image, camera.apply(obj.rect))
+            screen.blit(obj.image, camera._apply(obj.rect))

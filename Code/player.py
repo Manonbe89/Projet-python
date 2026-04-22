@@ -40,7 +40,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = pos)
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
-        self.hitbox = self.rect.copy().inflate(-20, -20)
+        self.hitbox = self.rect.copy().inflate(0, 0)
         self.speed =200
 
     #regarde si le personnage est immobile ou en mouvement (utile notament pour savoir quelle sprite charger)
