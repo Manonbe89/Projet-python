@@ -57,7 +57,7 @@ player = Player((100, 100), "Test", game, all_sprites, collision_groups)
 camera = Camera(800, 600)
 
 # INTERACTION
-interaction = Inreraction(player)
+interaction = Interaction(player)
 
 running = True
 while running:
@@ -79,11 +79,11 @@ while running:
 
     # UPDATE
     all_sprites.update(dt)
-    camera.update(player)
+    camera._update(player)
 
     # DRAW
     tile._draw(screen, camera)
-    screen.blit(player.image, camera.apply(player.rect))
+    screen.blit(player.image, camera._apply(player.rect))
 
     # INTERACTION
     interaction._interact_npc(npc_group, screen, font)
