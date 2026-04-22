@@ -8,6 +8,6 @@ class Wall(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
 
         self.hitbox = self.rect.copy().inflate(
-            -self.rect.width * 0.6,
-            -self.rect.height * 0.75
+            -self.rect.width * 0,
+            -self.rect.height * 0
         )
