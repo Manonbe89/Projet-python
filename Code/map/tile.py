@@ -1,6 +1,6 @@
 import pygame
 from wall import Wall
-from npc import NPC
+from Code.npc.npc import NPC
 
 #"Tuile" de map (grand bout de carte)
 class Tile:
