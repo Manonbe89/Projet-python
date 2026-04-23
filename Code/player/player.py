@@ -1,6 +1,6 @@
 import pygame
-from Code.game.game import Game
-from Code.player.tilesheet import Tilesheet
+from Code.Game.game import Game
+from Code.Player.tilesheet import Tilesheet
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, name, game, groups, collision_groups):

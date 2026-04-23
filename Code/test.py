@@ -1,11 +1,11 @@
 import pygame
-from Code.map.camera import Camera
-from Code.npc.npc import NPC
-from Code.player.player import Player
-from Code.map.tile import Tile
-from Code.map.collision_group import Collision_groups
-from Code.game.game import Game
-from Code.player.interaction import Interaction
+from Code.Map.camera import Camera
+from Code.Npc.npc import NPC
+from Code.Player.player import Player
+from Code.Map.tile import Tile
+from Code.Map.collision_group import Collision_groups
+from Code.Game.game import Game
+from Code.Player.interaction import Interaction
 
 # PROGRAMME DE TEST
 

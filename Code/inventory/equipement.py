@@ -1,5 +1,5 @@
 import pygame
-from inventory.item import Item
+from Inventory.item import Item
 
 class Equipement(Item):
     def __init__(self, id, name, picture, attack, defense, magic, magic_defense, speed):
