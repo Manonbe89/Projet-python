@@ -13,6 +13,9 @@ class Item:
     def _get_Name_(self):
         return self.name
     
+    def _set_Name(self, new_name):
+        self.name = new_name
+
     def _get_Id_(self):
         return self.id
     

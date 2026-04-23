@@ -28,22 +28,20 @@ class Usable_Item (Item):
                    self.use_item = False
 
 
-    def _Use_Item_(self, player, uitem, screen, font, inventory):
-            uitem._set_Name_(inventory._get_current_item())
+    def _Use_Item_(self, player, uitem, screen, font, item):
             if self.dialogue_step == 1 :
-                screen.blit(font.render("Vous utilisez : " + uitem._get_Name_(), True, (255, 255, 255)), (300, 200))  #affiche le texte
+                screen.blit(font.render("Vous utilisez : " + item._get_Name_(), True, (255, 255, 255)), (300, 200))  #affiche le texte
                 uitem._show_passage_text(1, screen, font)
 
             elif self.dialogue_step == 2 :
                             
-                            if uitem._get_Name_() == "bracelet de force" :
+                            if item._get_Name_() == "bracelet de force" :
                                 screen.blit(font.render("A voir", True, (255, 255, 255)), (300, 200))
                                 uitem._show_passage_text(1, screen, font) 
                                 if self.use_item == False : 
-                                      player._set_stat("attack", 5)
                                       self.use_item = True
 
-                            if uitem._get_Name_() == "epee du voyageur" :
+                            if item._get_Name_() == "epee du voyageur" :
                                 screen.blit(font.render("Vous gagnez 5 points d'attaque", True, (255, 255, 255)), (300, 200))
                                 screen.blit(self.image_epee, (300, 250))
                                 uitem._show_passage_text(1, screen, font) 
@@ -51,14 +49,14 @@ class Usable_Item (Item):
                                       player._set_stat("attack", 5)
                                       self.use_item = True
 
-                            if uitem._get_Name_() == "vieux grimoire" : 
+                            if item._get_Name_() == "vieux grimoire" : 
                                 screen.blit(font.render("Vous gagnez 5 points de magie", True, (255, 255, 255)), (300, 200)) 
                                 uitem._show_passage_text(1, screen, font)
                                 if self.use_item == False : 
                                       player._set_stat("magic", 5)
                                       self.use_item = True   
 
-                            if uitem._get_Name_() == "chaussures en cuir" : 
+                            if item._get_Name_() == "chaussures en cuir" : 
                                 screen.blit(font.render("Vous gagnez 2 points de defense et 3 points de vitesse", True, (255, 255, 255)), (300, 200)) 
                                 uitem._show_passage_text(1, screen, font)
                                 if self.use_item == False : 
@@ -73,6 +71,6 @@ class Usable_Item (Item):
     def _show_passage_text(self, number, screen, font):
          if number == 1 :
               screen.blit(font.render("Appuyer sur 'u' pour continuer", True, (255, 255, 255)), (100, 500))  
-              
-    def _set_Name_(self, new_name) :
-          self.name = new_name
+            
+def set_Name(self, new_name) :
+    self.name = new_name
