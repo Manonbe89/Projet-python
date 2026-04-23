@@ -11,7 +11,7 @@ class Inventory:
         self.open_inventory = False
         self.x = 175   
         self.y = 100                  #coordonnées de l'inventaire
-        self.curent_item = "rien"
+        self.curent_item = "epee du voyageur"
 
         #Pour les boutons cliquables :
         self.button_1 = pygame.Rect(self.x + 22, self.y + 58, 45, 45)

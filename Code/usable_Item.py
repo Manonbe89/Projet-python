@@ -1,14 +1,14 @@
 import pygame
 import sys
-from item import Item
+from Code.item import Item
 
 pygame.init()   #initialisation de pygame
 
 
 class Usable_Item (Item):
-    def __init__(self, id, picture, usage, inventory):
+    def __init__(self, id, name, picture, usage):
         self.id = id
-        self.name = inventory._get_current_item()
+        self.name = name
         self.picture = picture
         self.usage = usage
         self.use_item = False       #booléen qui verifie si on a utilise un item
@@ -28,8 +28,8 @@ class Usable_Item (Item):
                    self.use_item = False
 
 
-    def _Use_Item_(self, player, uitem, screen, font):
-            #self.name = inventory._get_current_item()
+    def _Use_Item_(self, player, uitem, screen, font, inventory):
+            uitem._set_Name_(inventory._get_current_item())
             if self.dialogue_step == 1 :
                 screen.blit(font.render("Vous utilisez : " + uitem._get_Name_(), True, (255, 255, 255)), (300, 200))  #affiche le texte
                 uitem._show_passage_text(1, screen, font)
@@ -45,7 +45,6 @@ class Usable_Item (Item):
 
                             if uitem._get_Name_() == "epee du voyageur" :
                                 screen.blit(font.render("Vous gagnez 5 points d'attaque", True, (255, 255, 255)), (300, 200))
-                                player._set_picture_player("C:/Users/manon/Documents/Projet python S4/Frames/Perso vue de devant_epee")
                                 screen.blit(self.image_epee, (300, 250))
                                 uitem._show_passage_text(1, screen, font) 
                                 if self.use_item == False : 
@@ -75,3 +74,5 @@ class Usable_Item (Item):
          if number == 1 :
               screen.blit(font.render("Appuyer sur 'u' pour continuer", True, (255, 255, 255)), (100, 500))  
               
+    def _set_Name_(self, new_name) :
+          self.name = new_name
