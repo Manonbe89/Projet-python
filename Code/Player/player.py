@@ -8,7 +8,7 @@ class Player(pygame.sprite.Sprite):
         self.collision_groups = collision_groups
         self.game = Game()
 
-        self.picture = "C:/Users/manon/Documents/Projet python S4/Frames/Perso vue de devant_2.png"
+        self.picture = "Images/Perso vue de devant_2.png"
         self.test_picture = pygame.image.load(self.picture).convert_alpha()
         self.base_titles = Tilesheet(self.picture, 100, 100, 1, 1 )         #portfolio des sprites
         self.animations = {"down_sp": [self.test_picture],

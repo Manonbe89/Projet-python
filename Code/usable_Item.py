@@ -14,7 +14,8 @@ class Usable_Item (Item):
         self.use_item = False       #booléen qui verifie si on a utilise un item
         self.dialogue_step = 0
         #images
-        self.image_epee = pygame.image.load("C:/Users/manon/Documents/Projet python S4/Frames/Objets/epee_2.png").convert_alpha()
+        self.image_epee = pygame.image.load("Images/epee_2.png").convert_alpha()
+        self.image_grimoire = pygame.image.load("Images/Grimoire magique_2.png").convert_alpha()
 
 
     def _get_Usage_(self):
@@ -41,6 +42,12 @@ class Usable_Item (Item):
                                 if self.use_item == False : 
                                       self.use_item = True
 
+                            if item._get_Name_() == "bombe" :
+                                screen.blit(font.render("A voir", True, (255, 255, 255)), (300, 200))
+                                uitem._show_passage_text(1, screen, font) 
+                                if self.use_item == False : 
+                                      self.use_item = True
+
                             if item._get_Name_() == "epee du voyageur" :
                                 screen.blit(font.render("Vous gagnez 5 points d'attaque", True, (255, 255, 255)), (300, 200))
                                 screen.blit(self.image_epee, (300, 250))
@@ -52,9 +59,24 @@ class Usable_Item (Item):
                             if item._get_Name_() == "vieux grimoire" : 
                                 screen.blit(font.render("Vous gagnez 5 points de magie", True, (255, 255, 255)), (300, 200)) 
                                 uitem._show_passage_text(1, screen, font)
+                                screen.blit(self.image_grimoire, (300, 250))
                                 if self.use_item == False : 
                                       player._set_stat("magic", 5)
-                                      self.use_item = True   
+                                      self.use_item = True  
+
+                            if item._get_Name_() == "cuirasse" : 
+                                  screen.blit(font.render("Vous gagnez 5 points de défense", True, (255, 255, 255)), (300, 200)) 
+                                  uitem._show_passage_text(1, screen, font)
+                                  if self.use_item == False : 
+                                      player._set_stat("armor", 5)
+                                      self.use_item = True  
+                                   
+                            if item._get_Name_() == "chapeau de magicien" : 
+                                  screen.blit(font.render("Vous gagnez 5 points de défense magique", True, (255, 255, 255)), (300, 200)) 
+                                  uitem._show_passage_text(1, screen, font)
+                                  if self.use_item == False : 
+                                      player._set_stat("magic armor", 5)
+                                      self.use_item = True 
 
                             if item._get_Name_() == "chaussures en cuir" : 
                                 screen.blit(font.render("Vous gagnez 2 points de defense et 3 points de vitesse", True, (255, 255, 255)), (300, 200)) 

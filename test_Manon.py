@@ -36,7 +36,7 @@ map_surface.fill((80, 180, 80))
 tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls)
 
 #ma partie (test)
-item = Item(0, "vieux grimoire", 0)
+item = Item(0, "truc", 0)
 player = Player ((0,0), "truc", None, all_sprites, collision_groups)
 uitem = Usable_Item (0, "epee du voyageur", 0, "attaquer")
 
@@ -70,7 +70,7 @@ while True:
     tile._draw(screen, camera)
     screen.blit(player.image, camera._apply(player.rect))
 
-    inventory._display_inventory(screen, item)                            #affiche l'inventaire si la condition est respectée
+    inventory._display_inventory(screen, item, test_font)                            #affiche l'inventaire si la condition est respectée
     uitem._Use_Item_(player, uitem, screen, test_font, item)
     screen.blit(test_font.render("Stats : " + 
                                  "life = " + str(player._get_stat("life")) + " / " +
