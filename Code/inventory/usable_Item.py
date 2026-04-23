@@ -1,5 +1,5 @@
 import pygame
-from Code.inventory.item import Item
+from item import Item
 
 class Usable_Item (Item):
     def __init__(self, id, name, picture, usage):

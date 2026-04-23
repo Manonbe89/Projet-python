@@ -1,5 +1,5 @@
 import pygame
-from wall import Wall
+from Code.map.wall import Wall
 from Code.npc.npc import NPC
 
 #"Tuile" de map (grand bout de carte)
