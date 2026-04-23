@@ -123,12 +123,13 @@ class Player(pygame.sprite.Sprite):
                         self.pos.y = self.hitbox.centery
     
     #update l'ensemble des fonctions de déplacements du joueur pour créer une animation fluide
-    def update(self, dt):
-        self._input(self.game.actions)
-        self._get_statut()
-        self._check_sprite()
-        self._move(dt)
-        self._animate(dt)
+    def update(self, dt, state):
+        if state == False:
+            self._input(self.game.actions)
+            self._get_statut()
+            self._check_sprite()
+            self._move(dt)
+            self._animate(dt)
 
     def _get_Name(self):
         return self.name

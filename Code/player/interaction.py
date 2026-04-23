@@ -32,3 +32,6 @@ class Interaction:
             if interaction_rect.colliderect(npc.hitbox):
                 return npc
         return None
+    
+    def _get_state(self):
+        return self.in_action

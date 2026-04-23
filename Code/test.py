@@ -54,7 +54,7 @@ tile._add_npc("Jean", npc_surface, 500, 500, "Boujour Aventurier !")
 player = Player((100, 100), "Test", game, all_sprites, collision_groups)
 
 # CAMERA
-camera = Camera(800, 600)
+camera = Camera(800, 600, 1000, 1000)
 
 # INTERACTION
 interaction = Interaction(player)
@@ -78,7 +78,7 @@ while running:
     }
 
     # UPDATE
-    all_sprites.update(dt)
+    all_sprites.update(dt, interaction._get_state())
     camera._update(player)
 
     # DRAW
