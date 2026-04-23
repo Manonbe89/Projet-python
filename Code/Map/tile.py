@@ -1,5 +1,5 @@
 import pygame
-from wall import Wall
+from Code.Map.wall import Wall
 
 #"Tuile" de map (grand bout de carte)
 class Tile:

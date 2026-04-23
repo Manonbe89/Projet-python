@@ -1,12 +1,12 @@
 import pygame
 from inventory import Inventory
-from player import Player
+from Code.Player.player import Player
 from usable_Item import Usable_Item
-from collision_group import Collision_groups
-from wall import Wall
-from tile import Tile
-from camera import Camera
-from game import Game
+from Code.Map.collision_group import Collision_groups
+from Code.Map.wall import Wall
+from Code.Map.tile import Tile
+from Code.Map.camera import Camera
+from Code.Game.game import Game
 
 pygame.init()
 
@@ -36,7 +36,7 @@ tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls)
 
 #ma partie (test)
 player = Player ((0,0), "truc", None, all_sprites, collision_groups)
-uitem = Usable_Item (0, "épée du voyageur", 0, "attaquer")
+uitem = Usable_Item (0, 0, "attaquer", inventory)
 
 while True:
     dt = clock.tick(60) / 1000
@@ -47,6 +47,7 @@ while True:
             exit()
         
         inventory._check_inventory_status(event)
+        inventory._check_buttons(event)
         uitem._check_item_status_(event)
 
     # INPUT
@@ -66,8 +67,16 @@ while True:
     tile._draw(screen, camera)
     screen.blit(player.image, camera._apply(player.rect))
 
-    inventory._display_inventory(screen)                            #affiche l'inventaire si la condition est respectée
+    inventory._display_inventory(screen, inventory)                            #affiche l'inventaire si la condition est respectée
     uitem._Use_Item_(player, uitem, screen, test_font)
+    screen.blit(test_font.render("Stats : " + 
+                                 "life = " + str(player._get_stat("life")) + " / " +
+                                 "attack = " + str(player._get_stat("attack")) + " / " +
+                                 "armor = " + str(player._get_stat("armor")) + " / " + 
+                                 "magic armor = " + str(player._get_stat("magic armor")) + " / " + 
+                                 "magic = " + str(player._get_stat("magic")) + " / " + 
+                                 "speed = " + str(player._get_stat("speed"))  
+                                 , True, (255, 255, 255)), (5, 550))
 
     n=n+10
     pygame.display.flip()

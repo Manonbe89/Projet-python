@@ -1,6 +1,6 @@
 import pygame
-from game import Game
-from tilesheet import Tilesheet
+from Code.Game.game import Game
+from Code.Player.tilesheet import Tilesheet
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, name, game, groups, collision_groups):
@@ -8,22 +8,23 @@ class Player(pygame.sprite.Sprite):
         self.collision_groups = collision_groups
         self.game = Game()
 
-        test_img = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
-        self.base_titles = Tilesheet("Images/Perso vue de devant.png", 50, 50, 1, 1 )         #portfolio des sprites
-        self.animations = {"down_sp": [test_img],
-                           "up_sp": [test_img],
-                           "left_sp": [test_img],
-                           "right_sp": [test_img],
-                           "down": [test_img],
-                           "up": [test_img],
-                           "left": [test_img],
-                           "right": [test_img],}                                    #les sprites de mouvement
+        self.picture = "C:/Users/manon/Documents/Projet python S4/Frames/Perso vue de devant_2.png"
+        self.test_picture = pygame.image.load(self.picture).convert_alpha()
+        self.base_titles = Tilesheet(self.picture, 100, 100, 1, 1 )         #portfolio des sprites
+        self.animations = {"down_sp": [self.test_picture],
+                           "up_sp": [self.test_picture],
+                           "left_sp": [self.test_picture],
+                           "right_sp": [self.test_picture],
+                           "down": [self.test_picture],
+                           "up": [self.test_picture],
+                           "left": [self.test_picture],
+                           "right": [self.test_picture],}                                    #les sprites de mouvement
         self.moving =False
 
         self.frame_index = 0
         self.statut = 'down_sp'
         self.sp_statut = ['up_sp', 'down_sp', 'left_sp', 'right_sp']    #les sprites statiques
-        self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (50,50))
+        self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (100, 100))
 
         self.name = name
         self.money = 0
@@ -55,7 +56,7 @@ class Player(pygame.sprite.Sprite):
         self.frame_index += 4*dt
         if self.frame_index >= len(self.animations[self.statut]):
             self.frame_index = 0
-        self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (50,50))
+        self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (100, 100))
 
     #regarde les input de déplacement du joueur et modifie les paramètre de déplacement en fonction
     def _input(self, actions):
