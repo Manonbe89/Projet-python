@@ -1,6 +1,7 @@
 #import Equipement
 import pygame
 import sys
+from Code.item import Item
 
 class Inventory:
     def __init__(self):
@@ -11,6 +12,7 @@ class Inventory:
         self.open_inventory = False
         self.x = 175   
         self.y = 100                  #coordonnées de l'inventaire
+        self.current_item = 0
 
         #Pour les boutons cliquables :
         self.status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -28,22 +30,18 @@ class Inventory:
             x = 22 + i*63
             self.buttons.append(pygame.Rect(self.x + x, self.y + 227, 45, 45))        #création de boutons cliquables
 
-
-        #Pour les images :
-        self.image_epee = pygame.image.load("Images/epee_2.png").convert_alpha()
-        self.image_potion = pygame.image.load("Images/potion_2.png").convert_alpha()
-        self.image_bracelet = pygame.image.load("Images/bracelet de force_2.png").convert_alpha()
-        self.image_grimoire = pygame.image.load("Images/Grimoire magique_2.png").convert_alpha()
-
 #getters
     def _get_stuff(self):
         return self.stuff
     
     def _get_consumable_Item(self):
-        return self.consumable_Item
+        return self.consumable_Item[self.current_item]
 
     def _get_usable_Item(self):
         return self.usable_Item
+    
+    def _get_current_Item(self) : 
+        return self.current_item
     
 #setters
     def _set_stuff(self, Item):
@@ -60,40 +58,48 @@ class Inventory:
              if event.key == pygame.K_i :                           # vérifie si la touche "i" a été pressée
                 self.open_inventory = not self.open_inventory       #inverse l'état de self.open_inventory
 
-    def _display_inventory(self, screen, item, font):
-        if self.open_inventory == True : 
+    def _display_inventory(self, screen, font):
+        if self.open_inventory : 
             screen.blit(self.image, (self.x, self.y))                     #affiche l'écran d'inventaire
 
-            if self.status[0] == True :
-                screen.blit(self.image_epee, (self.x + 373, self.y + 65))
-                item._set_Name("epee du voyageur")
-                screen.blit(font.render("L'épée parfaite pour commencer une aventure", True, (0, 0, 0)), (self.x + 10, self. y + 330))
+            if self.status[0] :
+                self.current_item = 0
+                item = self.consumable_Item[0]
+                item._set_Name(self.consumable_Item[0]._get_Name())
+                screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
+                screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
 
-            elif self.status[1] == True :
+            elif self.status[1] :
                 screen.blit(font.render("Bouton 2 ok", True, (0, 0, 0)), (self.x + 10, self. y + 330))
 
-            elif self.status[2] == True :
+            elif self.status[2] :
                 screen.blit(font.render("Bouton 3 ok", True, (0, 0, 0)), (self.x + 10, self. y + 330))
 
-            elif self.status[3] == True :
+            elif self.status[3] :
                 screen.blit(font.render("Bouton 4 ok", True, (0, 0, 0)), (self.x + 10, self. y + 330))
 
-            elif self.status[4] == True :
-                screen.blit(self.image_potion, (self.x + 373, self.y + 65))
-                item._set_Name("potion")
-                screen.blit(font.render("Ce breuvage augmente considérablement la \n (statistique) de son utilisateur", True, (0, 0, 0)), (self.x + 10, self. y + 330))
+            elif self.status[4] :
+                self.current_item = 1
+                item = self.consumable_Item[1]
+                item._set_Name(self.consumable_Item[1]._get_Name()) 
+                screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
+                screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
 
-            elif self.status[5] == True :
-                screen.blit(self.image_bracelet, (self.x + 373, self.y + 65))
-                item._set_Name("bracelet de force")
-                screen.blit(font.render("Avec ça plus aucun rocher ne vous résistera", True, (0, 0, 0)), (self.x + 10, self. y + 330))
+            elif self.status[5] :
+                self.current_item = 2
+                item = self.consumable_Item[2]
+                item._set_Name(self.consumable_Item[2]._get_Name()) 
+                screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
+                screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
 
-            elif self.status[6] == True :
-                screen.blit(self.image_grimoire, (self.x + 373, self.y + 65))
-                item._set_Name("vieux grimoire")
-                screen.blit(font.render("Le grimoire d'un magicien en herbe", True, (0, 0, 0)), (self.x + 10, self. y + 330))
+            elif self.status[6] :
+                self.current_item = 3
+                item = self.consumable_Item[3]
+                item._set_Name(self.consumable_Item[3]._get_Name()) 
+                screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
+                screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
 
-            elif self.status[7] == True :
+            elif self.status[7] :
                 screen.blit(font.render("Bouton 8 ok", True, (0, 0, 0)), (self.x + 10, self. y + 330))
 
 
@@ -117,3 +123,18 @@ class Inventory:
                 self.status = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             elif self.buttons[8].collidepoint(event.pos):
                 self.status = [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+    def _item_factory(self) :
+        epee_du_voyageur = Item(1, "epee du voyageur", "Vous gagnez 5 points d'attaque", "L'épée parfaite pour commencer une aventure", "Images/epee_2.png")
+        self._set_consumable_Item(epee_du_voyageur)
+        potion = Item(1, "potion", "A voir", "Ce breuvage augmente considérablement la (statistique) de son utilisateur", "Images/potion_2.png")
+        self._set_consumable_Item(potion)
+        bracelet_de_force = Item(2, "bracelet de force", "A voir", "Avec ça plus aucun rocher ne vous résistera", "Images/bracelet de force_2.png")
+        self._set_consumable_Item(bracelet_de_force)
+        vieux_grimoire = Item(3, "vieux grimoire", "Vous gagnez 5 points de magie", "Le grimoire d'un magicien en herbe", "Images/Grimoire magique_2.png")
+        self._set_consumable_Item(vieux_grimoire)
+        bombe = Item(3, "bombe", "A voir", "Attention à n'exploser personne", "Images/bombe_2.png")
+        self._set_consumable_Item(bombe)
+
+
+
