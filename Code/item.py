@@ -5,7 +5,7 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((500, 500))
 
 class Item: 
-    def __init__(self, id, name, picture):
+    def __init__(self, id, name,  picture):
         self.id = id
         self.name = name
         self.picture = picture

@@ -13,12 +13,21 @@ class Inventory:
         self.y = 100                  #coordonnées de l'inventaire
 
         #Pour les boutons cliquables :
-        self.button_1 = pygame.Rect(self.x + 22, self.y + 58, 45, 45)
-        self.status_1 = False
-        self.button_5 = pygame.Rect(self.x + 22, self.y + 164, 45, 45)           #crée un bouton cliquable
-        self.status_5 = False
-        self.button_6 = pygame.Rect(self.x + 85, self.y + 164, 45, 45)           #crée un bouton cliquable
-        self.status_6 = False
+        self.status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.buttons = []
+        #Première rangée
+        for i in range (4) :                         
+            x = 22 + i*63                                                           #avec 63 l'ecrt entre 2 cases
+            self.buttons.append(pygame.Rect(self.x + x, self.y + 58, 45, 45))        #création de boutons cliquables
+        #Deuxième rangée
+        for i in range (8) :                         
+            x = 22 + i*63
+            self.buttons.append(pygame.Rect(self.x + x, self.y + 164, 45, 45))        #création de boutons cliquables
+        #Troisième rangée
+        for i in range (8) :                         
+            x = 22 + i*63
+            self.buttons.append(pygame.Rect(self.x + x, self.y + 227, 45, 45))        #création de boutons cliquables
+
 
         #Pour les images :
         self.image_epee = pygame.image.load("Images/epee_2.png").convert_alpha()
@@ -54,36 +63,57 @@ class Inventory:
     def _display_inventory(self, screen, item, font):
         if self.open_inventory == True : 
             screen.blit(self.image, (self.x, self.y))                     #affiche l'écran d'inventaire
-            if self.status_1 == True :
+
+            if self.status[0] == True :
                 screen.blit(self.image_epee, (self.x + 373, self.y + 65))
                 item._set_Name("epee du voyageur")
                 screen.blit(font.render("L'épée parfaite pour commencer une aventure", True, (0, 0, 0)), (self.x + 10, self. y + 330))
 
-            elif self.status_5 == True :
+            elif self.status[1] == True :
+                screen.blit(font.render("Bouton 2 ok", True, (0, 0, 0)), (self.x + 10, self. y + 330))
+
+            elif self.status[2] == True :
+                screen.blit(font.render("Bouton 3 ok", True, (0, 0, 0)), (self.x + 10, self. y + 330))
+
+            elif self.status[3] == True :
+                screen.blit(font.render("Bouton 4 ok", True, (0, 0, 0)), (self.x + 10, self. y + 330))
+
+            elif self.status[4] == True :
+                screen.blit(self.image_potion, (self.x + 373, self.y + 65))
+                item._set_Name("potion")
+                screen.blit(font.render("Ce breuvage augmente considérablement la \n (statistique) de son utilisateur", True, (0, 0, 0)), (self.x + 10, self. y + 330))
+
+            elif self.status[5] == True :
                 screen.blit(self.image_bracelet, (self.x + 373, self.y + 65))
                 item._set_Name("bracelet de force")
                 screen.blit(font.render("Avec ça plus aucun rocher ne vous résistera", True, (0, 0, 0)), (self.x + 10, self. y + 330))
 
-            elif self.status_6 == True :
+            elif self.status[6] == True :
                 screen.blit(self.image_grimoire, (self.x + 373, self.y + 65))
                 item._set_Name("vieux grimoire")
                 screen.blit(font.render("Le grimoire d'un magicien en herbe", True, (0, 0, 0)), (self.x + 10, self. y + 330))
 
+            elif self.status[7] == True :
+                screen.blit(font.render("Bouton 8 ok", True, (0, 0, 0)), (self.x + 10, self. y + 330))
+
 
     def _check_buttons(self, event) :
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.button_1.collidepoint(event.pos):
-                self.status_1 =True
-                print("Le bouton a été cliqué !")
-                self.status_5 = False
-                self.status_6 = False
-            elif self.button_5.collidepoint(event.pos):
-                self.status_5 =True
-                print("Le bouton a été cliqué !")
-                self.status_1 = False
-                self.status_6 = False
-            elif self.button_6.collidepoint(event.pos):
-                self.status_6 =True
-                print("Le bouton a été cliqué !")
-                self.status_1 = False
-                self.status_5 = False
+            if self.buttons[0].collidepoint(event.pos):
+                self.status = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            elif self.buttons[1].collidepoint(event.pos):
+                self.status = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            elif self.buttons[2].collidepoint(event.pos):
+                self.status = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            elif self.buttons[3].collidepoint(event.pos):
+                self.status = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            elif self.buttons[4].collidepoint(event.pos):
+                self.status = [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            elif self.buttons[5].collidepoint(event.pos):
+                self.status = [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            elif self.buttons[6].collidepoint(event.pos):
+                self.status = [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            elif self.buttons[7].collidepoint(event.pos):
+                self.status = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            elif self.buttons[8].collidepoint(event.pos):
+                self.status = [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
