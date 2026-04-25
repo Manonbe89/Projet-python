@@ -1,3 +1,8 @@
+import pygame
+from Code.text_box import Text_Box
+from Code.Npc.npc import NPC
+
+
 class Interaction:
     def __init__(self, player):
         self.player = player
@@ -6,35 +11,13 @@ class Interaction:
 
     #fonction d'interaction avec les npc (affiche une bulle de dialogue quand le joueur appuie sur espace à proximité d'un npc)
     def _interact_npc(self, npc_group, screen, font):
-        #cherche si le joueur apuye sur la touche espace
-        space_action = self.player.game.actions['space']
-
-        #cherche si le joueur vient juste d'appuyer sur la touche espace (pour éviter que l'action se répète tant que la touche est maintenue)
-        space = space_action and not self.last_space_action
-        
-        #cherche si un npc est à proximité du joueur
         npc = self._search_npc(npc_group)
-        
-        #regarde si le joueur est déjà en train d'interagir avec un npc
-        if self.in_action :
+        if npc is None:
+            return
 
-            #ferme le dialogue si le joueur appuie à nouveau sur espace
-            if space :
-                self.in_action = False
+        self._interact_with_text(screen, font, npc.text_box)
 
-            #sinon réaffiche le dialogue du npc
-            else :
-                if npc is not None:
-                    npc._show_quote(screen, font)
 
-        #si le joueur n'est pas déjà en train d'interagir avec un npc, regarde si il y en a un à proximité
-        else :
-            #si il y en a un et que le joueur appuie sur espace, affiche le dialogue du npc
-            if npc is not None and space:
-                self.in_action = True           #variable qui empecheras le joueur de bouger ou de faire d'autre action
-                npc._show_quote(screen, font)
-
-        self.last_space_action = space_action   #sauvegarde le dernier espace
 
     #fonction qui cherche un npc à proximité du joueur (dans un rayon de 20 pixels)
     def _search_npc(self, npc_group):
@@ -44,6 +27,43 @@ class Interaction:
             if interaction_rect.colliderect(npc.hitbox):
                 return npc
         return None
+    
+    def _interact_with_text(self, screen, font, text_box):
+        space_action = self.player.game.actions['space']
+        space = space_action and not self.last_space_action
+
+        if self.in_action:
+            # gérer la pagination via ta fonction générique
+            still_talking = self._handle_textbox(text_box, screen, font, space)
+
+            if not still_talking:
+                self.in_action = False
+
+        else:
+            # ouverture du texte
+            if space:
+                self.in_action = True
+                text_box._reset()
+                text_box._show_text(screen, font)
+
+        self.last_space_action = space_action
+
+    
+    def _handle_textbox(self, text_box, screen, font, space):
+        # si on vient d'appuyer sur espace
+        if space:
+            # s'il reste une page → page suivante
+            if text_box._has_next_page():
+                text_box._next_page()
+            else:
+                # plus de pages → fin du dialogue
+                text_box._reset()
+                return False
+
+        # afficher la page courante
+        text_box._show_text(screen, font)
+        return True
+
     
     #renvoie l'état d'interaction du joueur
     def _get_state(self):
