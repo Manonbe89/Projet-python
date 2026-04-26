@@ -1,3 +1,5 @@
+from pydoc import text
+import re
 import pygame
 
 class Text_Box:
@@ -7,18 +9,20 @@ class Text_Box:
         self.box_color = (0, 0, 0)
         self.interline = 25
         self.char_per_line = 70
-        self.max_lines = 3          # nombre max de lignes affichables
-        self.page = 0               # page actuelle
-        self.affichage_text = []
+        self.max_lines = 3
+
+        self.pages = []   # liste de pages, chaque page = liste de lignes
+        self.page = 0
+
         self._cut_text()
 
     def _get_current_lines(self):
-        start = self.page * self.max_lines
-        end = start + self.max_lines
-        return self.affichage_text[start:end]
+        if 0 <= self.page < len(self.pages):
+            return self.pages[self.page]
+        return []
 
     def _has_next_page(self):
-        return (self.page + 1) * self.max_lines < len(self.affichage_text)
+        return self.page + 1 < len(self.pages)
 
     def _next_page(self):
         if self._has_next_page():
@@ -46,19 +50,50 @@ class Text_Box:
             text_surface = font.render(line, True, self.text_color)
             screen.blit(text_surface, (text_x, text_y + i * self.interline))
 
+    def _wrap_text(self, text):
+            lines = []
+            position = 0
+            text_size = len(text)
+
+            while position < text_size:
+                cut = text[position:position + self.char_per_line]
+
+                if position + self.char_per_line < text_size and cut[-1] != " ":
+                    last_space = cut.rfind(" ")
+                    if last_space != -1:
+                        cut = cut[:last_space]
+                        position += last_space + 1
+                    else:
+                        position += self.char_per_line
+                else:
+                    position += self.char_per_line
+
+                lines.append(cut.strip())
+
+            return lines
+    
     def _cut_text(self):
-        text_size = len(self.text)
-        char_per_line = self.char_per_line
-        position = 0
 
-        while position < text_size:
-            cut_text = self.text[position:position+char_per_line]
-            if cut_text[-1] != " " and position + char_per_line < text_size:
-                last_space = cut_text.rfind(" ")
-                if last_space != -1:
-                    cut_text = cut_text[:last_space]
-                position += last_space + 1
+        self.pages = []
+        self.page = 0
+
+        sentences = re.split(r'(?<=[.!?]) +', self.text)
+        sentences = [s.strip() for s in sentences if s.strip()]
+
+        current_sentences = []
+        current_lines = []
+
+        for sentence in sentences:
+            candidate_text = (" ".join(current_sentences + [sentence])).strip()
+            candidate_lines = self._wrap_text(candidate_text)
+
+            if len(candidate_lines) <= self.max_lines or not current_sentences:
+                current_sentences.append(sentence)
+                current_lines = candidate_lines
             else:
-                position += char_per_line
+                self.pages.append(current_lines)
+                current_sentences = [sentence]
+                current_lines = self._wrap_text(sentence)
 
-            self.affichage_text.append(cut_text)
+        if current_lines:
+            self.pages.append(current_lines)
