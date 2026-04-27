@@ -1,11 +1,12 @@
 import pygame
-import Wall
+from Code.Map.wall import Wall
+from Code.Npc.npc import NPC
 
 #"Tuile" de map (grand bout de carte)
 class Tile:
 
     #constituer d'une surface et de liste d'obstacle d'entrer et de téleporteur
-    def __init__(self, surf, solid_walls, breakable_walls, pushable_walls):
+    def __init__(self, surf, solid_walls, breakable_walls, pushable_walls, npc_group):
         self.enters = {}
         self.objects = {}
         self.teleporters = {}
@@ -13,6 +14,7 @@ class Tile:
         self.solid_walls = solid_walls
         self.brekable_walls = breakable_walls
         self.pushable_walls = pushable_walls
+        self.npc_group = npc_group
 
     #ajoute une entré à la tuile (une entré permet de savoir où le joueur doit apparaitre au chargements de la tuile)
     def _add_enter(self, x, y, name):
@@ -41,8 +43,14 @@ class Tile:
         teleporter.rect.topleft = (x, y)
         self.teleporters[name] = teleporter
 
+    def _add_npc(self, name, surf, x, y, quote):
+        npc = NPC(name, surf, (x, y), quote, self.npc_group)
+        key = f"npc_{name}_{x}_{y}"
+        self.objects[key] = npc
+
+
     #charge la map et les différents élements qui lui sont associé en prenant en compte la camera
     def _draw(self, screen, camera):
         screen.blit(self.tile_map, (-camera.position.x, -camera.position.y))
         for obj in self.objects.values():
-            screen.blit(obj.image, camera.apply(obj.rect))
+            screen.blit(obj.image, camera._apply(obj.rect))

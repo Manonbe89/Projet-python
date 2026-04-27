@@ -1,5 +1,4 @@
 import pygame
-import config
 
 #obstacle constituer d'un rectangle, d'une hitbox et d'un groupe (pour réunir tous les obstacles dans une meme liste)
 class Wall(pygame.sprite.Sprite):
@@ -9,6 +8,6 @@ class Wall(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
 
         self.hitbox = self.rect.copy().inflate(
-            -self.rect.width * 0.6,
-            -self.rect.height * 0.75
+            -self.rect.width * 0,
+            -self.rect.height * 0
         )

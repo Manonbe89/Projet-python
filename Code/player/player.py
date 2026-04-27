@@ -1,16 +1,23 @@
 import pygame
-import Tilesheet
-import Game
-
+from Code.Game.game import Game
+from Code.Player.tilesheet import Tilesheet
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, name, game, groups, collision_groups):
         super().__init__(groups)
         self.collision_groups = collision_groups
-        self.game = Game.Game()
+        self.game = Game()
 
-        self.base_titles = Tilesheet("", 50, 50, 1, 1 )         #portfolio des sprites
-        self.animations = {}                                    #les sprites de mouvement
+        test_img = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
+        self.base_titles = Tilesheet("Images/Perso vue de devant.png", 50, 50, 1, 1 )         #portfolio des sprites
+        self.animations = {"down_sp": [test_img],
+                           "up_sp": [test_img],
+                           "left_sp": [test_img],
+                           "right_sp": [test_img],
+                           "down": [test_img],
+                           "up": [test_img],
+                           "left": [test_img],
+                           "right": [test_img],}                                    #les sprites de mouvement
         self.moving =False
 
         self.frame_index = 0
@@ -33,7 +40,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = pos)
         self.direction = pygame.math.Vector2()
         self.pos = pygame.math.Vector2(self.rect.center)
-        self.hitbox = self.rect.copy().inflate(-20, -20)
+        self.hitbox = self.rect.copy().inflate(0, 0)
         self.speed =200
 
     #regarde si le personnage est immobile ou en mouvement (utile notament pour savoir quelle sprite charger)
@@ -97,7 +104,7 @@ class Player(pygame.sprite.Sprite):
 
     #regarde si le joueur rencontre un obstacle et retourne en arrière si c'est la cas
     def _collision(self, direction):
-        for sprite in self.collision_groups.sprites():
+        for sprite in self.collision_groups._sprites():
             if hasattr(sprite, "hitbox"):
                 if self.hitbox.colliderect(sprite.hitbox):
 
@@ -116,12 +123,13 @@ class Player(pygame.sprite.Sprite):
                         self.pos.y = self.hitbox.centery
     
     #update l'ensemble des fonctions de déplacements du joueur pour créer une animation fluide
-    def update(self, dt):
-        self._input(self.game.actions)
-        self._get_statut()
-        self._check_sprite()
-        self._move(dt)
-        self._animate(dt)
+    def update(self, dt, state):
+        if state == False:
+            self._input(self.game.actions)
+            self._get_statut()
+            self._check_sprite()
+            self._move(dt)
+            self._animate(dt)
 
     def _get_Name(self):
         return self.name
