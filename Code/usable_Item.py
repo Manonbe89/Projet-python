@@ -15,13 +15,6 @@ class Usable_Item (Item):
         self.picture_load = pygame.image.load(picture).convert_alpha()
         self.use_item = False       #booléen qui verifie si on a utilise un item
         self.dialogue_step = 0
-        #images
-        self.image_epee = pygame.image.load("Images/epee_2.png").convert_alpha()
-        self.image_grimoire = pygame.image.load("Images/Grimoire magique_2.png").convert_alpha()
-
-
-    def _get_Usage_(self):
-        return self.usage
 
 
     def _check_item_status_(self, event):
@@ -60,7 +53,7 @@ class Usable_Item (Item):
 
                             if item._get_Name() == "epee du voyageur" :
                                 screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
-                                screen.blit(self.image_epee, (300, 250))
+                                screen.blit(item._get_Picture(), (300, 250))
                                 self._show_passage_text(1, screen, font) 
                                 if self.use_item == False : 
                                       player._set_stat("attack", 5)
@@ -69,7 +62,7 @@ class Usable_Item (Item):
                             if item._get_Name() == "vieux grimoire" : 
                                 screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200)) 
                                 self._show_passage_text(1, screen, font)
-                                screen.blit(self.image_grimoire, (300, 250))
+                                screen.blit(item._get_Picture(), (300, 250))
                                 if self.use_item == False : 
                                       player._set_stat("magic", 5)
                                       self.use_item = True  

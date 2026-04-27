@@ -37,8 +37,8 @@ tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls)
 
 #ma partie (test)
 uitem = Usable_Item (None, "Rien", None, None, "Images/epee_2.png")
-inventory._item_factory()
 player = Player ((0,0), "truc", None, all_sprites, collision_groups)
+inventory._item_factory()
 
 
 while True:

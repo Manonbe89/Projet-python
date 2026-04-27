@@ -13,21 +13,22 @@ class Item:
         self.picture = picture
         self.picture_load = pygame.image.load(picture).convert_alpha()
 
-    def _get_Name(self):
-        return self.name
-    
-    def _set_Name(self, new_name):
-        self.name = new_name
 
     def _get_Id(self):
         return self.id
     
-    def _get_Description(self) :
-        return self.description
-    
+    def _get_Name(self):
+        return self.name
+        
     def _get_Usage(self) : 
         return self.usage
     
+    def _get_Description(self) :
+        return self.description
+    
     def _get_Picture(self) : 
         return self.picture_load
+    
+    def _set_Name(self, new_name):
+        self.name = new_name
     
