@@ -1,7 +1,7 @@
 #import Equipement
 import pygame
 import sys
-from Code.item import Item
+from Code.item.item import Item
 
 class Inventory:
     def __init__(self):

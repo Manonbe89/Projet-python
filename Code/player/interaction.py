@@ -1,6 +1,6 @@
 import pygame
 from Code.text_box import Text_Box
-from Code.Npc.npc import NPC
+from Code.npc.npc import NPC
 
 
 class Interaction:

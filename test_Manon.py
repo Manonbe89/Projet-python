@@ -1,13 +1,13 @@
 import pygame
-from Code.inventory import Inventory
-from Code.Player.player import Player
-from Code.usable_Item import Usable_Item
-from Code.Map.collision_group import Collision_groups
-from Code.Map.wall import Wall
-from Code.Map.tile import Tile
-from Code.Map.camera import Camera
-from Code.Game.game import Game
-from Code.item import Item
+from Code.item.inventory import Inventory
+from Code.player.player import Player
+from Code.item.usable_Item import Usable_Item
+from Code.map.collision_group import Collision_groups
+from Code.map.wall import Wall
+from Code.map.tile import Tile
+from Code.map.camera import Camera
+from Code.game.game import Game
+from Code.item.item import Item
 
 pygame.init()
 

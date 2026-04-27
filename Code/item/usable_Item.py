@@ -1,6 +1,6 @@
 import pygame
 import sys
-from Code.item import Item
+from Code.item.item import Item
 
 pygame.init()   #initialisation de pygame
 

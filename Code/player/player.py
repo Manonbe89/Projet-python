@@ -1,6 +1,6 @@
 import pygame
-from Code.Game.game import Game
-from Code.Player.tilesheet import Tilesheet
+from Code.game.game import Game
+from Code.player.tilesheet import Tilesheet
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, name, game, groups, collision_groups):
@@ -8,8 +8,8 @@ class Player(pygame.sprite.Sprite):
         self.collision_groups = collision_groups
         self.game = Game()
 
-        test_img = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
-        self.base_titles = Tilesheet("Images/Perso vue de devant.png", 50, 50, 1, 1 )         #portfolio des sprites
+        test_img = pygame.image.load("Images/Perso vue de devant_2.png").convert_alpha()
+        self.base_titles = Tilesheet("Images/Perso vue de devant_2.png", 100, 100, 1, 1 )         #portfolio des sprites
         self.animations = {"down_sp": [test_img],
                            "up_sp": [test_img],
                            "left_sp": [test_img],
@@ -23,7 +23,7 @@ class Player(pygame.sprite.Sprite):
         self.frame_index = 0
         self.statut = 'down_sp'
         self.sp_statut = ['up_sp', 'down_sp', 'left_sp', 'right_sp']    #les sprites statiques
-        self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (50,50))
+        self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (100,100))
 
         self.name = name
         self.money = 0
@@ -55,7 +55,7 @@ class Player(pygame.sprite.Sprite):
         self.frame_index += 4*dt
         if self.frame_index >= len(self.animations[self.statut]):
             self.frame_index = 0
-        self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (50,50))
+        self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (100,100))
 
     #regarde les input de déplacement du joueur et modifie les paramètre de déplacement en fonction
     def _input(self, actions):
