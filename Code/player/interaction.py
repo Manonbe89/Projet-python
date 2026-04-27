@@ -28,12 +28,13 @@ class Interaction:
                 return npc
         return None
     
+    #fonction d'interaction avec une bulle de dialogue (gère l'affichage du texte et la pagination)
     def _interact_with_text(self, screen, font, text_box):
         space_action = self.player.game.actions['space']
         space = space_action and not self.last_space_action
 
         if self.in_action:
-            # gérer la pagination via ta fonction générique
+            # gérer la pagination
             still_talking = self._handle_textbox(text_box, screen, font, space)
 
             if not still_talking:

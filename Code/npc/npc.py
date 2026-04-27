@@ -13,7 +13,7 @@ class NPC(pygame.sprite.Sprite):
             -self.rect.width * 0,
             -self.rect.height * 0
         )
-        self.text_box = Text_Box(quote)
+        self.text_box = Text_Box(f"{self.name}: {self.quote}")
 
     def _show_quote(self, screen, font):
         self.text_box._show_text(screen, font)
