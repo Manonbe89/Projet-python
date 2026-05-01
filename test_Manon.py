@@ -13,7 +13,7 @@ from Code.player.interaction import Interaction
 
 pygame.init()
 
-screen = pygame.display.set_mode((900,600))        #définition de la fenêtre  avant 1000 500
+screen = pygame.display.set_mode((800,600))        #définition de la fenêtre  avant 1000 500
 pygame.display.set_caption('jeux')                  #nom de la fenêtre
 clock = pygame.time.Clock()
 game = Game()
