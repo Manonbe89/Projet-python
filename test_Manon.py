@@ -59,14 +59,15 @@ tile._add_npc("Numerobis", npc_surface, 500, 500, "Vous savez, moi je ne crois p
 player = Player((100, 100), "Test", game, all_sprites, collision_groups)
 
 # CAMERA
-camera = Camera(800, 600, 1000, 1000)
+camera = Camera(900, 600, 1000, 1000)
 
 # INTERACTION
 interaction = Interaction(player)
 
 #ma partie (test)
-uitem = Usable_Item (None, "Rien", None, None, "Images/epee_2.png")
 inventory._item_factory()
+current_item = inventory._get_consumable_Item()
+uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 
 running = True
 while running:
@@ -75,10 +76,11 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        
+
         inventory._check_inventory_status(event)
         inventory._check_buttons(event)
-        uitem._check_item_status_(event)
+        current_item._check_item_status(event, inventory)
+        
 
     # INPUT
     keys = pygame.key.get_pressed()
@@ -101,8 +103,9 @@ while running:
     # INTERACTION
     interaction._interact_npc(npc_group, screen, font)
 
+    current_item = inventory._get_consumable_Item()
     inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
-    uitem._Use_Item_(player, screen, font, inventory)
+    uitem._Use_Item(player, screen, font, inventory, current_item)
     screen.blit(font.render("Stats : " + 
                                  "life = " + str(player._get_stat("life")) + " / " +
                                  "attack = " + str(player._get_stat("attack")) + " / " +
@@ -110,7 +113,7 @@ while running:
                                  "magic armor = " + str(player._get_stat("magic armor")) + " / " + 
                                  "magic = " + str(player._get_stat("magic")) + " / " + 
                                  "speed = " + str(player._get_stat("speed"))  
-                                 , True, (255, 255, 255)), (5, 550))
+                                 , True, (255, 255, 255)), (5, 25))
 
     pygame.display.flip()
 

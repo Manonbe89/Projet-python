@@ -11,7 +11,10 @@ class Item:
         self.usage = usage
         self.description = description
         self.picture = picture
-        self.picture_load = pygame.image.load(picture).convert_alpha()
+        self.dialogue_step = 0
+        self.use_item = False       #booléen qui verifie si on a utilise un item
+        if self.picture != "" :
+            self.picture_load = pygame.image.load(picture).convert_alpha()
 
 
     def _get_Id(self):
@@ -29,6 +32,19 @@ class Item:
     def _get_Picture(self) : 
         return self.picture_load
     
+    def _get_dialogue_step(self) :
+        return self.dialogue_step
+    
+    def _get_use_item(self) :
+        return self.use_item
+    
     def _set_Name(self, new_name):
         self.name = new_name
+
+    def _check_item_status(self, event, inventory):
+         if event.type == pygame.KEYDOWN :           # vérifie si l'événement keydown s'est produit ou non
+              if event.key == pygame.K_u :           # vérifie si la touche "u" a été pressée
+                   if not inventory._get_state() :
+                        self.dialogue_step += 1
+
     
