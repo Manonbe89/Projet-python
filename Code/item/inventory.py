@@ -15,7 +15,7 @@ class Inventory:
         self.current_item = 0
 
         #Pour les boutons cliquables :
-        self.status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.status_buttons = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.buttons = []
         #Première rangée
         for i in range (4) :                         
@@ -35,13 +35,19 @@ class Inventory:
         return self.stuff
     
     def _get_consumable_Item(self):
-        return self.consumable_Item[self.current_item]
+        if 0 <= self.current_item < len(self.consumable_Item):
+            return self.consumable_Item[self.current_item]
+        else :
+            return self.consumable_Item[0]      #a enlever quand tt les items seront entrés
 
     def _get_usable_Item(self):
         return self.usable_Item
     
     def _get_current_Item(self) : 
         return self.current_item
+    
+    def _get_state(self) :
+        return self.open_inventory
     
 #setters
     def _set_stuff(self, Item):
@@ -62,78 +68,61 @@ class Inventory:
         if self.open_inventory : 
             screen.blit(self.image, (self.x, self.y))                     #affiche l'écran d'inventaire
 
-            if self.status[0] :
-                self.current_item = 0
-                item = self.consumable_Item[0]
-                item._set_Name(self.consumable_Item[0]._get_Name())
-                screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
-                screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
-
-            elif self.status[1] :
-                screen.blit(font.render("Bouton 2 ok", True, (0, 0, 0)), (self.x + 10, self. y + 330))
-
-            elif self.status[2] :
-                screen.blit(font.render("Bouton 3 ok", True, (0, 0, 0)), (self.x + 10, self. y + 330))
-
-            elif self.status[3] :
-                screen.blit(font.render("Bouton 4 ok", True, (0, 0, 0)), (self.x + 10, self. y + 330))
-
-            elif self.status[4] :
-                self.current_item = 1
-                item = self.consumable_Item[1]
-                item._set_Name(self.consumable_Item[1]._get_Name()) 
-                screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
-                screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
-
-            elif self.status[5] :
-                self.current_item = 2
-                item = self.consumable_Item[2]
-                item._set_Name(self.consumable_Item[2]._get_Name()) 
-                screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
-                screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
-
-            elif self.status[6] :
-                self.current_item = 3
-                item = self.consumable_Item[3]
-                item._set_Name(self.consumable_Item[3]._get_Name()) 
-                screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
-                screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
-
-            elif self.status[7] :
-                screen.blit(font.render("Bouton 8 ok", True, (0, 0, 0)), (self.x + 10, self. y + 330))
-
+            if 0 <= self.current_item < len(self.consumable_Item):
+                if self.status_buttons[self.current_item - 1] :
+                    item = self.consumable_Item[self.current_item]
+                    item._set_Name(self.consumable_Item[self.current_item]._get_Name())
+                    screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
+                    screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
 
     def _check_buttons(self, event) :
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.buttons[0].collidepoint(event.pos):
-                self.status = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.status_buttons = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.current_item = 1
             elif self.buttons[1].collidepoint(event.pos):
-                self.status = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.status_buttons = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.current_item = 2
             elif self.buttons[2].collidepoint(event.pos):
-                self.status = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.status_buttons = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.current_item = 3
             elif self.buttons[3].collidepoint(event.pos):
-                self.status = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.status_buttons = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.current_item = 4
             elif self.buttons[4].collidepoint(event.pos):
-                self.status = [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.status_buttons = [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.current_item = 5
             elif self.buttons[5].collidepoint(event.pos):
-                self.status = [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.status_buttons = [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.current_item = 6
             elif self.buttons[6].collidepoint(event.pos):
-                self.status = [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.status_buttons = [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.current_item = 7
             elif self.buttons[7].collidepoint(event.pos):
-                self.status = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.status_buttons = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.current_item = 8
             elif self.buttons[8].collidepoint(event.pos):
-                self.status = [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.status_buttons = [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                self.current_item = 9
 
     def _item_factory(self) :
+        rien = Item(0, "rien", "Vous ne faites rien", "", "")
+        self._set_consumable_Item(rien)
         epee_du_voyageur = Item(1, "epee du voyageur", "Vous gagnez 5 points d'attaque", "L'épée parfaite pour commencer une aventure", "Images/epee_2.png")
         self._set_consumable_Item(epee_du_voyageur)
-        potion = Item(1, "potion", "A voir", "Ce breuvage augmente considérablement la (statistique) de son utilisateur", "Images/potion_2.png")
+        rien = Item(0, "rien", "Vous ne faites rien", "", "")
+        self._set_consumable_Item(rien)
+        rien = Item(0, "rien", "Vous ne faites rien", "", "")
+        self._set_consumable_Item(rien)
+        rien = Item(0, "rien", "Vous ne faites rien", "", "")
+        self._set_consumable_Item(rien)
+        potion = Item(2, "potion", "A voir", "Ce breuvage augmente considérablement la (statistique) de son utilisateur", "Images/potion_2.png")
         self._set_consumable_Item(potion)
-        bracelet_de_force = Item(2, "bracelet de force", "A voir", "Avec ça plus aucun rocher ne vous résistera", "Images/bracelet de force_2.png")
+        bracelet_de_force = Item(3, "bracelet de force", "A voir", "Avec ça plus aucun rocher ne vous résistera", "Images/bracelet de force_2.png")
         self._set_consumable_Item(bracelet_de_force)
-        vieux_grimoire = Item(3, "vieux grimoire", "Vous gagnez 5 points de magie", "Le grimoire d'un magicien en herbe", "Images/Grimoire magique_2.png")
+        vieux_grimoire = Item(4, "vieux grimoire", "Vous gagnez 5 points de magie", "Le grimoire d'un magicien en herbe", "Images/Grimoire magique_2.png")
         self._set_consumable_Item(vieux_grimoire)
-        bombe = Item(3, "bombe", "A voir", "Attention à n'exploser personne", "Images/bombe_2.png")
+        bombe = Item(5, "bombe", "A voir", "Attention à n'exploser personne", "Images/bombe_2.png")
         self._set_consumable_Item(bombe)
 
 

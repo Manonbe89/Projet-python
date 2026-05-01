@@ -12,25 +12,19 @@ class Usable_Item (Item):
         self.usage = usage
         self.description = description
         self.picture = picture
-        self.picture_load = pygame.image.load(picture).convert_alpha()
-        self.use_item = False       #booléen qui verifie si on a utilise un item
-        self.dialogue_step = 0
+        self.use_item = False 
 
 
-    def _check_item_status_(self, event):
-         if event.type == pygame.KEYDOWN :           # vérifie si l'événement keydown s'est produit ou non
-              if event.key == pygame.K_u :           # vérifie si la touche "u" a été pressée
-                   self.dialogue_step += 1
-                   self.use_item = False
+    def _Use_Item(self, player, screen, font, inventory, item, dialogue_step):
+            if dialogue_step == 0:
+                self.use_item = False
 
+            if inventory._get_state() == False and self.use_item == False :
+                if dialogue_step == 1 :
+                    screen.blit(font.render("Vous utilisez : " + item._get_Name(), True, (255, 255, 255)), (300, 200))  #affiche le texte
+                    self._show_passage_text(1, screen, font)
 
-    def _Use_Item_(self, player, screen, font, inventory):
-            item = inventory._get_consumable_Item()
-            if self.dialogue_step == 1 :
-                screen.blit(font.render("Vous utilisez : " + item._get_Name(), True, (255, 255, 255)), (300, 200))  #affiche le texte
-                self._show_passage_text(1, screen, font)
-
-            elif self.dialogue_step == 2 :
+                elif dialogue_step == 2 :
                             
                             if item._get_Name() == "potion" :
                                   screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
@@ -72,14 +66,14 @@ class Usable_Item (Item):
                                   self._show_passage_text(1, screen, font)
                                   if self.use_item == False : 
                                       player._set_stat("armor", 5)
-                                      self.use_item = True  
+                                      self.use_item = True
                                    
                             if item._get_Name() == "chapeau de magicien" : 
                                   screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200)) 
                                   self._show_passage_text(1, screen, font)
                                   if self.use_item == False : 
                                       player._set_stat("magic armor", 5)
-                                      self.use_item = True 
+                                      self.use_item = True
 
                             if item._get_Name() == "chaussures en cuir" : 
                                 screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200)) 
@@ -87,7 +81,7 @@ class Usable_Item (Item):
                                 if self.use_item == False : 
                                       player._set_stat("armor", 2)
                                       player._set_stat("speed", 3)
-                                      self.use_item = True  
+                                      self.use_item = True 
 
                             if item._get_Name() == "masse nain" : 
                                   screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200)) 
@@ -101,17 +95,14 @@ class Usable_Item (Item):
                                   if self.use_item == False : 
                                       player._set_stat("armor", 10)
                                       player._set_stat("magic armor", -5)
-                                      self.use_item = True 
+                                      self.use_item = True
 
                             if item._get_Name() == "soleret" : 
                                   screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200)) 
                                   if self.use_item == False : 
                                       player._set_stat("armor", 10)
                                       player._set_stat("speed", -5)
-                                      self.use_item = True 
-
-            elif self.dialogue_step >= 3 :
-                             self.dialogue_step = 0
+                                      self.use_item = True
 
 
     def _show_passage_text(self, number, screen, font):
