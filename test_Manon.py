@@ -68,7 +68,6 @@ interaction = Interaction(player)
 inventory._item_factory()
 current_item = inventory._get_consumable_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
-dialogue_step = 0
 
 running = True
 while running:
@@ -80,11 +79,7 @@ while running:
 
         inventory._check_inventory_status(event)
         inventory._check_buttons(event)
-
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_u:
-            dialogue_step += 1
-            if dialogue_step >= 3 :
-                dialogue_step = 0
+        current_item._check_item_status(event, inventory)
         
 
     # INPUT
@@ -110,7 +105,7 @@ while running:
 
     current_item = inventory._get_consumable_Item()
     inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
-    uitem._Use_Item(player, screen, font, inventory, current_item, dialogue_step)
+    uitem._Use_Item(player, screen, font, inventory, current_item)
     screen.blit(font.render("Stats : " + 
                                  "life = " + str(player._get_stat("life")) + " / " +
                                  "attack = " + str(player._get_stat("attack")) + " / " +
@@ -118,7 +113,7 @@ while running:
                                  "magic armor = " + str(player._get_stat("magic armor")) + " / " + 
                                  "magic = " + str(player._get_stat("magic")) + " / " + 
                                  "speed = " + str(player._get_stat("speed"))  
-                                 , True, (255, 255, 255)), (5, 50))
+                                 , True, (255, 255, 255)), (5, 25))
 
     pygame.display.flip()
 

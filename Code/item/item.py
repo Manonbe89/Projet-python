@@ -40,4 +40,11 @@ class Item:
     
     def _set_Name(self, new_name):
         self.name = new_name
+
+    def _check_item_status(self, event, inventory):
+         if event.type == pygame.KEYDOWN :           # vérifie si l'événement keydown s'est produit ou non
+              if event.key == pygame.K_u :           # vérifie si la touche "u" a été pressée
+                   if not inventory._get_state() :
+                        self.dialogue_step += 1
+
     
