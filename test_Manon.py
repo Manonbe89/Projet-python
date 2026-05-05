@@ -106,7 +106,7 @@ while running:
     current_item = inventory._get_consumable_Item()
     inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
     uitem._Use_Item(player, screen, font, inventory, current_item)
-    screen.blit(font.render("Stats : " + 
+    screen.blit(font.render("Stats : " +                                                        #a enlever par la suite
                                  "life = " + str(player._get_stat("life")) + " / " +
                                  "attack = " + str(player._get_stat("attack")) + " / " +
                                  "armor = " + str(player._get_stat("armor")) + " / " + 
