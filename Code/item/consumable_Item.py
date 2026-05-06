@@ -5,13 +5,33 @@ from Code.item.item import Item
 pygame.init()   #initialisation de pygame
 
 
-class Usable_Item (Item):
+class Consumable_Item (Item):
     def __init__(self, id, name, usage, description, picture):
         self.id = id
         self.name = name
         self.usage = usage
         self.description = description
         self.picture = picture
-        self.picture_load = pygame.image.load(picture).convert_alpha()
-        self.use_item = False       #booléen qui verifie si on a utilise un item
-        self.dialogue_step = 0
+
+    def _Use_consumable_Item(self, screen, font, item):
+        if item.dialogue_step == 1 :
+                    screen.blit(font.render("Vous utilisez : " + item._get_Name(), True, (255, 255, 255)), (300, 200))  #affiche le texte
+                    item._show_passage_text(1, screen, font)
+
+        elif item.dialogue_step == 2 :
+                            
+                            if item._get_Name() == "potion" :
+                                  screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
+                                  item._show_passage_text(1, screen, font) 
+                                  if item.use_item == False : 
+                                      item.use_item = True
+
+                            if item._get_Name() == "bombe" :
+                                screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
+                                item._show_passage_text(1, screen, font) 
+                                if item.use_item == False : 
+                                      item.use_item = True
+
+                            elif item.dialogue_step >= 3 :
+                                   item.dialogue_step = 0
+                                   item.use_item = False

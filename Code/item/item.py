@@ -48,3 +48,9 @@ class Item:
                         self.dialogue_step += 1
 
     
+    def _show_passage_text(self, number, screen, font):
+         if number == 1 :
+              screen.blit(font.render("Appuyer sur 'u' pour continuer", True, (255, 255, 255)), (100, 500))  
+            
+
+    
