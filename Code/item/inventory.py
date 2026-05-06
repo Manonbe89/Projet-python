@@ -6,7 +6,8 @@ from Code.item.item import Item
 class Inventory:
     def __init__(self):
         self.item = [] 
-        self.image = pygame.image.load('C:/Users/manon/Documents/Projet python S4/Frames/Inventaire_test.png').convert_alpha() #permet d'afficher l'image
+        self.item_status = [0, 0, 0, 0, 0, 0, 0, 0]
+        self.image = pygame.image.load('C:/Users/manon/Documents/Projet python S4/Frames/Inventaire_2.png').convert_alpha() #permet d'afficher l'image
         self.open_inventory = False
         self.x = 175   
         self.y = 100                  #coordonnées de l'inventaire
@@ -45,6 +46,9 @@ class Inventory:
     def _set_Item(self, Item):
         self.item.append(Item)
 
+    def _set_item_status(self, index) :
+        self.item_status[index] = 1
+
     def _check_inventory_status(self, event):
         if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
              if event.key == pygame.K_i :                           # vérifie si la touche "i" a été pressée
@@ -62,36 +66,11 @@ class Inventory:
 
     def _check_buttons(self, event) :
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.buttons[0].collidepoint(event.pos):
-                self.status_buttons = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 1
-            elif self.buttons[1].collidepoint(event.pos):
-                self.status_buttons = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 2
-            elif self.buttons[2].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 3
-            elif self.buttons[3].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 4
-            elif self.buttons[4].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 5
-            elif self.buttons[5].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 6
-            elif self.buttons[6].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 7
-            elif self.buttons[7].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 8
-            elif self.buttons[8].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 9
-            elif self.buttons[9].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 10
+            for i in range (9) :
+                if self.buttons[i].collidepoint(event.pos):
+                    self.status_buttons[i] = 1
+                    self.current_item = i
+                    print("bouton ok :", i)
 
     def _item_factory(self) :
         rien = Item(0, "rien", "Vous ne faites rien", "", "")
@@ -105,7 +84,6 @@ class Inventory:
         chapeau_de_magicien = Item(7, "chapeau de magicien", "Vous gagnez 5 points de defense magique", "Ce chapeau aurait appartenu à un valeureux magicien, il vous protègera sûrement du mauvais sort", "Images/chapeau de magicien_2.png")
         
     def obtain_item(self, item) :
+
+    #if self
         self._set_Item(item)
-
-
-
