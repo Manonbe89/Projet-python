@@ -1,5 +1,6 @@
 import pygame
 from Code.game.game import Game
+from Code.item.consumable_Item import Consumable_Item
 from Code.item.inventory import Inventory
 from Code.item.item import Item
 from Code.item.usable_Item import Usable_Item
@@ -68,6 +69,7 @@ interaction = Interaction(player)
 inventory._item_factory()
 current_item = inventory._get_consumable_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
+citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 
 running = True
 while running:
@@ -105,7 +107,8 @@ while running:
 
     current_item = inventory._get_consumable_Item()
     inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
-    uitem._Use_Item(player, screen, font, inventory, current_item)
+    uitem._use_usable_Item(player, screen, font, inventory, current_item)
+    citem._Use_consumable_Item(screen, font, current_item)
     screen.blit(font.render("Stats : " +                                                        #a enlever par la suite
                                  "life = " + str(player._get_stat("life")) + " / " +
                                  "attack = " + str(player._get_stat("attack")) + " / " +
