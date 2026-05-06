@@ -67,7 +67,7 @@ interaction = Interaction(player)
 
 #ma partie (test)
 inventory._item_factory()
-current_item = inventory._get_consumable_Item()
+current_item = inventory._get_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 
@@ -105,7 +105,7 @@ while running:
     # INTERACTION
     interaction._interact_npc(npc_group, screen, font)
 
-    current_item = inventory._get_consumable_Item()
+    current_item = inventory._get_Item()
     inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
     uitem._use_usable_Item(player, screen, font, inventory, current_item)
     citem._Use_consumable_Item(screen, font, current_item)
