@@ -82,6 +82,7 @@ while running:
         inventory._check_inventory_status(event)
         inventory._check_buttons(event)
         current_item._check_item_status(event, inventory)
+        inventory.obtain_item(inventory._get_Item(), screen)
         
 
     # INPUT

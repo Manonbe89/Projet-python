@@ -83,7 +83,9 @@ class Inventory:
         cuirasse = Item(6, "cuirasse", "Vous gagnez 5 points de defense", "Une cuirasse robuste pour résister à n'importe quelle lame", "Images/cuirasse_2.png")
         chapeau_de_magicien = Item(7, "chapeau de magicien", "Vous gagnez 5 points de defense magique", "Ce chapeau aurait appartenu à un valeureux magicien, il vous protègera sûrement du mauvais sort", "Images/chapeau de magicien_2.png")
         
-    def obtain_item(self, item) :
-
-    #if self
-        self._set_Item(item)
+    def obtain_item(self, item, screen) :
+        for i in range (9) :
+                if self.item_status[i] == 0 :
+                    self._set_Item(item)
+                    self.item_status[i] = 1 
+                    screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
