@@ -89,3 +89,18 @@ class Inventory:
                     self._set_Item(item)
                     self.item_status[i] = 1 
                     screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
+        
+ 
+    #def _obtain_item(self, item, screen, font) :
+        #for i in range (9) :
+                #if self.item_status[i] == 0 :
+                    #self._set_Item(item)
+                    #self.item_status[i] = 1 
+                    #screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
+
+        #if item == "epee_du_voyageur" :
+            #self._set_inventory(item)
+            #screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
+            #screen.blit(font.render("Vous obtenez : ", item._get_Name(), True, (255, 255, 255)), (100, 500)) 
+            
+
