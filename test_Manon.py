@@ -80,15 +80,13 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        #if event.type == pygame.KEYDOWN :                          
-             #if event.key == pygame.K_g :                           
-                 #inventory._obtain_item(item, screen, font)
-                 
-
+        if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
+             if event.key == pygame.K_g :
+                 inventory._obtain_item(item, screen, font)     
+                            
         inventory._check_inventory_status(event)
         inventory._check_buttons(event)
         current_item._check_item_status(event, inventory)
-        
 
     # INPUT
     keys = pygame.key.get_pressed()
