@@ -32,7 +32,8 @@ class Enemy_AI:
         elif y_diference == 0:
             enemy._set_directio,(1,0)
 
-    def _update(self, player):
-        player_is_here = self._detect_player(player)
+    def _update(self, player, enemy):
+        player_is_here = self._detect_player(player, enemy)
         if player_is_here:
-            self._go_on_player_position
+            self._go_on_player_position(player, enemy)
+        

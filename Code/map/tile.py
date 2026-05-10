@@ -1,20 +1,23 @@
 import pygame
 from Code.map.wall import Wall
 from Code.npc.npc import NPC
+from Code.enemys.enemy import Enemy
 
 #"Tuile" de map (grand bout de carte)
 class Tile:
 
     #constituer d'une surface et de liste d'obstacle d'entrer et de téleporteur
-    def __init__(self, surf, solid_walls, breakable_walls, pushable_walls, npc_group):
+    def __init__(self, surf, solid_walls, breakable_walls, pushable_walls, npc_group, enemy_group):
         self.enters = {}
         self.objects = {}
         self.teleporters = {}
+        self.enemies = {}
         self.tile_map = surf
         self.solid_walls = solid_walls
         self.brekable_walls = breakable_walls
         self.pushable_walls = pushable_walls
         self.npc_group = npc_group
+        self.enemy_group = enemy_group
 
     #ajoute une entré à la tuile (une entré permet de savoir où le joueur doit apparaitre au chargements de la tuile)
     def _add_enter(self, x, y, name):
@@ -48,9 +51,16 @@ class Tile:
         key = f"npc_{name}_{x}_{y}"
         self.objects[key] = npc
 
+    def _add_ennemy(self, name, size, image, x, y, loot, detection_range, speed, collision_groups):
+        ennemy = Enemy(name, size, image, (x, y), loot, detection_range, speed, self.enemy_group, collision_groups)
+        key = f"ennemy_{name}_{x}_{y}"
+        self.enemies[key] = ennemy
 
     #charge la map et les différents élements qui lui sont associé en prenant en compte la camera
-    def _draw(self, screen, camera):
+    def _draw(self, screen, camera, dt, player, state):
         screen.blit(self.tile_map, (-camera.position.x, -camera.position.y))
         for obj in self.objects.values():
             screen.blit(obj.image, camera._apply(obj.rect))
+        for enemy in self.enemies.values():
+            enemy.update(dt, state, player)
+            screen.blit(enemy.image, camera._apply(enemy.rect))

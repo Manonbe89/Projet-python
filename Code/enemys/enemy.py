@@ -4,7 +4,7 @@ from Code.enemys.enemy_AI import Enemy_AI
 
 class Enemy(pygame.sprite.Sprite) : 
 
-    def __init__(self, name, size, path, pos, loot, detection_range, speed, groups):
+    def __init__(self, name, size, path, pos, loot, detection_range, speed, groups, collision_groups):
         super().__init__(groups)
         self.name = name
         self.size = size
@@ -16,12 +16,12 @@ class Enemy(pygame.sprite.Sprite) :
             "magic" : 0,
             "speed" : 0
             }
-        self.tilesheet = Tilesheet(path, self.size, self.size, 1, 3)
-        self.animations = {"imobile_sp": self.tilesheet.get_tile(1,1),
-                           "movement_sp": self.tilesheet.get_tile(1,2),
-                           "combat_sp": self.tilesheet.get_tile(1,3)}
+        image = pygame.image.load(path).convert_alpha()
+        self.animations = {"immobile_sp": [image],
+                           "movement_sp": [image],
+                           "combat_sp": [image]}
         self.moving =False
-        self.statut = 'immobile_sp'
+        self.statut = "immobile_sp"
         self.frame_index = 0
         self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (self.size,self.size))
         self.rect = self.image.get_rect(center = pos)
@@ -35,6 +35,7 @@ class Enemy(pygame.sprite.Sprite) :
         )
         self.loot = loot
         self.enemy_AI = Enemy_AI()
+        self.collision_groups = collision_groups
         
         
     def _set_stat(self, life, attack, armor, magic_armor, magic, speed):
@@ -76,12 +77,14 @@ class Enemy(pygame.sprite.Sprite) :
             self.moving = 1
 
     def _animate(self, dt):
-        self.frame_index += 4*dt % 2
-        self.image = pygame.transform.scale(self.animations[int(self.frame_index)], (self.size, self.size))
+        self.frame_index += 4*dt
+        if self.frame_index >= len(self.animations[self.statut]):
+            self.frame_index = 0
+        self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (self.size, self.size))
 
     def _get_statut(self):
         if self.direction.magnitude() == 0:
-            self.statut = 'imobile_sp'
+            self.statut = 'immobile_sp'
             self.moving = False
 
     def _move(self, dt):
