@@ -46,6 +46,9 @@ class Inventory:
     def _get_state(self) :
         return self.open_inventory
     
+    def _get_item_status(self, index) :
+        return self.item_status[index]
+    
 #setters
     def _set_Item(self, Item):
         self.item.append(Item)
@@ -74,10 +77,31 @@ class Inventory:
     def _check_buttons(self, event) :
         if event.type == pygame.MOUSEBUTTONDOWN:
             for i in range (9) :
-                if self.buttons[i].collidepoint(event.pos):
+                if self.buttons[i].collidepoint(event.pos) and self.item_status[i] :
                     self.status_buttons[i] = 1
                     self.current_item = i
                     print("bouton ok :", i)
+        
+    def _obtain_item(self, item, screen, font) :
+        for i in range (8) :
+            if item == self._get_Item(i) :
+                if self.item_status[i] == 0 :
+                    self._set_Inventory(item)
+                    screen.blit(font.render("Vous obtenez : " + item._get_Name(), True, (255, 255, 255)), (100, 500)) 
+                    print ("vous obenez : " + item._get_Name())
+                    self.item_status[i] = 1
+
+    def _display_item(self, screen, item) :
+        if self.open_inventory : 
+                
+                if self.item_status[0] == 1 :
+                    screen.blit(item._get_Picture(), (self.x + 29, self.y + 65))
+
+                if self.item_status[4] == 1 :
+                    screen.blit(item._get_Picture(), (self.x + 26, self.y + 171))
+
+                if self.item_status[5] == 1 :
+                    screen.blit(item._get_Picture(), (self.x + 89, self.y + 171))
 
     def _item_factory(self) :
         rien = Item(0, "rien", "Vous ne faites rien", "", "")
@@ -88,6 +112,8 @@ class Inventory:
         vieux_grimoire = Item(5, "vieux grimoire", "Vous gagnez 5 points de magie", "Le grimoire d'un magicien en herbe", "Images/Grimoire magique_2.png")
         cuirasse = Item(6, "cuirasse", "Vous gagnez 5 points de defense", "Une cuirasse robuste pour résister à n'importe quelle lame", "Images/cuirasse_2.png")
         chapeau_de_magicien = Item(7, "chapeau de magicien", "Vous gagnez 5 points de defense magique", "Ce chapeau aurait appartenu à un valeureux magicien, il vous protègera sûrement du mauvais sort", "Images/chapeau de magicien_2.png")
+        chaussures_en_cuir = Item(8, "chaussures en cuir", "Elles vous ont été offertes par votre grand père, prenez en soin", "")
+        masse_nain = Item(9, "masse nain", "Une masse robuste maniée par les plus petits guerriers de ce monde")
         self._set_Item(epee_du_voyageur)
         self._set_Item(rien)
         self._set_Item(rien)
@@ -98,18 +124,4 @@ class Inventory:
         self._set_Item(vieux_grimoire)
         self._set_Item(cuirasse)
         self._set_Item(chapeau_de_magicien)
-        
-    def _obtain_item(self, item, screen, font) :
-        if item == self._get_Item(0) :
-            if self.item_status[0] == 0 :
-                self._set_Inventory(item)
-                screen.blit(font.render("Vous obtenez : " + item._get_Name(), True, (255, 255, 255)), (100, 500)) 
-                print ("vous obenez : " + item._get_Name())
-                self.item_status[0] = 1
-
-        #pb avec les index
-
-    def _display_item(self, screen, item) :
-        if self.open_inventory : 
-            if self.item_status[0] == 1 :
-                screen.blit(item._get_Picture(), (self.x + 33, self.y + 69))
+        self._set_Item(chaussures_en_cuir)
