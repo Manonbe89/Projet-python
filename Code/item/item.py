@@ -30,7 +30,8 @@ class Item:
         return self.description
     
     def _get_Picture(self) : 
-        return self.picture_load
+        if self.picture != "" :
+            return self.picture_load
     
     def _get_dialogue_step(self) :
         return self.dialogue_step

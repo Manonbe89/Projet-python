@@ -8,7 +8,7 @@ class Inventory:
         self.item = [] 
         self.inventory = []
         self.item_status = [0, 0, 0, 0, 0, 0, 0, 0]
-        self.image = pygame.image.load('C:/Users/manon/Documents/Projet python S4/Frames/Inventaire_test.png').convert_alpha() #permet d'afficher l'image
+        self.image = pygame.image.load('C:/Users/manon/Documents/Projet python S4/Frames/Inventaire_2.png').convert_alpha() #permet d'afficher l'image
         self.open_inventory = False
         self.x = 175   
         self.y = 100                  #coordonnées de l'inventaire
@@ -65,7 +65,7 @@ class Inventory:
         if self.open_inventory : 
             screen.blit(self.image, (self.x, self.y))                     #affiche l'écran d'inventaire
 
-            if 0 <= self.current_item < len(self.item) and self.status_buttons[self.current_item - 1] and self.item_status[self.current_item] == 1:
+            if 0 <= self.current_item < len(self.item) and self.status_buttons[self.current_item] and self.item_status[self.current_item] :
                         item = self.item[self.current_item]
                         item._set_Name(item._get_Name())
                         screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
@@ -88,7 +88,6 @@ class Inventory:
         vieux_grimoire = Item(5, "vieux grimoire", "Vous gagnez 5 points de magie", "Le grimoire d'un magicien en herbe", "Images/Grimoire magique_2.png")
         cuirasse = Item(6, "cuirasse", "Vous gagnez 5 points de defense", "Une cuirasse robuste pour résister à n'importe quelle lame", "Images/cuirasse_2.png")
         chapeau_de_magicien = Item(7, "chapeau de magicien", "Vous gagnez 5 points de defense magique", "Ce chapeau aurait appartenu à un valeureux magicien, il vous protègera sûrement du mauvais sort", "Images/chapeau de magicien_2.png")
-        self._set_Item(rien)
         self._set_Item(epee_du_voyageur)
         self._set_Item(rien)
         self._set_Item(rien)
@@ -101,10 +100,16 @@ class Inventory:
         self._set_Item(chapeau_de_magicien)
         
     def _obtain_item(self, item, screen, font) :
-        if item == self._get_Item(1) :
+        if item == self._get_Item(0) :
             if self.item_status[0] == 0 :
                 self._set_Inventory(item)
                 screen.blit(font.render("Vous obtenez : " + item._get_Name(), True, (255, 255, 255)), (100, 500)) 
                 print ("vous obenez : " + item._get_Name())
-                screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
                 self.item_status[0] = 1
+
+        #pb avec les index
+
+    def _display_item(self, screen, item) :
+        if self.open_inventory : 
+            if self.item_status[0] == 1 :
+                screen.blit(item._get_Picture(), (self.x + 33, self.y + 69))

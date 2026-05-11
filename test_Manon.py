@@ -70,7 +70,7 @@ inventory._item_factory()
 current_item = inventory._get_current_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
-item = inventory._get_Item(1)
+item = inventory._get_Item(0)
 
 running = True
 while running:
@@ -111,6 +111,7 @@ while running:
 
     current_item = inventory._get_current_Item()
     inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
+    inventory._display_item(screen, item)
     uitem._use_usable_Item(player, screen, font, inventory, current_item)
     citem._Use_consumable_Item(screen, font, current_item)
     screen.blit(font.render("Stats : " +                                                        #a enlever par la suite
