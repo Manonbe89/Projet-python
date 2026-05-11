@@ -5,10 +5,10 @@ from Code.item.item import Item
 
 class Inventory:
     def __init__(self):
-        self.stuff = [] 
-        self.consumable_Item = []
-        self.usable_Item = []
-        self.image = pygame.image.load('C:/Users/manon/Documents/Projet python S4/Frames/Inventaire_test.png').convert_alpha() #permet d'afficher l'image
+        self.item = [] 
+        self.inventory = []
+        self.item_status = [0, 0, 0, 0, 0, 0, 0, 0]
+        self.image = pygame.image.load('C:/Users/manon/Documents/Projet python S4/Frames/Inventaire_2.png').convert_alpha() #permet d'afficher l'image
         self.open_inventory = False
         self.x = 175   
         self.y = 100                  #coordonnées de l'inventaire
@@ -30,34 +30,34 @@ class Inventory:
             x = 22 + i*63
             self.buttons.append(pygame.Rect(self.x + x, self.y + 227, 45, 45))        #création de boutons cliquables
 
-#getters
-    def _get_stuff(self):
-        return self.stuff
-    
-    def _get_consumable_Item(self):
-        if 0 <= self.current_item < len(self.consumable_Item):
-            return self.consumable_Item[self.current_item]
+#getters  
+    def _get_current_Item(self):
+        if 0 <= self.current_item < len(self.item):
+            return self.item[self.current_item]
         else :
-            return self.consumable_Item[0]      #a enlever quand tt les items seront entrés
-
-    def _get_usable_Item(self):
-        return self.usable_Item
+            return self.item[0]      #a enlever quand tt les items seront entrés
     
-    def _get_current_Item(self) : 
+    def _get_nb_current_Item(self) : 
         return self.current_item
+    
+    def _get_Item(self, index) :
+        return self.item[index]
     
     def _get_state(self) :
         return self.open_inventory
     
+    def _get_item_status(self, index) :
+        return self.item_status[index]
+    
 #setters
-    def _set_stuff(self, Item):
-        self.stuff.append(Item)
+    def _set_Item(self, Item):
+        self.item.append(Item)
 
-    def _set_consumable_Item(self, Item):
-        self.consumable_Item.append(Item)
+    def _set_Inventory(self, Item) : 
+        self.inventory.append(Item)
 
-    def _set_usable_Item(self, Item):
-        self.usable_Item.append(Item)
+    def _set_item_status(self, index) :
+        self.item_status[index] = 1
 
     def _check_inventory_status(self, event):
         if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
@@ -68,67 +68,60 @@ class Inventory:
         if self.open_inventory : 
             screen.blit(self.image, (self.x, self.y))                     #affiche l'écran d'inventaire
 
-            if 0 <= self.current_item < len(self.consumable_Item):
-                if self.status_buttons[self.current_item - 1] :
-                    item = self.consumable_Item[self.current_item]
-                    item._set_Name(self.consumable_Item[self.current_item]._get_Name())
-                    screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
-                    screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
+            if 0 <= self.current_item < len(self.item) and self.status_buttons[self.current_item] and self.item_status[self.current_item] :
+                        item = self.item[self.current_item]
+                        item._set_Name(item._get_Name())
+                        screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
+                        screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
 
     def _check_buttons(self, event) :
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.buttons[0].collidepoint(event.pos):
-                self.status_buttons = [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 1
-            elif self.buttons[1].collidepoint(event.pos):
-                self.status_buttons = [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 2
-            elif self.buttons[2].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 3
-            elif self.buttons[3].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 4
-            elif self.buttons[4].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 5
-            elif self.buttons[5].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 6
-            elif self.buttons[6].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 7
-            elif self.buttons[7].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 8
-            elif self.buttons[8].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 9
-            elif self.buttons[9].collidepoint(event.pos):
-                self.status_buttons = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-                self.current_item = 10
+            for i in range (9) :
+                if self.buttons[i].collidepoint(event.pos) and self.item_status[i] :
+                    self.status_buttons[i] = 1
+                    self.current_item = i
+                    print("bouton ok :", i)
+        
+    def _obtain_item(self, item, screen, font) :
+        for i in range (8) :
+            if item == self._get_Item(i) :
+                if self.item_status[i] == 0 :
+                    self._set_Inventory(item)
+                    screen.blit(font.render("Vous obtenez : " + item._get_Name(), True, (255, 255, 255)), (100, 500)) 
+                    print ("vous obenez : " + item._get_Name())
+                    self.item_status[i] = 1
+
+    def _display_item(self, screen, item) :
+        if self.open_inventory : 
+                
+                if self.item_status[0] == 1 :
+                    screen.blit(item._get_Picture(), (self.x + 29, self.y + 65))
+
+                if self.item_status[4] == 1 :
+                    screen.blit(item._get_Picture(), (self.x + 26, self.y + 171))
+
+                if self.item_status[5] == 1 :
+                    screen.blit(item._get_Picture(), (self.x + 89, self.y + 171))
 
     def _item_factory(self) :
         rien = Item(0, "rien", "Vous ne faites rien", "", "")
-        self._set_consumable_Item(rien)
         epee_du_voyageur = Item(1, "epee du voyageur", "Vous gagnez 5 points d'attaque", "L'épée parfaite pour commencer une aventure", "Images/epee_2.png")
-        self._set_consumable_Item(epee_du_voyageur)
-        self._set_consumable_Item(rien)
-        self._set_consumable_Item(rien)
-        self._set_consumable_Item(rien)
         potion = Item(2, "potion", "A voir", "Ce breuvage augmente considérablement la (statistique) de son utilisateur", "Images/potion_2.png")
-        self._set_consumable_Item(potion)
         bracelet_de_force = Item(3, "bracelet de force", "A voir", "Avec ça plus aucun rocher ne vous résistera", "Images/bracelet de force_2.png")
-        self._set_consumable_Item(bracelet_de_force)
         bombe = Item(4, "bombe", "A voir", "Attention à n'exploser personne", "Images/bombe_2.png")
-        self._set_consumable_Item(bombe)
         vieux_grimoire = Item(5, "vieux grimoire", "Vous gagnez 5 points de magie", "Le grimoire d'un magicien en herbe", "Images/Grimoire magique_2.png")
-        self._set_consumable_Item(vieux_grimoire)
         cuirasse = Item(6, "cuirasse", "Vous gagnez 5 points de defense", "Une cuirasse robuste pour résister à n'importe quelle lame", "Images/cuirasse_2.png")
-        self._set_consumable_Item(cuirasse)
         chapeau_de_magicien = Item(7, "chapeau de magicien", "Vous gagnez 5 points de defense magique", "Ce chapeau aurait appartenu à un valeureux magicien, il vous protègera sûrement du mauvais sort", "Images/chapeau de magicien_2.png")
-        self._set_consumable_Item(chapeau_de_magicien)
-        
-
-
-
+        chaussures_en_cuir = Item(8, "chaussures en cuir", "Elles vous ont été offertes par votre grand père, prenez en soin", "")
+        masse_nain = Item(9, "masse nain", "Une masse robuste maniée par les plus petits guerriers de ce monde")
+        self._set_Item(epee_du_voyageur)
+        self._set_Item(rien)
+        self._set_Item(rien)
+        self._set_Item(rien)
+        self._set_Item(potion)
+        self._set_Item(bracelet_de_force)
+        self._set_Item(bombe)
+        self._set_Item(vieux_grimoire)
+        self._set_Item(cuirasse)
+        self._set_Item(chapeau_de_magicien)
+        self._set_Item(chaussures_en_cuir)

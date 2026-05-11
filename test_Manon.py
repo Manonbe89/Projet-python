@@ -67,9 +67,10 @@ interaction = Interaction(player)
 
 #ma partie (test)
 inventory._item_factory()
-current_item = inventory._get_consumable_Item()
+current_item = inventory._get_current_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
+item = inventory._get_Item(5)
 
 running = True
 while running:
@@ -79,10 +80,13 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
+        if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
+             if event.key == pygame.K_g :
+                 inventory._obtain_item(item, screen, font)     
+                            
         inventory._check_inventory_status(event)
         inventory._check_buttons(event)
         current_item._check_item_status(event, inventory)
-        
 
     # INPUT
     keys = pygame.key.get_pressed()
@@ -105,8 +109,9 @@ while running:
     # INTERACTION
     interaction._interact_npc(npc_group, screen, font)
 
-    current_item = inventory._get_consumable_Item()
+    current_item = inventory._get_current_Item()
     inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
+    inventory._display_item(screen, item)
     uitem._use_usable_Item(player, screen, font, inventory, current_item)
     citem._Use_consumable_Item(screen, font, current_item)
     screen.blit(font.render("Stats : " +                                                        #a enlever par la suite

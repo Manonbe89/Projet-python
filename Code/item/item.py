@@ -30,7 +30,8 @@ class Item:
         return self.description
     
     def _get_Picture(self) : 
-        return self.picture_load
+        if self.picture != "" :
+            return self.picture_load
     
     def _get_dialogue_step(self) :
         return self.dialogue_step
@@ -51,6 +52,3 @@ class Item:
     def _show_passage_text(self, number, screen, font):
          if number == 1 :
               screen.blit(font.render("Appuyer sur 'u' pour continuer", True, (255, 255, 255)), (100, 500))  
-            
-
-    
