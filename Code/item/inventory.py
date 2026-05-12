@@ -43,11 +43,11 @@ class Inventory:
     def _get_Item(self, index) :
         return self.item[index]
     
+    def _get_item_status(self) : 
+        return self.item_status
+    
     def _get_state(self) :
         return self.open_inventory
-    
-    def _get_item_status(self, index) :
-        return self.item_status[index]
     
 #setters
     def _set_Item(self, Item):
@@ -84,8 +84,7 @@ class Inventory:
         
     def _obtain_item(self, item, screen, font) :
         for i in range (18) :
-            if item == self._get_Item(i) :
-                if self.item_status[i] == 0 :
+            if item == self._get_Item(i) and self.item_status[i] == 0 :
                     self._set_Inventory(item)
                     screen.blit(font.render("Vous obtenez : " + item._get_Name(), True, (255, 255, 255)), (100, 500)) 
                     print ("vous obenez : " + item._get_Name())

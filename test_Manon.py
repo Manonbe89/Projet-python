@@ -11,6 +11,7 @@ from Code.map.wall import Wall
 from Code.npc.npc import NPC
 from Code.player.player import Player
 from Code.player.interaction import Interaction
+from Code.save.save import Save
 
 pygame.init()
 
@@ -70,7 +71,7 @@ inventory._item_factory()
 current_item = inventory._get_current_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
-item = inventory._get_Item(9)
+item = inventory._get_Item(6)
 
 running = True
 while running:
@@ -124,5 +125,7 @@ while running:
                                  , True, (255, 255, 255)), (5, 25))
 
     pygame.display.flip()
+    save = Save()
+    save._get_data(inventory)
 
 pygame.quit()
