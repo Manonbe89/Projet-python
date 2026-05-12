@@ -1,6 +1,7 @@
 import pygame
 from Code.player.tilesheet import Tilesheet
 from Code.enemys.enemy_AI import Enemy_AI
+from Code.movement import Movement
 
 class Enemy(pygame.sprite.Sprite) : 
 
@@ -16,19 +17,19 @@ class Enemy(pygame.sprite.Sprite) :
             "magic" : 0,
             "speed" : 0
             }
+        self.pos = pos
+        self.speed = speed
         image = pygame.image.load(path).convert_alpha()
-        self.animations = {"immobile_sp": [image],
-                           "movement_sp": [image],
+        self.animations = {"sprite": [image],
+                           "sprite_mov": [image],
                            "combat_sp": [image]}
-        self.moving =False
-        self.statut = "immobile_sp"
+        self.statut = "sprite"
         self.frame_index = 0
         self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (self.size,self.size))
         self.rect = self.image.get_rect(center = pos)
         self.pos = pygame.math.Vector2(self.rect.center)
         self.direction = pygame.math.Vector2(self.rect.center)
-        self.hitbox = self.rect.copy().inflate(0, 0)
-        self.speed = speed
+        self.mov_statut = ["sprite_mov"]
         self.detection_range = self.rect.copy().inflate(
             -self.rect.width * detection_range,
             -self.rect.height * detection_range
@@ -36,6 +37,7 @@ class Enemy(pygame.sprite.Sprite) :
         self.loot = loot
         self.enemy_AI = Enemy_AI()
         self.collision_groups = collision_groups
+        self.movement = Movement(self.pos, self.statut, self.mov_statut, self.animations, self.speed, self.size, collision_groups)
         
         
     def _set_stat(self, life, attack, armor, magic_armor, magic, speed):
@@ -72,61 +74,18 @@ class Enemy(pygame.sprite.Sprite) :
             self.direction.y = 0 
             self.direction.y += dir
 
-    def _check_sprite(self):
-        if self.statut == 'movement':
-            self.moving = 1
+    def _update_data(self, frame_index, image, rect, direction, pos, hitbox):
+        self.frame_index = frame_index
+        self.image = image
+        self.rect = rect
+        self.direction = direction
+        self.pos = pos
+        self.hitbox = hitbox
 
-    def _animate(self, dt):
-        self.frame_index += 4*dt
-        if self.frame_index >= len(self.animations[self.statut]):
-            self.frame_index = 0
-        self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (self.size, self.size))
-
-    def _get_statut(self):
-        if self.direction.magnitude() == 0:
-            self.statut = 'immobile_sp'
-            self.moving = False
-
-    def _move(self, dt):
-        if self.direction.magnitude() > 0:
-            self.direction = self.direction.normalize()
-
-        #déplacement horizontal
-        self.pos.x += self.direction.x * self.speed * dt
-        self.hitbox.centerx = round(self.pos.x)
-        self._collision("horizontal")
-
-        #déplacement vertical
-        self.pos.y += self.direction.y * self.speed * dt
-        self.hitbox.centery = round(self.pos.y)
-        self._collision("vertical")
-
-        #mise à jour du rect (affichage)
-        self.rect.center = self.hitbox.center
-
-    def _collision(self, direction):
-        for sprite in self.collision_groups._sprites():
-            if hasattr(sprite, "hitbox"):
-                if self.hitbox.colliderect(sprite.hitbox):
-
-                    if direction == "horizontal":
-                        if self.direction.x > 0:  # droite
-                            self.hitbox.right = sprite.hitbox.left
-                        elif self.direction.x < 0:  # gauche
-                            self.hitbox.left = sprite.hitbox.right
-                        self.pos.x = self.hitbox.centerx
-
-                    if direction == "vertical":
-                        if self.direction.y > 0:  # bas
-                            self.hitbox.bottom = sprite.hitbox.top
-                        elif self.direction.y < 0:  # haut
-                            self.hitbox.top = sprite.hitbox.bottom
-                        self.pos.y = self.hitbox.centery
 
     def update(self, dt, state, player):
         if state == False:
             self.enemy_AI._update(player, self)
-            self._get_statut()
-            self._check_sprite()
-            self._move(dt)
-            self._animate(dt)
+            self.movement._change_direction(self.direction)
+            self.movement.update(dt)
+            self.movement._save_to_entity(self)
