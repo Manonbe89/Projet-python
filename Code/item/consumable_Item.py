@@ -19,19 +19,20 @@ class Consumable_Item (Item):
                     item._show_passage_text(1, screen, font)
 
         elif item.dialogue_step == 2 :
-                            
-                            if item._get_Name() == "potion" :
-                                  screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
-                                  item._show_passage_text(1, screen, font) 
-                                  if item.use_item == False : 
-                                      item.use_item = True
+            
+            screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
+            item._show_passage_text(1, screen, font) 
+            self._apply_effect(item)
 
-                            if item._get_Name() == "bombe" :
-                                screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
-                                item._show_passage_text(1, screen, font) 
-                                if item.use_item == False : 
-                                      item.use_item = True
+        elif item.dialogue_step >= 3 :
+            item.dialogue_step = 0
+            item.use_item = False
 
-                            elif item.dialogue_step >= 3 :
-                                   item.dialogue_step = 0
-                                   item.use_item = False
+    def _apply_effect(self, item) :
+
+        if item.use_item == False : 
+            if item._get_Name() == "potion" :
+                  item.use_item = True
+
+            if item._get_Name() == "bombe" :
+                  item.use_item = True

@@ -22,75 +22,81 @@ class Usable_Item (Item):
                     self._show_passage_text(1, screen, font)
 
                 elif item.dialogue_step == 2 :
+                        screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
+                        item._show_passage_text(1, screen, font) 
+                        self._apply_effect(item, player)
                                      
-                            if item._get_Name() == "bracelet de force" :
-                                screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
-                                item._show_passage_text(1, screen, font) 
-                                if item.use_item == False : 
-                                      item.use_item = True
-
-                            if item._get_Name() == "epee du voyageur" :
-                                screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
-                                screen.blit(item._get_Picture(), (300, 250))
-                                item._show_passage_text(1, screen, font) 
-                                if item.use_item == False : 
-                                      player._set_stat("attack", 5)
-                                      item.use_item = True
-
-                            if item._get_Name() == "vieux grimoire" : 
-                                screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200)) 
-                                item._show_passage_text(1, screen, font)
-                                screen.blit(item._get_Picture(), (300, 250))
-                                if item.use_item == False : 
-                                      player._set_stat("magic", 5)
-                                      item.use_item = True  
-
-                            if item._get_Name() == "cuirasse" : 
-                                  screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200)) 
-                                  item._show_passage_text(1, screen, font)
-                                  if item.use_item == False : 
-                                      player._set_stat("armor", 5)
-                                      item.use_item = True
-                                   
-                            if item._get_Name() == "chapeau de magicien" : 
-                                  screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200)) 
-                                  item._show_passage_text(1, screen, font)
-                                  if item.use_item == False : 
-                                      player._set_stat("magic armor", 5)
-                                      item.use_item = True
-
-                            if item._get_Name() == "chaussures en cuir" : 
-                                screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200)) 
-                                item._show_passage_text(1, screen, font)
-                                if item.use_item == False : 
-                                      player._set_stat("armor", 2)
-                                      player._set_stat("speed", 3)
-                                      item.use_item = True 
-
-                            if item._get_Name() == "masse nain" : 
-                                  screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200)) 
-                                  item._show_passage_text(1, screen, font)
-                                  if item.use_item == False : 
-                                      player._set_stat("attack", 10)
-                                      player._set_stat("speed", -5)
-                                      item.use_item = True 
-
-                            if item._get_Name() == "plastron d'armure" : 
-                                  screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200)) 
-                                  item._show_passage_text(1, screen, font)
-                                  if item.use_item == False : 
-                                      player._set_stat("armor", 10)
-                                      player._set_stat("magic armor", -5)
-                                      item.use_item = True
-
-                            if item._get_Name() == "soleret" : 
-                                  screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200)) 
-                                  item._show_passage_text(1, screen, font)
-                                  if item.use_item == False : 
-                                      player._set_stat("armor", 10)
-                                      player._set_stat("speed", -5)
-                                      item.use_item = True
-
                 elif item.dialogue_step >= 3 :
                      item.dialogue_step = 0
                      item.use_item = False
+        
+    def _apply_effect(self, item, player) :
+
+        if item.use_item == False : 
+                
+                if item._get_Name() == "bracelet de force" :
+                     item.use_item = True
+
+                if item._get_Name() == "bombe" :
+                     item.use_item = True
+
+                if item._get_Name() == "epee du voyageur" :
+                    player._set_stat("attack", 5)
+                    item.use_item = True
+
+                if item._get_Name() == "vieux grimoire" : 
+                    player._set_stat("magic", 5)
+                    item.use_item = True  
+
+                if item._get_Name() == "cuirasse" : 
+                    player._set_stat("armor", 5)
+                    item.use_item = True
+                                   
+                if item._get_Name() == "chapeau de magicien" :
+                    player._set_stat("magic armor", 5)
+                    item.use_item = True
+
+                if item._get_Name() == "chaussures en cuir" :
+                    player._set_stat("armor", 2)
+                    player._set_stat("speed", 3)
+                    item.use_item = True 
+
+                if item._get_Name() == "masse nain" : 
+                    player._set_stat("attack", 10)
+                    player._set_stat("speed", -5)
+                    item.use_item = True 
+
+                if item._get_Name() == "plastron d'armure" : 
+                    player._set_stat("armor", 10)
+                    player._set_stat("magic armor", -5)
+                    item.use_item = True
+
+                if item._get_Name() == "soleret" : 
+                    player._set_stat("armor", 10)
+                    player._set_stat("speed", -5)
+                    item.use_item = True
+
+                if item._get_Name() == "bottes de pegase" : 
+                     player._set_stat("armor", -5)
+                     player._set_stat("magic armor", -5)
+                     player._set_stat("speed", 15)
+
+                if item._get_Name() == "arc elfique" : 
+                     player._set_stat("attack", 5)
+                     player._set_stat("armor", -3)
+                     player._set_stat("magic armor", -2)
+                     player._set_stat("speed", 5)
+
+                if item._get_Name() == "tenue de garde elfique" : 
+                     player._set_stat("armor", 5)
+                     player._set_stat("magic armor", -5)
+                     player._set_stat("speed", 5)         
+
+                if item._get_Name() == "tenue de sage elfique" : 
+                     player._set_stat("armor", -5)
+                     player._set_stat("magic", 5)
+                     player._set_stat("magic armor", 5)       
+
+                if item._get_Name() == "grand sceptre" : 
+                     player._set_stat("attack", -5)
+                     player._set_stat("magic", 10)
