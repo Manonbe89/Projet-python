@@ -20,8 +20,8 @@ class Enemy(pygame.sprite.Sprite) :
         self.pos = pos
         self.speed = speed
         image = pygame.image.load(path).convert_alpha()
-        self.animations = {"sprite": [image],
-                           "sprite_mov": [image],
+        self.animations = {"sprite_im": [image],
+                           "sprite": [image],
                            "combat_sp": [image]}
         self.statut = "sprite"
         self.frame_index = 0
@@ -29,7 +29,7 @@ class Enemy(pygame.sprite.Sprite) :
         self.rect = self.image.get_rect(center = pos)
         self.pos = pygame.math.Vector2(self.rect.center)
         self.direction = pygame.math.Vector2(self.rect.center)
-        self.mov_statut = ["sprite_mov"]
+        self.im_statut = ["sprite_im"]
         self.detection_range = self.rect.copy().inflate(
             -self.rect.width * detection_range,
             -self.rect.height * detection_range
@@ -37,7 +37,7 @@ class Enemy(pygame.sprite.Sprite) :
         self.loot = loot
         self.enemy_AI = Enemy_AI()
         self.collision_groups = collision_groups
-        self.movement = Movement(self.pos, self.statut, self.mov_statut, self.animations, self.speed, self.size, collision_groups)
+        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, collision_groups)
         
         
     def _set_stat(self, life, attack, armor, magic_armor, magic, speed):

@@ -1,9 +1,9 @@
 import pygame
 
 class Movement :
-    def __init__(self, pos, statut, mov_statut, animations, speed, size, collision_groups):
+    def __init__(self, pos, statut, im_statut, animations, speed, size, collision_groups):
         self.statut = statut
-        self.mov_statut = mov_statut
+        self.im_statut = im_statut
         self.size = size
         self.animations = animations
         self.collision_groups = collision_groups
@@ -21,7 +21,7 @@ class Movement :
         self.direction = direction
         
     def _check_sprite(self):
-        if self.statut not in self.mov_statut:
+        if self.statut not in self.im_statut:
             self.moving = True
         else:
             self.moving = False
@@ -34,7 +34,7 @@ class Movement :
 
     def _get_statut(self):
         if self.direction.magnitude() == 0:
-            self.statut = self.statut.split('_')[0] + '_mov'
+            self.statut = self.statut.split('_')[0] + '_im'
             self.moving = False
 
     def _move(self, dt):
