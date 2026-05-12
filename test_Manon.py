@@ -11,6 +11,8 @@ from Code.map.wall import Wall
 from Code.npc.npc import NPC
 from Code.player.player import Player
 from Code.player.interaction import Interaction
+from Code.enemys.enemy import Enemy
+from Code.enemys.bestiary import Bestiary
 
 pygame.init()
 
@@ -26,6 +28,7 @@ solid_walls = pygame.sprite.Group()
 breakable_walls = pygame.sprite.Group()
 pushable_walls = pygame.sprite.Group()
 npc_group = pygame.sprite.Group()
+enemy_group = pygame.sprite.Group()
 
 font = pygame.font.Font(None, 32)
 
@@ -36,7 +39,7 @@ collision_groups = Collision_groups(solid_walls, breakable_walls, pushable_walls
 # MAP
 map_surface = pygame.Surface((1000, 1000))
 map_surface.fill((80, 180, 80))
-tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls, npc_group)
+tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls, npc_group, enemy_group)
 
 # MUR
 wall_surface = pygame.Surface((100, 100))
@@ -72,6 +75,10 @@ uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 item = inventory._get_Item(9)
 
+#enemy
+bestiary = Bestiary()
+tile._add_ennemy(bestiary.bat, 800, 800, collision_groups)
+
 running = True
 while running:
     dt = clock.tick(60) / 1000
@@ -103,7 +110,7 @@ while running:
     camera._update(player)
 
     # DRAW
-    tile._draw(screen, camera)
+    tile._draw(screen, camera, dt, player, interaction._get_state())
     screen.blit(player.image, camera._apply(player.rect))
 
     # INTERACTION
