@@ -103,6 +103,18 @@ class Inventory:
                 if self.item_status[5] == 1 :
                     screen.blit(item._get_Picture(), (self.x + 89, self.y + 171))
 
+                if self.item_status[6] == 1 :
+                    screen.blit(item._get_Picture(), (self.x + 154, self.y + 171))
+
+                if self.item_status[7] == 1 :
+                    screen.blit(item._get_Picture(), (self.x + 215, self.y + 171))
+
+                if self.item_status[8] == 1 :
+                    screen.blit(item._get_Picture(), (self.x + 279, self.y + 171))
+
+                if self.item_status[9] == 1 :
+                    screen.blit(item._get_Picture(), (self.x + 343, self.y + 171))
+ 
     def _item_factory(self) :
         rien = Item(0, "rien", "Vous ne faites rien", "", "")
         epee_du_voyageur = Item(1, "epee du voyageur", "Vous gagnez 5 points d'attaque", "L'épée parfaite pour commencer une aventure", "Images/epee_2.png")
