@@ -1,7 +1,6 @@
 import pygame
 from Code.map.wall import Wall
 from Code.npc.npc import NPC
-from Code.enemys.enemy import Enemy
 
 #"Tuile" de map (grand bout de carte)
 class Tile:
@@ -51,10 +50,10 @@ class Tile:
         key = f"npc_{name}_{x}_{y}"
         self.objects[key] = npc
 
-    def _add_ennemy(self, name, size, image, x, y, loot, detection_range, speed, collision_groups):
-        ennemy = Enemy(name, size, image, (x, y), loot, detection_range, speed, self.enemy_group, collision_groups)
-        key = f"ennemy_{name}_{x}_{y}"
-        self.enemies[key] = ennemy
+    def _add_ennemy(self, enemy_to_create, x, y, collision_groups):
+        enemy = enemy_to_create._create_enemy((x, y), self.enemy_group, collision_groups)
+        key = f"enemy_{enemy.name}_{x}_{y}"
+        self.enemies[key] = enemy
 
     #charge la map et les différents élements qui lui sont associé en prenant en compte la camera
     def _draw(self, screen, camera, dt, player, state):

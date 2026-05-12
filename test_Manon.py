@@ -12,6 +12,7 @@ from Code.npc.npc import NPC
 from Code.player.player import Player
 from Code.player.interaction import Interaction
 from Code.enemys.enemy import Enemy
+from Code.enemys.bestiary import Bestiary
 
 pygame.init()
 
@@ -74,7 +75,8 @@ uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 
 #enemy
-tile._add_ennemy('bat', 25, 'Images/bat.png', 800, 800, 0, 400, 100, collision_groups)
+bestiary = Bestiary()
+tile._add_ennemy(bestiary.bat, 800, 800, collision_groups)
 
 running = True
 while running:
