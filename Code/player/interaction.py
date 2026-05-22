@@ -8,6 +8,24 @@ class Interaction:
         self.player = player
         self.last_space_action = False
         self.in_action = False
+        self.interaction_rect = self.player.hitbox.copy()
+        self.interaction_rect.inflate_ip(20, 20)
+
+    def _search_enemy(self, enemy_group):
+        for enemy in enemy_group:
+            if self.interaction_rect.colliderect(enemy.hitbox):
+                return enemy
+        return None
+
+    def _intercat_with_enemy(self, player, enemy_group):
+        enemy = self._search_enemy(enemy_group)
+        if enemy is None:
+            return
+        
+        self._start_combat()
+
+    def _start_combat():
+        pass
 
     #fonction d'interaction avec les npc (affiche une bulle de dialogue quand le joueur appuie sur espace à proximité d'un npc)
     def _interact_npc(self, npc_group, screen, font):
@@ -21,10 +39,8 @@ class Interaction:
 
     #fonction qui cherche un npc à proximité du joueur (dans un rayon de 20 pixels)
     def _search_npc(self, npc_group):
-        interaction_rect = self.player.hitbox.copy()
-        interaction_rect.inflate_ip(20, 20)
         for npc in npc_group:
-            if interaction_rect.colliderect(npc.hitbox):
+            if self.interaction_rect.colliderect(npc.hitbox):
                 return npc
         return None
     

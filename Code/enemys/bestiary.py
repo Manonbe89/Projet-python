@@ -1,6 +1,7 @@
 import pygame
 from Code.enemys.enemy import Enemy
 
+#a class for each enemy
 class Bat : 
     def __init__(self):
         self.name = "bat"
@@ -14,6 +15,7 @@ class Bat :
         bat = Enemy(self.name, self.size, self.path, pos, self.loot, self.detection_range, self.speed, groups, collision_groups)
         return bat
 
+#the bestiary (have a example of each enemy for a smoother incorporation)
 class Bestiary : 
     def __init__(self):
         self.bat = Bat()

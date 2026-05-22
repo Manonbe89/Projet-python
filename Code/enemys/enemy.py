@@ -49,10 +49,10 @@ class Enemy(pygame.sprite.Sprite) :
         self.enemy_stat["speed"] = speed
 
     def _get_stat(self, stat):
-        return self.enemy_stat[f"{stat}"]
+        return self.enemy_stat[stat]
     
     def _mod_stat(self, stat, change):
-        self.enemy_stat[f"{stat}"]+=change
+        self.enemy_stat[stat]+=change
 
     def _get_pos(self, coo) :
         if coo == 0 : 
@@ -74,6 +74,7 @@ class Enemy(pygame.sprite.Sprite) :
             self.direction.y = 0 
             self.direction.y += dir
 
+    #update all the movement variable (because of the movemnt encapsulation)
     def _update_data(self, frame_index, image, rect, direction, pos, hitbox):
         self.frame_index = frame_index
         self.image = image
@@ -82,7 +83,7 @@ class Enemy(pygame.sprite.Sprite) :
         self.pos = pos
         self.hitbox = hitbox
 
-
+    #all the movement function
     def update(self, dt, state, player):
         if state == False:
             self.enemy_AI._update(player, self)
