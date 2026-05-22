@@ -14,14 +14,15 @@ from Code.player.interaction import Interaction
 from Code.save.save import Save
 
 pygame.init()
-
+save = Save()
 screen = pygame.display.set_mode((900,600))        #définition de la fenêtre  avant 1000 500
 pygame.display.set_caption('jeux')                  #nom de la fenêtre
 clock = pygame.time.Clock()
 game = Game()
 inventory = Inventory()
+inventory._item_factory()
 
-# GROUPES (pas exploité (sauf all_sprites) mais nécessaire pour faire des déplacements)
+# GROUPES 
 all_sprites = pygame.sprite.Group()
 solid_walls = pygame.sprite.Group()
 breakable_walls = pygame.sprite.Group()
@@ -67,11 +68,10 @@ camera = Camera(900, 600, 1000, 1000)
 interaction = Interaction(player)
 
 #ma partie (test)
-inventory._item_factory()
 current_item = inventory._get_current_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
-item = inventory._get_Item(6)
+item = inventory._get_Item(7)
 
 running = True
 while running:
@@ -88,34 +88,37 @@ while running:
         inventory._check_inventory_status(event)
         inventory._check_buttons(event)
         current_item._check_item_status(event, inventory)
+        save._check_buttons(event)
 
-    # INPUT
-    keys = pygame.key.get_pressed()
-    player.game.actions = {
-        'move up': keys[pygame.K_UP],
-        'move down': keys[pygame.K_DOWN],
-        'move left': keys[pygame.K_LEFT],
-        'move right': keys[pygame.K_RIGHT],
-        'space': keys[pygame.K_SPACE]
-    }
+    save._load_data(screen)
+    if save._get_state_menu() : 
+        # INPUT
+        keys = pygame.key.get_pressed()
+        player.game.actions = {
+            'move up': keys[pygame.K_UP],
+            'move down': keys[pygame.K_DOWN],
+            'move left': keys[pygame.K_LEFT],
+            'move right': keys[pygame.K_RIGHT],
+            'space': keys[pygame.K_SPACE]
+            }
 
-    # UPDATE
-    all_sprites.update(dt, interaction._get_state())
-    camera._update(player)
+        # UPDATE
+        all_sprites.update(dt, interaction._get_state())
+        camera._update(player)
 
-    # DRAW
-    tile._draw(screen, camera)
-    screen.blit(player.image, camera._apply(player.rect))
+        # DRAW
+        tile._draw(screen, camera)
+        screen.blit(player.image, camera._apply(player.rect))
 
-    # INTERACTION
-    interaction._interact_npc(npc_group, screen, font)
+        # INTERACTION
+        interaction._interact_npc(npc_group, screen, font)
 
-    current_item = inventory._get_current_Item()
-    inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
-    inventory._display_item(screen, item)
-    uitem._use_usable_Item(player, screen, font, inventory, current_item)
-    citem._Use_consumable_Item(screen, font, current_item)
-    screen.blit(font.render("Stats : " +                                                        #a enlever par la suite
+        current_item = inventory._get_current_Item()
+        inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
+        inventory._display_item(screen, item)
+        uitem._use_usable_Item(player, screen, font, inventory, current_item)
+        citem._Use_consumable_Item(screen, font, current_item)
+        screen.blit(font.render("Stats : " +                                                        #a enlever par la suite
                                  "life = " + str(player._get_stat("life")) + " / " +
                                  "attack = " + str(player._get_stat("attack")) + " / " +
                                  "armor = " + str(player._get_stat("armor")) + " / " + 
@@ -125,7 +128,6 @@ while running:
                                  , True, (255, 255, 255)), (5, 25))
 
     pygame.display.flip()
-    save = Save()
     save._get_data(inventory)
 
 pygame.quit()
