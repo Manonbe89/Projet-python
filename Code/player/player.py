@@ -45,7 +45,7 @@ class Player(pygame.sprite.Sprite):
         self.hitbox = self.rect.copy().inflate(0, 0)
         self.speed =200
         self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, collision_groups)
-        self.fight_entity = Fight_Entity(self.name, self.animations["down_im"],self.player_stat)
+        self.fight_entity = Fight_Entity(self.name, self.animations["down_im"][0],self.player_stat,0,0)
 
     #regarde les input de déplacement du joueur et modifie les paramètre de déplacement en fonction
     def _input(self, actions):

@@ -2,6 +2,7 @@ import pygame
 from Code.player.tilesheet import Tilesheet
 from Code.enemys.enemy_AI import Enemy_AI
 from Code.movement import Movement
+from Code.fight.fight_entity import Fight_Entity
 
 class Enemy(pygame.sprite.Sprite) : 
 
@@ -38,6 +39,7 @@ class Enemy(pygame.sprite.Sprite) :
         self.enemy_AI = Enemy_AI()
         self.collision_groups = collision_groups
         self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, collision_groups)
+        self.fight_entity = Fight_Entity(self.name, self.animations["combat_sp"][0], self.enemy_stat, 0, 0)
         
         
     def _set_stat(self, life, attack, armor, magic_armor, magic, speed):

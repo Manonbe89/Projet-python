@@ -95,40 +95,48 @@ while running:
         inventory._check_buttons(event)
         current_item._check_item_status(event, inventory)
 
-    # INPUT
-    keys = pygame.key.get_pressed()
-    player.game.actions = {
-        'move up': keys[pygame.K_UP],
-        'move down': keys[pygame.K_DOWN],
-        'move left': keys[pygame.K_LEFT],
-        'move right': keys[pygame.K_RIGHT],
-        'space': keys[pygame.K_SPACE]
-    }
+    if interaction._get_world_state() == 'world' : 
+        # INPUT
+        keys = pygame.key.get_pressed()
+        player.game.actions = {
+            'move up': keys[pygame.K_UP],
+            'move down': keys[pygame.K_DOWN],
+            'move left': keys[pygame.K_LEFT],
+            'move right': keys[pygame.K_RIGHT],
+            'space': keys[pygame.K_SPACE]
+        }
 
-    # UPDATE
-    all_sprites.update(dt, interaction._get_state())
-    camera._update(player)
+        # UPDATE
+        all_sprites.update(dt, interaction._get_state())
+        camera._update(player)
 
-    # DRAW
-    tile._draw(screen, camera, dt, player, interaction._get_state())
-    screen.blit(player.image, camera._apply(player.rect))
+        # DRAW
+        tile._draw(screen, camera, dt, player, interaction._get_state())
+        screen.blit(player.image, camera._apply(player.rect))
 
-    # INTERACTION
-    interaction._interact_npc(npc_group, screen, font)
+        # INTERACTION
+        interaction._interact_npc(npc_group, screen, font)
+        interaction._intercat_with_enemy(enemy_group)
 
-    current_item = inventory._get_current_Item()
-    inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
-    inventory._display_item(screen, item)
-    uitem._use_usable_Item(player, screen, font, inventory, current_item)
-    citem._Use_consumable_Item(screen, font, current_item)
-    screen.blit(font.render("Stats : " +                                                        #a enlever par la suite
-                                 "life = " + str(player._get_stat("life")) + " / " +
-                                 "attack = " + str(player._get_stat("attack")) + " / " +
-                                 "armor = " + str(player._get_stat("armor")) + " / " + 
-                                 "magic armor = " + str(player._get_stat("magic armor")) + " / " + 
-                                 "magic = " + str(player._get_stat("magic")) + " / " + 
-                                 "speed = " + str(player._get_stat("speed"))  
-                                 , True, (255, 255, 255)), (5, 25))
+        current_item = inventory._get_current_Item()
+        inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
+        inventory._display_item(screen, item)
+        uitem._use_usable_Item(player, screen, font, inventory, current_item)
+        citem._Use_consumable_Item(screen, font, current_item)
+        screen.blit(font.render("Stats : " +                                                        #a enlever par la suite
+                                    "life = " + str(player._get_stat("life")) + " / " +
+                                    "attack = " + str(player._get_stat("attack")) + " / " +
+                                    "armor = " + str(player._get_stat("armor")) + " / " + 
+                                    "magic armor = " + str(player._get_stat("magic armor")) + " / " + 
+                                    "magic = " + str(player._get_stat("magic")) + " / " + 
+                                    "speed = " + str(player._get_stat("speed"))  
+                                    , True, (255, 255, 255)), (5, 25))
+
+        
+
+    elif interaction._get_world_state() == 'fight':
+        fight = interaction._get_current_fight()
+        fight._draw(screen)
 
     pygame.display.flip()
 
