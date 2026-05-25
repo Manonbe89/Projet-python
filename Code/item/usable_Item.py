@@ -15,20 +15,23 @@ class Usable_Item (Item):
 
 
     def _use_usable_Item(self, player, screen, font, inventory, item):
-            
-            if inventory._get_state() == False :
-                if item.dialogue_step == 1 :
-                    screen.blit(font.render("Vous utilisez : " + item._get_Name(), True, (255, 255, 255)), (300, 200))  #affiche le texte
-                    self._show_passage_text(1, screen, font)
+            if item._get_Name() != "" :
+                if inventory._get_state() == False :
+                    if item.dialogue_step == 1 :
+                        screen.blit(font.render("Vous utilisez : " + item._get_Name(), True, (255, 255, 255)), (300, 200))  #affiche le texte
+                        self._show_passage_text(1, screen, font)
 
-                elif item.dialogue_step == 2 :
+                    elif item.dialogue_step == 2 :
                         screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
                         item._show_passage_text(1, screen, font) 
                         self._apply_effect(item, player)
                                      
-                elif item.dialogue_step >= 3 :
-                     item.dialogue_step = 0
-                     item.use_item = False
+                    elif item.dialogue_step >= 3 :
+                        item.dialogue_step = 0
+                        item.use_item = False
+                    
+            else :
+                 screen.blit(font.render("Désolé, vous n'avez rien en main", True, (255, 255, 255)), (100, 500))  
         
     def _apply_effect(self, item, player) :
 

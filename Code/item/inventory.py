@@ -34,8 +34,6 @@ class Inventory:
     def _get_current_Item(self):
         if 0 <= self.current_item < len(self.item):
             return self.item[self.current_item]
-        else :
-            return self.item[0]      #a enlever quand tt les items seront entrés
     
     def _get_nb_current_Item(self) : 
         return self.current_item
@@ -50,6 +48,10 @@ class Inventory:
         return self.open_inventory
     
 #setters
+
+    def _set_nb_current_Item(self, Item) : 
+        self.current_item = Item
+
     def _set_Item(self, Item):
         self.item.append(Item)
 
@@ -57,7 +59,12 @@ class Inventory:
         self.inventory.append(Item)
 
     def _set_item_status(self, index) :
-        self.item_status[index] = 1
+        for i in range(len(self.item_status)) :
+            if index[i] :
+                self.item_status[i] = 1
+            else :
+                self.item_status[i] = 0
+
 
     def _check_inventory_status(self, event):
         if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
@@ -80,7 +87,6 @@ class Inventory:
                 if self.buttons[i].collidepoint(event.pos) and self.item_status[i] :
                     self.status_buttons[i] = 1
                     self.current_item = i
-                    print("bouton ok :", i)
         
     def _obtain_item(self, item, screen, font) :
         for i in range (18) :
@@ -90,9 +96,11 @@ class Inventory:
                     print ("vous obenez : " + item._get_Name())
                     self.item_status[i] = 1
 
-    def _display_item(self, screen, item) :
+    def _display_item(self, screen) :
         if self.open_inventory : 
                 
+                item = self.item[self.current_item]
+
                 if self.item_status[0] == 1 :
                     screen.blit(item._get_Picture(), (self.x + 29, self.y + 65))
 

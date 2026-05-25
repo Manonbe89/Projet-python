@@ -16,10 +16,11 @@ from Code.save.save import Save
 pygame.init()
 save = Save()
 screen = pygame.display.set_mode((900,600))        #définition de la fenêtre  avant 1000 500
-pygame.display.set_caption('jeux')                  #nom de la fenêtre
+pygame.display.set_caption('jeux')                 #nom de la fenêtre
 clock = pygame.time.Clock()
 game = Game()
 inventory = Inventory()
+save._load_data(screen, inventory)
 inventory._item_factory()
 
 # GROUPES 
@@ -71,7 +72,7 @@ interaction = Interaction(player)
 current_item = inventory._get_current_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
-item = inventory._get_Item(7)
+item = inventory._get_Item(0)
 
 running = True
 while running:
@@ -90,8 +91,10 @@ while running:
         current_item._check_item_status(event, inventory)
         save._check_buttons(event)
 
-    save._load_data(screen)
-    if save._get_state_menu() : 
+    save._display_menu(screen)
+    save._get_data(inventory)
+
+    if not save._get_state_menu() : 
         # INPUT
         keys = pygame.key.get_pressed()
         player.game.actions = {
@@ -115,7 +118,7 @@ while running:
 
         current_item = inventory._get_current_Item()
         inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
-        inventory._display_item(screen, item)
+        inventory._display_item(screen)
         uitem._use_usable_Item(player, screen, font, inventory, current_item)
         citem._Use_consumable_Item(screen, font, current_item)
         screen.blit(font.render("Stats : " +                                                        #a enlever par la suite
@@ -128,6 +131,5 @@ while running:
                                  , True, (255, 255, 255)), (5, 25))
 
     pygame.display.flip()
-    save._get_data(inventory)
 
 pygame.quit()
