@@ -89,7 +89,11 @@ while running:
 
         if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
              if event.key == pygame.K_g :
-                 inventory._obtain_item(item, screen, font)     
+                 inventory._obtain_item(item, screen, font)
+
+        if interaction._get_world_state() == 'fight':
+            fight = interaction._get_current_fight()
+            fight._handle_event(event)  
                             
         inventory._check_inventory_status(event)
         inventory._check_buttons(event)
