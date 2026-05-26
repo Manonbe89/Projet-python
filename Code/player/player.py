@@ -140,8 +140,14 @@ class Player(pygame.sprite.Sprite):
     def _get_stat(self, stat):
         return self.player_stat[stat]
     
+    def _get_stat_table(self) : 
+        return self.player_stat
+    
     def _set_stat(self, stat, change):
         self.player_stat[stat]+=change
+
+    def _set_money(self, money_add):
+        self.money +=self.money_add
     
     def _get_pos(self, coo):
         if coo == 0 : 
@@ -149,5 +155,3 @@ class Player(pygame.sprite.Sprite):
         if coo == 1 :
             return self.pos.y
         
-    def _set_money(self, money_add):
-        self.money +=self.money_add

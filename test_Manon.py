@@ -20,8 +20,6 @@ pygame.display.set_caption('jeux')                 #nom de la fenêtre
 clock = pygame.time.Clock()
 game = Game()
 inventory = Inventory()
-save._load_data(screen, inventory)
-inventory._item_factory()
 
 # GROUPES 
 all_sprites = pygame.sprite.Group()
@@ -35,6 +33,10 @@ font = pygame.font.Font(None, 32)
 # SUPER GROUP
 
 collision_groups = Collision_groups(solid_walls, breakable_walls, pushable_walls, npc_group)
+
+player = Player((100, 100), "Test", game, all_sprites, collision_groups)
+save._load_data(screen, inventory)
+inventory._item_factory()
 
 # MAP
 map_surface = pygame.Surface((1000, 1000))
@@ -58,9 +60,6 @@ tile._add_breakable_walls("mur", 300, 500, wall_surface)
 npc_surface = pygame.Surface((50, 50))
 npc_surface.fill((255, 0, 0))
 tile._add_npc("Numerobis", npc_surface, 500, 500, "Vous savez, moi je ne crois pas qu’il y ait de bonne ou de mauvaise situation. Moi, si je devais résumer ma vie aujourd’hui avec vous, je dirais que c’est d’abord des rencontres. Des gens qui m’ont tendu la main, peut-être à un moment où je ne pouvais pas, où j’étais seul chez moi.")
-
-# JOUEUR
-player = Player((100, 100), "Test", game, all_sprites, collision_groups)
 
 # CAMERA
 camera = Camera(900, 600, 1000, 1000)
@@ -92,7 +91,7 @@ while running:
         save._check_buttons(event)
 
     save._display_menu(screen)
-    save._get_data(inventory)
+    save._get_data(inventory, player)
 
     if not save._get_state_menu() : 
         # INPUT

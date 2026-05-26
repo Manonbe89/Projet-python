@@ -14,12 +14,14 @@ class Save() :
         self.buttons.append(pygame.Rect(327, 359 , 250, 59))
 
 
-    def _get_data(self, inventory) :
+    def _get_data(self, inventory, player) :
         if self.status_buttons[0] : 
             nb_current_item = inventory._get_nb_current_Item()
             item_status = inventory._get_item_status()
+            stats_player = player._get_stat_table()        
             data = {"inventory" : {"nb_current_item": nb_current_item,
-                                   "item_status": item_status}
+                                   "item_status": item_status},
+                    "player" : {"stats_player" : stats_player}
                                    }
             with open("Code/save/save.json", "w") as file :
                 json.dump(data, file, indent=4)

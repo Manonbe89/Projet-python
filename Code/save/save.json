@@ -1,0 +1,37 @@
+{
+    "inventory": {
+        "nb_current_item": 0,
+        "item_status": [
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ]
+    },
+    "player": {
+        "stats_player": {
+            "life": 10,
+            "attack": 20,
+            "armor": 10,
+            "magic armor": 10,
+            "magic": 10,
+            "speed": 10
+        }
+    }
+}
