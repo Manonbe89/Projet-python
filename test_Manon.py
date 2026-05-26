@@ -35,7 +35,7 @@ font = pygame.font.Font(None, 32)
 collision_groups = Collision_groups(solid_walls, breakable_walls, pushable_walls, npc_group)
 
 player = Player((100, 100), "Test", game, all_sprites, collision_groups)
-save._load_data(screen, inventory)
+save._load_data(screen, inventory, player)
 inventory._item_factory()
 
 # MAP

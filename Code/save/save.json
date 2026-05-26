@@ -2,7 +2,7 @@
     "inventory": {
         "nb_current_item": 0,
         "item_status": [
-            1,
+            0,
             0,
             0,
             0,
@@ -27,11 +27,15 @@
     "player": {
         "stats_player": {
             "life": 10,
-            "attack": 20,
+            "attack": 10,
             "armor": 10,
             "magic armor": 10,
             "magic": 10,
             "speed": 10
+        },
+        "player_position": {
+            "x": 518.1546247918326,
+            "y": 518.1546247918326
         }
     }
 }
