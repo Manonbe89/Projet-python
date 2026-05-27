@@ -1,5 +1,4 @@
 import pygame
-from Code.game.game import Game
 from Code.item.consumable_Item import Consumable_Item
 from Code.item.inventory import Inventory
 from Code.item.item import Item
@@ -7,8 +6,6 @@ from Code.item.usable_Item import Usable_Item
 from Code.map.camera import Camera
 from Code.map.collision_group import Collision_groups
 from Code.map.tile import Tile
-from Code.map.wall import Wall
-from Code.npc.npc import NPC
 from Code.player.player import Player
 from Code.player.interaction import Interaction
 from Code.enemys.enemy import Enemy
@@ -19,7 +16,6 @@ pygame.init()
 screen = pygame.display.set_mode((900,600))        #définition de la fenêtre  avant 1000 500
 pygame.display.set_caption('jeux')                  #nom de la fenêtre
 clock = pygame.time.Clock()
-game = Game()
 inventory = Inventory()
 
 # GROUPES (pas exploité (sauf all_sprites) mais nécessaire pour faire des déplacements)
@@ -60,7 +56,7 @@ npc_surface.fill((255, 0, 0))
 tile._add_npc("Numerobis", npc_surface, 500, 500, "Vous savez, moi je ne crois pas qu’il y ait de bonne ou de mauvaise situation. Moi, si je devais résumer ma vie aujourd’hui avec vous, je dirais que c’est d’abord des rencontres. Des gens qui m’ont tendu la main, peut-être à un moment où je ne pouvais pas, où j’étais seul chez moi.")
 
 # JOUEUR
-player = Player((100, 100), "Test", game, all_sprites, collision_groups)
+player = Player((100, 100), "Test", all_sprites, collision_groups)
 
 # CAMERA
 camera = Camera(900, 600, 1000, 1000)
@@ -97,7 +93,7 @@ while running:
 
     # INPUT
     keys = pygame.key.get_pressed()
-    player.game.actions = {
+    player.action.actions = {
         'move up': keys[pygame.K_UP],
         'move down': keys[pygame.K_DOWN],
         'move left': keys[pygame.K_LEFT],
