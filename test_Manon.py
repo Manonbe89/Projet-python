@@ -1,5 +1,5 @@
 import pygame
-from Code.game.game import Game
+from Code.action.action import Action
 from Code.item.consumable_Item import Consumable_Item
 from Code.item.inventory import Inventory
 from Code.item.item import Item
@@ -7,8 +7,6 @@ from Code.item.usable_Item import Usable_Item
 from Code.map.camera import Camera
 from Code.map.collision_group import Collision_groups
 from Code.map.tile import Tile
-from Code.map.wall import Wall
-from Code.npc.npc import NPC
 from Code.player.player import Player
 from Code.player.interaction import Interaction
 from Code.save.save import Save
@@ -18,7 +16,7 @@ save = Save()
 screen = pygame.display.set_mode((900,600))        #définition de la fenêtre  avant 1000 500
 pygame.display.set_caption('jeux')                 #nom de la fenêtre
 clock = pygame.time.Clock()
-game = Game()
+action = Action()
 inventory = Inventory()
 
 # GROUPES 
@@ -34,7 +32,7 @@ font = pygame.font.Font(None, 32)
 
 collision_groups = Collision_groups(solid_walls, breakable_walls, pushable_walls, npc_group)
 
-player = Player((100, 100), "Test", game, all_sprites, collision_groups)
+player = Player((100, 100), "Test", action, all_sprites, collision_groups)
 save._load_data(screen, inventory, player)
 inventory._item_factory()
 
@@ -71,7 +69,7 @@ interaction = Interaction(player)
 current_item = inventory._get_current_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
-item = inventory._get_Item(0)
+item = inventory._get_Item(6)
 
 running = True
 while running:
@@ -96,7 +94,7 @@ while running:
     if not save._get_state_menu() : 
         # INPUT
         keys = pygame.key.get_pressed()
-        player.game.actions = {
+        player.action.actions = {
             'move up': keys[pygame.K_UP],
             'move down': keys[pygame.K_DOWN],
             'move left': keys[pygame.K_LEFT],

@@ -1,5 +1,5 @@
 import pygame
-class Game:
+class Action:
     def __init__(self):
         self.actions = {
             'move up': False,

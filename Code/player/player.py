@@ -1,12 +1,12 @@
 import pygame
-from Code.game.game import Game
+from Code.action.action import Action
 from Code.player.tilesheet import Tilesheet
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, name, game, groups, collision_groups):
+    def __init__(self, pos, name, action, groups, collision_groups):
         super().__init__(groups)
         self.collision_groups = collision_groups
-        self.game = Game()
+        self.action = Action()
 
         test_img = pygame.image.load("Images/Perso vue de devant_2.png").convert_alpha()
         self.base_titles = Tilesheet("Images/Perso vue de devant_2.png", 100, 100, 1, 1 )         #portfolio des sprites
@@ -125,7 +125,7 @@ class Player(pygame.sprite.Sprite):
     #update l'ensemble des fonctions de déplacements du joueur pour créer une animation fluide
     def update(self, dt, state):
         if state == False:
-            self._input(self.game.actions)
+            self._input(self.action.actions)
             self._get_statut()
             self._check_sprite()
             self._move(dt)
