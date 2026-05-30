@@ -1,3 +1,4 @@
 .venv/
 __pycache__/
 Code\npc\__pycache__
+Code\save\save.json

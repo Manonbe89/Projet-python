@@ -34,8 +34,6 @@ class Inventory:
     def _get_current_Item(self):
         if 0 <= self.current_item < len(self.item):
             return self.item[self.current_item]
-        else :
-            return self.item[0]      #a enlever quand tt les items seront entrés
     
     def _get_nb_current_Item(self) : 
         return self.current_item
@@ -43,13 +41,17 @@ class Inventory:
     def _get_Item(self, index) :
         return self.item[index]
     
+    def _get_item_status(self) : 
+        return self.item_status
+    
     def _get_state(self) :
         return self.open_inventory
     
-    def _get_item_status(self, index) :
-        return self.item_status[index]
-    
 #setters
+
+    def _set_nb_current_Item(self, Item) : 
+        self.current_item = Item
+
     def _set_Item(self, Item):
         self.item.append(Item)
 
@@ -57,7 +59,12 @@ class Inventory:
         self.inventory.append(Item)
 
     def _set_item_status(self, index) :
-        self.item_status[index] = 1
+        for i in range(len(self.item_status)) :
+            if index[i] :
+                self.item_status[i] = 1
+            else :
+                self.item_status[i] = 0
+
 
     def _check_inventory_status(self, event):
         if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
@@ -80,40 +87,36 @@ class Inventory:
                 if self.buttons[i].collidepoint(event.pos) and self.item_status[i] :
                     self.status_buttons[i] = 1
                     self.current_item = i
-                    print("bouton ok :", i)
         
     def _obtain_item(self, item, screen, font) :
         for i in range (18) :
-            if item == self._get_Item(i) :
-                if self.item_status[i] == 0 :
+            if item == self._get_Item(i) and self.item_status[i] == 0 :
                     self._set_Inventory(item)
                     screen.blit(font.render("Vous obtenez : " + item._get_Name(), True, (255, 255, 255)), (100, 500)) 
                     print ("vous obenez : " + item._get_Name())
                     self.item_status[i] = 1
 
-    def _display_item(self, screen, item) :
+    def _display_item(self, screen) :
         if self.open_inventory : 
-                
-                if self.item_status[0] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 29, self.y + 65))
+                j = 0
+                k = 1
+                for i in range(len(self.item)) :
+                     item = self.item[i]
+                     if self.item_status[i] == 1 :
+                        if 0 <= i <= 3 :
+                          x = 29 + i*63
+                          screen.blit(item._get_Picture(), (self.x + x, self.y + 65, 45, 45))
 
-                if self.item_status[4] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 26, self.y + 171))
+                        elif 4 <= i <= 11 :
+                          x = 29 + j*63
+                          j += 1
+                          screen.blit(item._get_Picture(), (self.x + x, self.y + 169, 45, 45))
 
-                if self.item_status[5] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 89, self.y + 171))
+                        elif 12 <= i <= 19 :
+                          x = 29 + k*63
+                          k += 1
+                          screen.blit(item._get_Picture(), (self.x + x, self.y + 227, 45, 45))
 
-                if self.item_status[6] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 154, self.y + 171))
-
-                if self.item_status[7] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 215, self.y + 171))
-
-                if self.item_status[8] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 279, self.y + 171))
-
-                if self.item_status[9] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 343, self.y + 171))
  
     def _item_factory(self) :
         rien = Item(0, "rien", "Vous ne faites rien", "", "")

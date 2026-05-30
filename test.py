@@ -4,7 +4,7 @@ from Code.npc.npc import NPC
 from Code.player.player import Player
 from Code.map.tile import Tile
 from Code.map.collision_group import Collision_groups
-from Code.game.game import Game
+from Code.game.action import Game
 from Code.player.interaction import Interaction
 
 # PROGRAMME DE TEST

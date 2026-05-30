@@ -30,7 +30,7 @@ class Interaction:
     
     #fonction d'interaction avec une bulle de dialogue (gère l'affichage du texte et la pagination)
     def _interact_with_text(self, screen, font, text_box):
-        space_action = self.player.game.actions['space']
+        space_action = self.player.action.actions['space']
         space = space_action and not self.last_space_action
 
         if self.in_action:

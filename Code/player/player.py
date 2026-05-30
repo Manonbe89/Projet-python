@@ -1,12 +1,13 @@
 import pygame
-from Code.game.game import Game
+from Code.action.action import Action
 from Code.player.tilesheet import Tilesheet
 from Code.movement import Movement
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, name, game, groups, collision_groups):
+    def __init__(self, pos, name, action, groups, collision_groups):
         super().__init__(groups)
-        self.game = Game()
+        self.collision_groups = collision_groups
+        self.action = Action()
 
         self.size = 100
         test_img = pygame.image.load("Images/Perso vue de devant_2.png").convert_alpha()
@@ -90,8 +91,17 @@ class Player(pygame.sprite.Sprite):
     def _get_stat(self, stat):
         return self.player_stat[stat]
     
+    def _get_stat_table(self) : 
+        return self.player_stat
+    
     def _set_stat(self, stat, change):
         self.player_stat[stat]+=change
+
+    def _set_stat_table(self, table) : 
+        self.player_stat = table
+
+    def _set_money(self, money_add):
+        self.money +=self.money_add
     
     def _get_pos(self, coo):
         if coo == 0 : 
@@ -99,5 +109,8 @@ class Player(pygame.sprite.Sprite):
         if coo == 1 :
             return self.pos.y
         
-    def _set_money(self, money_add):
-        self.money +=self.money_add
+    def _set_pos(self, x, y) :
+        self.pos.x = x
+        self.pos.y = y
+
+        
