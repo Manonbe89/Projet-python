@@ -9,7 +9,8 @@ from Code.map.collision_group import Collision_groups
 from Code.map.tile import Tile
 from Code.player.player import Player
 from Code.player.interaction import Interaction
-from Code.save.save import Save
+from Code.enemys.enemy import Enemy
+from Code.enemys.bestiary import Bestiary
 
 pygame.init()
 save = Save()
@@ -25,6 +26,7 @@ solid_walls = pygame.sprite.Group()
 breakable_walls = pygame.sprite.Group()
 pushable_walls = pygame.sprite.Group()
 npc_group = pygame.sprite.Group()
+enemy_group = pygame.sprite.Group()
 
 font = pygame.font.Font(None, 32)
 
@@ -39,7 +41,7 @@ inventory._item_factory()
 # MAP
 map_surface = pygame.Surface((1000, 1000))
 map_surface.fill((80, 180, 80))
-tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls, npc_group)
+tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls, npc_group, enemy_group)
 
 # MUR
 wall_surface = pygame.Surface((100, 100))
@@ -69,6 +71,10 @@ interaction = Interaction(player)
 current_item = inventory._get_current_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
+
+#enemy
+bestiary = Bestiary()
+tile._add_ennemy(bestiary.bat, 800, 800, collision_groups)
 
 running = True
 while running:

@@ -1,6 +1,7 @@
 import pygame
 from Code.action.action import Action
 from Code.player.tilesheet import Tilesheet
+from Code.movement import Movement
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, name, action, groups, collision_groups):
@@ -8,12 +9,13 @@ class Player(pygame.sprite.Sprite):
         self.collision_groups = collision_groups
         self.action = Action()
 
+        self.size = 100
         test_img = pygame.image.load("Images/Perso vue de devant_2.png").convert_alpha()
-        self.base_titles = Tilesheet("Images/Perso vue de devant_2.png", 100, 100, 1, 1 )         #portfolio des sprites
-        self.animations = {"down_sp": [test_img],
-                           "up_sp": [test_img],
-                           "left_sp": [test_img],
-                           "right_sp": [test_img],
+        self.base_titles = Tilesheet("Images/Perso vue de devant_2.png", self.size, self.size, 1, 1 )         #portfolio des sprites
+        self.animations = {"down_im": [test_img],
+                           "up_im": [test_img],
+                           "left_im": [test_img],
+                           "right_im": [test_img],
                            "down": [test_img],
                            "up": [test_img],
                            "left": [test_img],
@@ -21,9 +23,9 @@ class Player(pygame.sprite.Sprite):
         self.moving =False
 
         self.frame_index = 0
-        self.statut = 'down_sp'
-        self.sp_statut = ['up_sp', 'down_sp', 'left_sp', 'right_sp']    #les sprites statiques
-        self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (100,100))
+        self.statut = 'down'
+        self.im_statut = ['up_im', 'down_im', 'left_im', 'right_im']    #les sprites statiques
+        self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (self.size, self.size))
 
         self.name = name
         self.money = 0
@@ -42,20 +44,7 @@ class Player(pygame.sprite.Sprite):
         self.pos = pygame.math.Vector2(self.rect.center)
         self.hitbox = self.rect.copy().inflate(0, 0)
         self.speed =200
-
-    #regarde si le personnage est immobile ou en mouvement (utile notament pour savoir quelle sprite charger)
-    def _check_sprite(self):
-        if self.statut not in self.sp_statut:
-            self.moving = True
-        else:
-            self.moving = False
-    
-    #change le sprite du joueur (pour animer un déplacement)
-    def _animate(self, dt):
-        self.frame_index += 4*dt
-        if self.frame_index >= len(self.animations[self.statut]):
-            self.frame_index = 0
-        self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (100,100))
+        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, collision_groups)
 
     #regarde les input de déplacement du joueur et modifie les paramètre de déplacement en fonction
     def _input(self, actions):
@@ -77,59 +66,21 @@ class Player(pygame.sprite.Sprite):
         elif actions['move right']:
             self.statut = 'right'
             self.direction.x = 1
-
-    #transforme les sprite de mouvement en sprite statique
-    def _get_statut(self):
-        if self.direction.magnitude() == 0:
-            self.statut = self.statut.split('_')[0] + '_sp'
-            self.moving = False
-
-    #permet de déplacé la position du joueur et sa hitbox
-    def _move(self, dt):
-        if self.direction.magnitude() > 0:
-            self.direction = self.direction.normalize()
-
-        #déplacement horizontal
-        self.pos.x += self.direction.x * self.speed * dt
-        self.hitbox.centerx = round(self.pos.x)
-        self._collision("horizontal")
-
-        #déplacement vertical
-        self.pos.y += self.direction.y * self.speed * dt
-        self.hitbox.centery = round(self.pos.y)
-        self._collision("vertical")
-
-        #mise à jour du rect (affichage)
-        self.rect.center = self.hitbox.center
-
-    #regarde si le joueur rencontre un obstacle et retourne en arrière si c'est la cas
-    def _collision(self, direction):
-        for sprite in self.collision_groups._sprites():
-            if hasattr(sprite, "hitbox"):
-                if self.hitbox.colliderect(sprite.hitbox):
-
-                    if direction == "horizontal":
-                        if self.direction.x > 0:  # droite
-                            self.hitbox.right = sprite.hitbox.left
-                        elif self.direction.x < 0:  # gauche
-                            self.hitbox.left = sprite.hitbox.right
-                        self.pos.x = self.hitbox.centerx
-
-                    if direction == "vertical":
-                        if self.direction.y > 0:  # bas
-                            self.hitbox.bottom = sprite.hitbox.top
-                        elif self.direction.y < 0:  # haut
-                            self.hitbox.top = sprite.hitbox.bottom
-                        self.pos.y = self.hitbox.centery
     
     #update l'ensemble des fonctions de déplacements du joueur pour créer une animation fluide
+    def _update_data(self, frame_index, image, rect, direction, pos, hitbox):
+        self.frame_index = frame_index
+        self.image = image
+        self.rect = rect
+        self.direction = direction
+        self.pos = pos
+        self.hitbox = hitbox
+
     def update(self, dt, state):
         if state == False:
-            self._input(self.action.actions)
-            self._get_statut()
-            self._check_sprite()
-            self._move(dt)
-            self._animate(dt)
+            self._input(self.game.actions)
+            self.movement.update(dt)
+            self.movement._save_to_entity(self)
 
     def _get_Name(self):
         return self.name
