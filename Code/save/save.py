@@ -19,7 +19,7 @@ class Save() :
             nb_current_item = inventory._get_nb_current_Item()
             item_status = inventory._get_item_status()
             stats_player = player._get_stat_table()   
-            player_position = {"x" : player._get_pos(0), "y" :player._get_pos(0)}    
+            player_position = {"x" : player._get_pos(0), "y" :player._get_pos(1)}    
             data = {"inventory" : {"nb_current_item": nb_current_item,
                                    "item_status": item_status},
                     "player" : {"stats_player" : stats_player,

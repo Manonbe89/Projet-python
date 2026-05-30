@@ -1,14 +1,14 @@
 {
     "inventory": {
-        "nb_current_item": 0,
+        "nb_current_item": 6,
         "item_status": [
             1,
             0,
             0,
             0,
             1,
-            0,
-            0,
+            1,
+            1,
             0,
             0,
             0,
@@ -34,8 +34,8 @@
             "speed": 10
         },
         "player_position": {
-            "x": 100.0,
-            "y": 100.0
+            "x": 341.4007142674936,
+            "y": 450.0
         }
     }
 }

@@ -105,40 +105,18 @@ class Inventory:
                      if self.item_status[i] == 1 :
                         if 0 <= i <= 3 :
                           x = 29 + i*63
-                          screen.blit(item._get_Picture(), (self.x + x, self.y + 58, 45, 45))
+                          screen.blit(item._get_Picture(), (self.x + x, self.y + 65, 45, 45))
 
                         elif 4 <= i <= 11 :
                           x = 29 + j*63
                           j += 1
-                          screen.blit(item._get_Picture(), (self.x + x, self.y + 164, 45, 45))
+                          screen.blit(item._get_Picture(), (self.x + x, self.y + 169, 45, 45))
 
                         elif 12 <= i <= 19 :
                           x = 29 + k*63
                           k += 1
                           screen.blit(item._get_Picture(), (self.x + x, self.y + 227, 45, 45))
 
-
-
-                #if self.item_status[i] == 1 :
-                        #screen.blit(item._get_Picture(), (self.x + 29, self.y + 65))
-
-                #if self.item_status[4] == 1 :
-                    #screen.blit(item._get_Picture(), (self.x + 26, self.y + 171))
-
-                #if self.item_status[5] == 1 :
-                    #screen.blit(item._get_Picture(), (self.x + 89, self.y + 171))
-
-                #if self.item_status[6] == 1 :
-                    #screen.blit(item._get_Picture(), (self.x + 154, self.y + 171))
-
-                #if self.item_status[7] == 1 :
-                    #screen.blit(item._get_Picture(), (self.x + 215, self.y + 171))
-
-                #if self.item_status[8] == 1 :
-                    #screen.blit(item._get_Picture(), (self.x + 279, self.y + 171))
-
-                #if self.item_status[9] == 1 :
-                    #screen.blit(item._get_Picture(), (self.x + 343, self.y + 171))
  
     def _item_factory(self) :
         rien = Item(0, "rien", "Vous ne faites rien", "", "")
