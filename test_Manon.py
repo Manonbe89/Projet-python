@@ -69,7 +69,6 @@ interaction = Interaction(player)
 current_item = inventory._get_current_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
-item = inventory._get_Item(6)
 
 running = True
 while running:
@@ -81,7 +80,7 @@ while running:
 
         if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
              if event.key == pygame.K_g :
-                 inventory._obtain_item(item, screen, font)     
+                 inventory._obtain_item(inventory._get_Item(0), screen, font)     
                             
         inventory._check_inventory_status(event)
         inventory._check_buttons(event)
