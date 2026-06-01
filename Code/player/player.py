@@ -11,14 +11,20 @@ class Player(pygame.sprite.Sprite):
 
         self.size = 100
         test_img = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
-        self.animations = {"down_im": [pygame.image.load("Images/Perso vue de devant.png").convert_alpha()],
-                           "up_im": [pygame.image.load("Images/Perso vue de derriere.png").convert_alpha()],
-                           "left_im": [pygame.image.load("Images/Perso vue de profil gauche.png").convert_alpha()],
-                           "right_im": [pygame.image.load("Images/Perso vue de profil droite.png").convert_alpha()],
+        img_down_idle = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
+        img_up_idle = pygame.image.load("Images/Perso vue de derriere.png").convert_alpha()
+        img_left_idle = pygame.image.load("Images/Perso vue de profil gauche.png").convert_alpha()
+        img_right_idle = pygame.image.load("Images/Perso vue de profil droite.png").convert_alpha()
+        img_left_move = pygame.image.load("Images/Perso vue de profil gauche marche.png").convert_alpha()
+        img_right_move = pygame.image.load("Images/Perso vue de profil droite marche.png").convert_alpha()
+        self.animations = {"down_im": [img_down_idle],
+                           "up_im": [img_up_idle],
+                           "left_im": [img_left_idle],
+                           "right_im": [img_right_idle],
                            "down": [test_img],
                            "up": [test_img],
-                           "left": [pygame.image.load("Images/Perso vue de profil gauche marche.png").convert_alpha()],
-                           "right": [pygame.image.load("Images/Perso vue de profil droite marche.png").convert_alpha()],}                                    #les sprites de mouvement
+                           "left": [img_left_move, img_left_idle],
+                           "right": [img_right_move, img_right_idle],}                                    #les sprites de mouvement
         self.moving =False
 
         self.frame_index = 0
@@ -78,6 +84,8 @@ class Player(pygame.sprite.Sprite):
     def update(self, dt, state):
         if state == False:
             self._input(self.action.actions)
+            self.movement._change_direction(self.direction)
+            self.movement._set_statut(self.statut)
             self.movement.update(dt)
             self.movement._save_to_entity(self)
 
@@ -100,7 +108,7 @@ class Player(pygame.sprite.Sprite):
         self.player_stat = table
 
     def _set_money(self, money_add):
-        self.money +=self.money_add
+        self.money +=money_add
     
     def _get_pos(self, coo):
         if coo == 0 : 
