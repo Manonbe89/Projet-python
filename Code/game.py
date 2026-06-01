@@ -36,6 +36,7 @@ class Game :
         self.inventory._item_factory()
         pygame.display.set_caption('jeux')
 
+        self.player._set_current_tile(self.map.bedroom._get_tile())
         running = True
         while running:
             dt = self.clock.tick(60) / 1000
@@ -57,7 +58,7 @@ class Game :
             self.currentmap.camera._update(self.player)
 
             # DRAW
-            self.tile._draw(self.screen, self.currentmap.camera, dt, self.player, self.interaction._get_state())
+            self.player.current_tile._draw(self.screen, self.currentmap.camera, dt, self.player, self.interaction._get_state())
             self.screen.blit(self.player.image, self.currentmap.camera._apply(self.player.rect))
 
             # INTERACTION

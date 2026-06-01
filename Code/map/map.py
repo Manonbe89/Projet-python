@@ -25,6 +25,9 @@ class Bedroom :
         self.tile._add_solid_walls('left_bordure', 0,0, side_bordure)
         self.tile._add_solid_walls('right_bordure', 0,0, side_bordure)
 
+    def _get_tile(self):
+        return self.tile
+
 class Map : 
 
     def __init__(self, solid_walls, breakable_walls, pushable_walls, npc_group, enemy_group):
