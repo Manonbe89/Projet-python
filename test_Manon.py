@@ -11,7 +11,7 @@ from Code.player.player import Player
 from Code.player.interaction import Interaction
 from Code.enemys.enemy import Enemy
 from Code.enemys.bestiary import Bestiary
-from Code.save import Save
+from Code.save.save import Save
 
 pygame.init()
 save = Save()
@@ -113,7 +113,7 @@ while running:
         camera._update(player)
 
         # DRAW
-        tile._draw(screen, camera)
+        tile._draw(screen, camera, dt, player, interaction._get_state())
         screen.blit(player.image, camera._apply(player.rect))
 
         # INTERACTION

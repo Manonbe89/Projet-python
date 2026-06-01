@@ -10,16 +10,15 @@ class Player(pygame.sprite.Sprite):
         self.action = Action()
 
         self.size = 100
-        test_img = pygame.image.load("Images/Perso vue de devant_2.png").convert_alpha()
-        self.base_titles = Tilesheet("Images/Perso vue de devant_2.png", self.size, self.size, 1, 1 )         #portfolio des sprites
-        self.animations = {"down_im": [test_img],
-                           "up_im": [test_img],
-                           "left_im": [test_img],
-                           "right_im": [test_img],
+        test_img = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
+        self.animations = {"down_im": [pygame.image.load("Images/Perso vue de devant.png").convert_alpha()],
+                           "up_im": [pygame.image.load("Images/Perso vue de derriere.png").convert_alpha()],
+                           "left_im": [pygame.image.load("Images/Perso vue de profil gauche.png").convert_alpha()],
+                           "right_im": [pygame.image.load("Images/Perso vue de profil droite.png").convert_alpha()],
                            "down": [test_img],
                            "up": [test_img],
-                           "left": [test_img],
-                           "right": [test_img],}                                    #les sprites de mouvement
+                           "left": [pygame.image.load("Images/Perso vue de profil gauche marche.png").convert_alpha()],
+                           "right": [pygame.image.load("Images/Perso vue de profil droite marche.png").convert_alpha()],}                                    #les sprites de mouvement
         self.moving =False
 
         self.frame_index = 0
@@ -78,7 +77,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, dt, state):
         if state == False:
-            self._input(self.game.actions)
+            self._input(self.action.actions)
             self.movement.update(dt)
             self.movement._save_to_entity(self)
 
