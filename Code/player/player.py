@@ -1,5 +1,5 @@
 import pygame
-from Code.game.action import Action
+from Code.action.action import Action
 from Code.player.tilesheet import Tilesheet
 from Code.movement import Movement
 
@@ -20,6 +20,7 @@ class Player(pygame.sprite.Sprite):
                            "left": [test_img],
                            "right": [test_img],}                                    #les sprites de mouvement
         self.moving =False
+        self.current_tile = 0
 
         self.frame_index = 0
         self.statut = 'down'
@@ -101,3 +102,9 @@ class Player(pygame.sprite.Sprite):
         
     def _set_money(self, money_add):
         self.money +=self.money_add
+
+    def _set_current_tile(self, new_current_tile):
+        self.current_tile = new_current_tile
+
+    def _get_current_tile(self):
+        return self.current_tile

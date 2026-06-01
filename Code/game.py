@@ -6,6 +6,7 @@ from Code.map.collision_group import Collision_groups
 from Code.player.player import Player
 from Code.player.interaction import Interaction
 from Code.enemys.bestiary import Bestiary
+from Code.map.map import Map
 
 class Game : 
 
@@ -26,8 +27,7 @@ class Game :
         self.bestiary = Bestiary()
         self.screen = pygame.display.set_mode((900,600))
         self.clock = pygame.time.Clock()
-        self.current_map
-
+        self.map = Map(self.solid_walls, self.breakable_walls, self.pushable_walls, self.npc_group, self.enemy_group)
         self.item = self.inventory._get_Item(9)
 
     def _game_loop(self):
