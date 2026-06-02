@@ -21,8 +21,8 @@ class Player(pygame.sprite.Sprite):
                            "up_im": [img_up_idle],
                            "left_im": [img_left_idle],
                            "right_im": [img_right_idle],
-                           "down": [test_img],
-                           "up": [test_img],
+                           "down": [img_down_idle],
+                           "up": [img_up_idle],
                            "left": [img_left_move, img_left_idle],
                            "right": [img_right_move, img_right_idle],}                                    #les sprites de mouvement
         self.moving =False
