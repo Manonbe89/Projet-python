@@ -1,6 +1,5 @@
 #import Equipement
 import pygame
-import sys
 from Code.item.item import Item
 
 class Inventory:
@@ -12,7 +11,7 @@ class Inventory:
         self.open_inventory = False
         self.x = 175   
         self.y = 100                  #coordonnées de l'inventaire
-        self.current_item = 0
+        self.current_item = -1
 
         #Pour les boutons cliquables :
         self.status_buttons = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -32,6 +31,8 @@ class Inventory:
 
 #getters  
     def _get_current_Item(self):
+        if self.current_item == -1 : 
+            return self.item[1]
         if 0 <= self.current_item < len(self.item):
             return self.item[self.current_item]
     
@@ -100,8 +101,8 @@ class Inventory:
         if self.open_inventory : 
                 j = 0
                 k = 1
-                for i in range(len(self.item)) :
-                     item = self.item[i]
+                for i in range(len(self.inventory)) :
+                     item = self.inventory[i]
                      if self.item_status[i] == 1 :
                         if 0 <= i <= 3 :
                           x = 29 + i*63
