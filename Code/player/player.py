@@ -4,7 +4,7 @@ from Code.player.tilesheet import Tilesheet
 from Code.movement import Movement
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, name, groups, collision_groups):
+    def __init__(self, pos, name, groups):
         super().__init__(groups)
         self.action = Action()
 
@@ -20,7 +20,6 @@ class Player(pygame.sprite.Sprite):
                            "left": [test_img],
                            "right": [test_img],}                                    #les sprites de mouvement
         self.moving =False
-        self.current_tile = 0
 
         self.frame_index = 0
         self.statut = 'down'
@@ -44,7 +43,7 @@ class Player(pygame.sprite.Sprite):
         self.pos = pygame.math.Vector2(self.rect.center)
         self.hitbox = self.rect.copy().inflate(0, 0)
         self.speed =200
-        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, collision_groups)
+        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size)
 
     #regarde les input de déplacement du joueur et modifie les paramètre de déplacement en fonction
     def _input(self, actions):
@@ -76,10 +75,10 @@ class Player(pygame.sprite.Sprite):
         self.pos = pos
         self.hitbox = hitbox
 
-    def update(self, dt, state):
+    def update(self, dt, state, current_map):
         if state == False:
             self._input(self.action.actions)
-            self.movement.update(dt)
+            self.movement.update(dt, current_map)
             self.movement._save_to_entity(self)
 
     def _get_Name(self):
@@ -102,9 +101,3 @@ class Player(pygame.sprite.Sprite):
         
     def _set_money(self, money_add):
         self.money +=self.money_add
-
-    def _set_current_tile(self, new_current_tile):
-        self.current_tile = new_current_tile
-
-    def _get_current_tile(self):
-        return self.current_tile

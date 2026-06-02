@@ -12,13 +12,7 @@ class Game :
 
     def __init__(self):
         self.all_sprites = pygame.sprite.Group()
-        self.solid_walls = pygame.sprite.Group()
-        self.breakable_walls = pygame.sprite.Group()
-        self.pushable_walls = pygame.sprite.Group()
-        self.npc_group = pygame.sprite.Group()
-        self.enemy_group = pygame.sprite.Group()
-        self.player = Player((100, 100), "Test", self.all_sprites, self.collision_groups)
-        self.collision_groups = Collision_groups(self.solid_walls, self.breakable_walls, self.pushable_walls, self.npc_group)
+        self.player = Player((100, 100), "Test", self.all_sprites)
         self.interaction = Interaction(self.player)
         self.inventory = Inventory()
         self.uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
@@ -27,8 +21,8 @@ class Game :
         self.bestiary = Bestiary()
         self.screen = pygame.display.set_mode((900,600))
         self.clock = pygame.time.Clock()
-        self.map = Map(self.solid_walls, self.breakable_walls, self.pushable_walls, self.npc_group, self.enemy_group)
-        self.item = self.inventory._get_Item(9)
+        self.map = Map()
+        self.current_map = self.map.bedroom._get_tile()
 
     def _game_loop(self):
         pygame.init()
@@ -44,6 +38,9 @@ class Game :
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
+                    if event.key == pygame.K_g :
+                        self.inventory._obtain_item(self.inventory._get_Item(0), self.screen, self.font) 
 
             self.inventory._check_inventory_status(event)
             self.inventory._check_buttons(event)
@@ -54,7 +51,7 @@ class Game :
             self.player.action._set_keys(keys)
 
             # UPDATE
-            self.all_sprites.update(dt, self.interaction._get_state())
+            self.all_sprites.update(dt, self.interaction._get_state(), self.current_map)
             self.currentmap.camera._update(self.player)
 
             # DRAW
@@ -62,7 +59,7 @@ class Game :
             self.screen.blit(self.player.image, self.currentmap.camera._apply(self.player.rect))
 
             # INTERACTION
-            self.interaction._interact_npc(self.npc_group, self.screen)
+            self.interaction._interact_npc(self.current_map.npc_group, self.screen)
 
             self.inventory._display_inventory(self.screen)                            #affiche l'inventaire si la condition est respectée
             self.inventory._display_item(self.screen, self.item)

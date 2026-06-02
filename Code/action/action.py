@@ -1,7 +1,7 @@
 import pygame
 class Action:
     def __init__(self):
-        self.keys
+        self.keys = pygame.key.get_pressed()
         self.actions = {
             'move up': self.keys[pygame.K_UP],
             'move down': self.keys[pygame.K_DOWN],

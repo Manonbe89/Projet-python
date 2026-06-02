@@ -34,8 +34,6 @@ class Inventory:
     def _get_current_Item(self):
         if 0 <= self.current_item < len(self.item):
             return self.item[self.current_item]
-        else :
-            return self.item[0]      #a enlever quand tt les items seront entrés
     
     def _get_nb_current_Item(self) : 
         return self.current_item
