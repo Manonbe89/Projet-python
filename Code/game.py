@@ -40,14 +40,14 @@ class Game :
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
+                if event.type == pygame.KEYDOWN :                          # vérifie si l'événement keydown s'est produit ou non
                     if event.key == pygame.K_g :
                         self.inventory._obtain_item(self.inventory._get_Item(0), self.screen, self.font) 
 
-            self.inventory._check_inventory_status(event)
-            self.inventory._check_buttons(event)
-            #self.current_item._check_item_status(event, self.inventory)
-            self.save._check_buttons(event)
+                self.inventory._check_inventory_status(event)
+                self.inventory._check_buttons(event)
+                #self.current_item._check_item_status(event, self.inventory)
+                self.save._check_buttons(event)
 
             #SAVE
             self.save._display_menu(self.screen)
