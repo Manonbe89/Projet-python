@@ -8,7 +8,7 @@ class Inventory:
         self.item = [] 
         self.inventory = []
         self.item_status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        self.image = pygame.image.load('C:/Users/manon/Documents/Projet python S4/Frames/Inventaire_2.png').convert_alpha() #permet d'afficher l'image
+        self.image = pygame.image.load('Images/Inventaire.png').convert_alpha() #permet d'afficher l'image
         self.open_inventory = False
         self.x = 175   
         self.y = 100                  #coordonnées de l'inventaire

@@ -6,7 +6,7 @@ pygame.init()
 
 class Save() :
     def __init__(self) :
-        self.picture = pygame.image.load("C:/Users/manon/Documents/Projet python S4/Frames/Test menu jeu.png").convert_alpha()
+        self.picture = pygame.image.load("Images/Test_menu_jeu.png").convert_alpha()
         self.menu = 1
         self.buttons = []
         self.status_buttons = [0]
