@@ -10,15 +10,16 @@ from Code.player.player import Player
 from Code.player.interaction import Interaction
 from Code.enemys.enemy import Enemy
 from Code.enemys.bestiary import Bestiary
+from Code.save.save import Save
 
 pygame.init()
-
+save = Save()
 screen = pygame.display.set_mode((900,600))        #définition de la fenêtre  avant 1000 500
-pygame.display.set_caption('jeux')                  #nom de la fenêtre
+pygame.display.set_caption('jeux')                 #nom de la fenêtre
 clock = pygame.time.Clock()
 inventory = Inventory()
 
-# GROUPES (pas exploité (sauf all_sprites) mais nécessaire pour faire des déplacements)
+# GROUPES 
 all_sprites = pygame.sprite.Group()
 solid_walls = pygame.sprite.Group()
 breakable_walls = pygame.sprite.Group()
@@ -31,6 +32,10 @@ font = pygame.font.Font(None, 32)
 # SUPER GROUP
 
 collision_groups = Collision_groups(solid_walls, breakable_walls, pushable_walls, npc_group)
+
+player = Player((100, 100), "Test", action, all_sprites, collision_groups)
+save._load_data(screen, inventory, player)
+inventory._item_factory()
 
 # MAP
 map_surface = pygame.Surface((1000, 1000))
@@ -65,11 +70,9 @@ camera = Camera(900, 600, 1000, 1000)
 interaction = Interaction(player)
 
 #ma partie (test)
-inventory._item_factory()
 current_item = inventory._get_current_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
-item = inventory._get_Item(9)
 
 #enemy
 bestiary = Bestiary()
@@ -85,39 +88,44 @@ while running:
 
         if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
              if event.key == pygame.K_g :
-                 inventory._obtain_item(item, screen, font)     
+                 inventory._obtain_item(inventory._get_Item(7), screen, font)     
                             
         inventory._check_inventory_status(event)
         inventory._check_buttons(event)
         current_item._check_item_status(event, inventory)
+        save._check_buttons(event)
 
-    # INPUT
-    keys = pygame.key.get_pressed()
-    player.action.actions = {
-        'move up': keys[pygame.K_UP],
-        'move down': keys[pygame.K_DOWN],
-        'move left': keys[pygame.K_LEFT],
-        'move right': keys[pygame.K_RIGHT],
-        'space': keys[pygame.K_SPACE]
-    }
+    save._display_menu(screen)
+    save._get_data(inventory, player)
 
-    # UPDATE
-    all_sprites.update(dt, interaction._get_state())
-    camera._update(player)
+    if not save._get_state_menu() : 
+        # INPUT
+        keys = pygame.key.get_pressed()
+        player.action.actions = {
+            'move up': keys[pygame.K_UP],
+            'move down': keys[pygame.K_DOWN],
+            'move left': keys[pygame.K_LEFT],
+            'move right': keys[pygame.K_RIGHT],
+            'space': keys[pygame.K_SPACE]
+            }
 
-    # DRAW
-    tile._draw(screen, camera, dt, player, interaction._get_state())
-    screen.blit(player.image, camera._apply(player.rect))
+        # UPDATE
+        all_sprites.update(dt, interaction._get_state())
+        camera._update(player)
 
-    # INTERACTION
-    interaction._interact_npc(npc_group, screen, font)
+        # DRAW
+        tile._draw(screen, camera, dt, player, interaction._get_state())
+        screen.blit(player.image, camera._apply(player.rect))
 
-    current_item = inventory._get_current_Item()
-    inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
-    inventory._display_item(screen, item)
-    uitem._use_usable_Item(player, screen, font, inventory, current_item)
-    citem._Use_consumable_Item(screen, font, current_item)
-    screen.blit(font.render("Stats : " +                                                        #a enlever par la suite
+        # INTERACTION
+        interaction._interact_npc(npc_group, screen, font)
+
+        current_item = inventory._get_current_Item()
+        inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
+        inventory._display_item(screen)
+        uitem._use_usable_Item(player, screen, font, inventory, current_item)
+        citem._Use_consumable_Item(screen, font, current_item)
+        screen.blit(font.render("Stats : " +                                                        #a enlever par la suite
                                  "life = " + str(player._get_stat("life")) + " / " +
                                  "attack = " + str(player._get_stat("attack")) + " / " +
                                  "armor = " + str(player._get_stat("armor")) + " / " + 

@@ -11,14 +11,14 @@ class Movement :
         self.frame_index = 0
         self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (self.size,self.size))
         self.rect = self.image.get_rect(center = pos)
-        self.direction = pygame.math.Vector2(self.rect.center)
+        self.direction = pygame.math.Vector2()
         self.pos = pos
         self.hitbox = self.rect.copy().inflate(0, 0)
 
 
     def _change_direction(self, direction) :
         self.direction = direction
-        
+
     def _check_sprite(self):
         if self.statut not in self.im_statut:
             self.moving = True
