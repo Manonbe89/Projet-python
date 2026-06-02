@@ -23,6 +23,7 @@ class Game :
         self.clock = pygame.time.Clock()
         self.map = Map()
         self.current_map = self.map.bedroom._get_tile()
+        self._game_loop()
 
     def _game_loop(self):
         pygame.init()
@@ -30,7 +31,6 @@ class Game :
         self.inventory._item_factory()
         pygame.display.set_caption('jeux')
 
-        self.player._set_current_tile(self.map.bedroom._get_tile())
         running = True
         while running:
             dt = self.clock.tick(60) / 1000
