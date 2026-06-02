@@ -7,6 +7,7 @@ from Code.player.player import Player
 from Code.player.interaction import Interaction
 from Code.enemys.bestiary import Bestiary
 from Code.map.map import Map
+from Code.save.save import Save
 
 class Game : 
 
@@ -23,6 +24,8 @@ class Game :
         self.clock = pygame.time.Clock()
         self.map = Map()
         self.current_map = self.map.bedroom._get_tile()
+        self.save = Save()
+        self.save._load_data(self.screen, self.inventory, self.player)
         self._game_loop()
 
     def _game_loop(self):
@@ -44,7 +47,8 @@ class Game :
 
             self.inventory._check_inventory_status(event)
             self.inventory._check_buttons(event)
-            self.current_item._check_item_status(event, self.inventory)
+            #self.current_item._check_item_status(event, self.inventory)
+            self.save._check_buttons(event)
 
             # INPUT
             keys = pygame.key.get_pressed()
@@ -65,6 +69,10 @@ class Game :
             self.inventory._display_item(self.screen, self.item)
             self.uitem._use_usable_Item(self.player, self.screen, self.inventory, self.current_item)
             self.citem._Use_consumable_Item(self.screen, self.current_item)
+
+            #SAVE
+            self.save._display_menu(self.screen)
+            self.save._get_data(self.inventory, self.player)
 
 
             pygame.display.flip()

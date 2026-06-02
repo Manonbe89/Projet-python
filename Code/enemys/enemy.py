@@ -36,7 +36,7 @@ class Enemy(pygame.sprite.Sprite) :
         )
         self.loot = loot
         self.enemy_AI = Enemy_AI()
-        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, collision_groups)
+        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size)
         
         
     def _set_stat(self, life, attack, armor, magic_armor, magic, speed):
