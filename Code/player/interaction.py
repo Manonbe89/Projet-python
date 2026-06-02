@@ -8,14 +8,15 @@ class Interaction:
         self.player = player
         self.last_space_action = False
         self.in_action = False
+        self.font = pygame.font.Font(None, 32)
 
     #fonction d'interaction avec les npc (affiche une bulle de dialogue quand le joueur appuie sur espace à proximité d'un npc)
-    def _interact_npc(self, npc_group, screen, font):
+    def _interact_npc(self, npc_group, screen):
         npc = self._search_npc(npc_group)
         if npc is None:
             return
 
-        self._interact_with_text(screen, font, npc.text_box)
+        self._interact_with_text(screen, self.font, npc.text_box)
 
 
 
@@ -29,13 +30,13 @@ class Interaction:
         return None
     
     #fonction d'interaction avec une bulle de dialogue (gère l'affichage du texte et la pagination)
-    def _interact_with_text(self, screen, font, text_box):
+    def _interact_with_text(self, screen, text_box):
         space_action = self.player.action.actions['space']
         space = space_action and not self.last_space_action
 
         if self.in_action:
             # gérer la pagination
-            still_talking = self._handle_textbox(text_box, screen, font, space)
+            still_talking = self._handle_textbox(text_box, screen, self.font, space)
 
             if not still_talking:
                 self.in_action = False
@@ -45,12 +46,12 @@ class Interaction:
             if space:
                 self.in_action = True
                 text_box._reset()
-                text_box._show_text(screen, font)
+                text_box._show_text(screen, self.font)
 
         self.last_space_action = space_action
 
     
-    def _handle_textbox(self, text_box, screen, font, space):
+    def _handle_textbox(self, text_box, screen, space):
         # si on vient d'appuyer sur espace
         if space:
             # s'il reste une page → page suivante
@@ -62,7 +63,7 @@ class Interaction:
                 return False
 
         # afficher la page courante
-        text_box._show_text(screen, font)
+        text_box._show_text(screen, self.font)
         return True
 
     

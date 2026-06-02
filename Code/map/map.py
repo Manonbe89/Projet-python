@@ -6,14 +6,12 @@ from Code.map.object import Object
 
 class Bedroom : 
 
-    def __init__(self, solid_walls, breakable_walls, pushable_walls, npc_group, enemy_group):
+    def __init__(self):
         self.name = 'bedroom'
-        self.surf = pygame.image.load('Images/Bedroom.png').convert_alpha()
-        self.tile = Tile(self.surf,solid_walls, breakable_walls, pushable_walls, npc_group, enemy_group, self.camera)
-        self.object = Object()
+        self.surf = pygame.image.load('Images/Chambre1.png').convert_alpha()
         self.camera = Camera(900, 600, 500, 500)
-        self._create_map()
-
+        self.tile = Tile(self.surf, self.camera)
+        self.object = Object()
     def _create_map(self):
         table = pygame.transform.scale(object.invisible_wall, (50,50))
         bed = pygame.transform.scale(object.invisible_wall, (50,50))
@@ -31,8 +29,8 @@ class Bedroom :
 
 class Map : 
 
-    def __init__(self, solid_walls, breakable_walls, pushable_walls, npc_group, enemy_group):
-        self.bedroom = Bedroom(solid_walls, breakable_walls, pushable_walls, npc_group, enemy_group)
+    def __init__(self):
+        self.bedroom = Bedroom()
 
 
 

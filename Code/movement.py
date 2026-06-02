@@ -1,12 +1,11 @@
 import pygame
 
 class Movement :
-    def __init__(self, pos, statut, im_statut, animations, speed, size, collision_groups):
+    def __init__(self, pos, statut, im_statut, animations, speed, size):
         self.statut = statut
         self.im_statut = im_statut
         self.size = size
         self.animations = animations
-        self.collision_groups = collision_groups
         self.speed = speed
         
         self.frame_index = 0
@@ -37,25 +36,25 @@ class Movement :
             self.statut = self.statut.split('_')[0] + '_im'
             self.moving = False
 
-    def _move(self, dt):
+    def _move(self, dt, current_map):
         if self.direction.magnitude() > 0:
             self.direction = self.direction.normalize()
 
         #déplacement horizontal
         self.pos.x += self.direction.x * self.speed * dt
         self.hitbox.centerx = round(self.pos.x)
-        self._collision("horizontal")
+        self._collision("horizontal", current_map)
 
         #déplacement vertical
         self.pos.y += self.direction.y * self.speed * dt
         self.hitbox.centery = round(self.pos.y)
-        self._collision("vertical")
+        self._collision("vertical", current_map)
 
         #mise à jour du rect (affichage)
         self.rect.center = self.hitbox.center
 
-    def _collision(self, direction):
-        for sprite in self.collision_groups._sprites():
+    def _collision(self, direction, current_map):
+        for sprite in current_map._get_collision_group().get._sprites():
             if hasattr(sprite, "hitbox"):
                 if self.hitbox.colliderect(sprite.hitbox):
 
@@ -76,11 +75,9 @@ class Movement :
     def _save_to_entity(self, entity):
         entity._update_data(self.frame_index, self.image, self.rect, self.direction, self.pos, self.hitbox)
 
-    def _set_statut(self, statut):
-        self.statut = statut
-
-    def update(self, dt):
+    
+    def update(self, dt, current_map):
             self._get_statut()
             self._check_sprite()
-            self._move(dt)
+            self._move(dt, current_map)
             self._animate(dt)

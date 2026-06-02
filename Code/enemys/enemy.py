@@ -5,7 +5,7 @@ from Code.movement import Movement
 
 class Enemy(pygame.sprite.Sprite) : 
 
-    def __init__(self, name, size, path, pos, loot, detection_range, speed, groups, collision_groups):
+    def __init__(self, name, size, path, pos, loot, detection_range, speed, groups):
         super().__init__(groups)
         self.name = name
         self.size = size
@@ -36,7 +36,6 @@ class Enemy(pygame.sprite.Sprite) :
         )
         self.loot = loot
         self.enemy_AI = Enemy_AI()
-        self.collision_groups = collision_groups
         self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, collision_groups)
         
         
@@ -83,9 +82,9 @@ class Enemy(pygame.sprite.Sprite) :
         self.hitbox = hitbox
 
 
-    def update(self, dt, state, player):
+    def update(self, dt, state, player, current_map):
         if state == False:
             self.enemy_AI._update(player, self)
             self.movement._change_direction(self.direction)
-            self.movement.update(dt)
+            self.movement.update(dt, current_map)
             self.movement._save_to_entity(self)

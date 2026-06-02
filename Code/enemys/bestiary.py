@@ -10,8 +10,8 @@ class Bat :
         self.detection_range = 400
         self.speed = 100
 
-    def _create_enemy(self, pos, groups, collision_groups):
-        bat = Enemy(self.name, self.size, self.path, pos, self.loot, self.detection_range, self.speed, groups, collision_groups)
+    def _create_enemy(self, pos, groups):
+        bat = Enemy(self.name, self.size, self.path, pos, self.loot, self.detection_range, self.speed, groups)
         return bat
 
 class Bestiary : 

@@ -4,9 +4,8 @@ from Code.player.tilesheet import Tilesheet
 from Code.movement import Movement
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, name, action, groups, collision_groups):
+    def __init__(self, pos, name, groups):
         super().__init__(groups)
-        self.collision_groups = collision_groups
         self.action = Action()
 
         self.size = 100
@@ -49,7 +48,7 @@ class Player(pygame.sprite.Sprite):
         self.pos = pygame.math.Vector2(self.rect.center)
         self.hitbox = self.rect.copy().inflate(0, 0)
         self.speed =200
-        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, collision_groups)
+        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size)
 
     #regarde les input de déplacement du joueur et modifie les paramètre de déplacement en fonction
     def _input(self, actions):
@@ -81,7 +80,7 @@ class Player(pygame.sprite.Sprite):
         self.pos = pos
         self.hitbox = hitbox
 
-    def update(self, dt, state):
+    def update(self, dt, state, current_map):
         if state == False:
             self._input(self.action.actions)
             self.movement._change_direction(self.direction)
