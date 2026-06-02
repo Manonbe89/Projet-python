@@ -85,7 +85,7 @@ class Player(pygame.sprite.Sprite):
             self._input(self.action.actions)
             self.movement._change_direction(self.direction)
             self.movement._set_statut(self.statut)
-            self.movement.update(dt)
+            self.movement.update(dt, current_map)
             self.movement._save_to_entity(self)
 
     def _get_Name(self):

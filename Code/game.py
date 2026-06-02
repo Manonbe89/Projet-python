@@ -29,7 +29,6 @@ class Game :
         self._game_loop()
 
     def _game_loop(self):
-        pygame.init()
 
         self.inventory._item_factory()
         pygame.display.set_caption('jeux')
@@ -50,33 +49,33 @@ class Game :
             #self.current_item._check_item_status(event, self.inventory)
             self.save._check_buttons(event)
 
-            # INPUT
-            keys = pygame.key.get_pressed()
-            self.player.action._set_keys(keys)
-
-            # UPDATE
-            self.all_sprites.update(dt, self.interaction._get_state(), self.current_map)
-            self.currentmap.camera._update(self.player)
-
-            # DRAW
-            self.player.current_tile._draw(self.screen, self.currentmap.camera, dt, self.player, self.interaction._get_state())
-            self.screen.blit(self.player.image, self.currentmap.camera._apply(self.player.rect))
-
-            # INTERACTION
-            self.interaction._interact_npc(self.current_map.npc_group, self.screen)
-
-            self.inventory._display_inventory(self.screen)                            #affiche l'inventaire si la condition est respectée
-            self.inventory._display_item(self.screen, self.item)
-            self.uitem._use_usable_Item(self.player, self.screen, self.inventory, self.current_item)
-            self.citem._Use_consumable_Item(self.screen, self.current_item)
-
             #SAVE
             self.save._display_menu(self.screen)
             self.save._get_data(self.inventory, self.player)
 
+            # INPUT
+            if not self.save._get_state_menu():
+                keys = pygame.key.get_pressed()
+                self.player.action._set_keys(keys)
+
+                # UPDATE
+                self.all_sprites.update(dt, self.interaction._get_state(), self.current_map)
+                self.current_map.camera._update(self.player)
+
+                # DRAW
+                self.current_map._draw(self.screen, dt, self.player, self.interaction._get_state())
+                self.screen.blit(self.player.image, self.current_map.camera._apply(self.player.rect))
+
+                # INTERACTION
+                self.interaction._interact_npc(self.current_map.npc_group, self.screen)
+
+                self.inventory._display_inventory(self.screen)                            #affiche l'inventaire si la condition est respectée
+                self.inventory._display_item(self.screen)
+                #self.uitem._use_usable_Item(self.player, self.screen, self.inventory, self.current_item)
+                #self.citem._Use_consumable_Item(self.screen, self.current_item)
+
 
             pygame.display.flip()
-            pygame.quit()
 
 
 

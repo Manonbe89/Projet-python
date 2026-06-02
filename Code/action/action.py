@@ -12,3 +12,4 @@ class Action:
 
     def _set_keys(self, keys):
         self.keys = keys
+        return self.actions

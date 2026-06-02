@@ -54,7 +54,7 @@ class Movement :
         self.rect.center = self.hitbox.center
 
     def _collision(self, direction, current_map):
-        for sprite in current_map._get_collision_group().get._sprites():
+        for sprite in current_map._get_collision_group()._sprites():
             if hasattr(sprite, "hitbox"):
                 if self.hitbox.colliderect(sprite.hitbox):
 
@@ -81,3 +81,6 @@ class Movement :
             self._check_sprite()
             self._move(dt, current_map)
             self._animate(dt)
+
+    def _set_statut(self, statut):
+        self.statut = statut

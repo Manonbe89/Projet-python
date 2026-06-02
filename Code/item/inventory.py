@@ -14,6 +14,8 @@ class Inventory:
         self.y = 100                  #coordonnées de l'inventaire
         self.current_item = 0
 
+        self.font = pygame.font.Font(None, 32)
+
         #Pour les boutons cliquables :
         self.status_buttons = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.buttons = []
@@ -71,7 +73,7 @@ class Inventory:
              if event.key == pygame.K_i :                           # vérifie si la touche "i" a été pressée
                 self.open_inventory = not self.open_inventory       #inverse l'état de self.open_inventory
 
-    def _display_inventory(self, screen, font):
+    def _display_inventory(self, screen):
         if self.open_inventory : 
             screen.blit(self.image, (self.x, self.y))                     #affiche l'écran d'inventaire
 
@@ -79,7 +81,7 @@ class Inventory:
                         item = self.item[self.current_item]
                         item._set_Name(item._get_Name())
                         screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
-                        screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
+                        screen.blit(self.font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
 
     def _check_buttons(self, event) :
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -88,11 +90,11 @@ class Inventory:
                     self.status_buttons[i] = 1
                     self.current_item = i
         
-    def _obtain_item(self, item, screen, font) :
+    def _obtain_item(self, item, screen) :
         for i in range (18) :
             if item == self._get_Item(i) and self.item_status[i] == 0 :
                     self._set_Inventory(item)
-                    screen.blit(font.render("Vous obtenez : " + item._get_Name(), True, (255, 255, 255)), (100, 500)) 
+                    screen.blit(self.font.render("Vous obtenez : " + item._get_Name(), True, (255, 255, 255)), (100, 500)) 
                     print ("vous obenez : " + item._get_Name())
                     self.item_status[i] = 1
 
