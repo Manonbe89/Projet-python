@@ -12,16 +12,17 @@ class Consumable_Item (Item):
         self.usage = usage
         self.description = description
         self.picture = picture
+        self.font = pygame.font.Font(None, 32)
 
-    def _Use_consumable_Item(self, screen, font, item):
+    def _Use_consumable_Item(self, screen, item):
         if item.dialogue_step == 1 :
-                    screen.blit(font.render("Vous utilisez : " + item._get_Name(), True, (255, 255, 255)), (300, 200))  #affiche le texte
-                    item._show_passage_text(1, screen, font)
+                    screen.blit(self.font.render("Vous utilisez : " + item._get_Name(), True, (255, 255, 255)), (300, 200))  #affiche le texte
+                    item._show_passage_text(1, screen, self.font)
 
         elif item.dialogue_step == 2 :
             
-            screen.blit(font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
-            item._show_passage_text(1, screen, font) 
+            screen.blit(self.font.render(item._get_Usage(), True, (255, 255, 255)), (300, 200))
+            item._show_passage_text(1, screen, self.font) 
             self._apply_effect(item)
 
         elif item.dialogue_step >= 3 :

@@ -12,7 +12,6 @@ class Usable_Item (Item):
         self.usage = usage
         self.description = description
         self.picture = picture
-
         self.font = pygame.font.Font(None, 32)
 
 

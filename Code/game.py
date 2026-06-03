@@ -16,9 +16,9 @@ class Game :
         self.player = Player((100, 100), "Test", self.all_sprites)
         self.interaction = Interaction(self.player)
         self.inventory = Inventory()
+        self.inventory._item_factory()
         self.uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
         self.citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
-        self.current_item = self.inventory._get_current_Item()
         self.bestiary = Bestiary()
         self.screen = pygame.display.set_mode((900,600))
         self.clock = pygame.time.Clock()
@@ -30,7 +30,6 @@ class Game :
 
     def _game_loop(self):
 
-        self.inventory._item_factory()
         pygame.display.set_caption('jeux')
 
         running = True
@@ -42,11 +41,12 @@ class Game :
                     running = False
                 if event.type == pygame.KEYDOWN :                          # vérifie si l'événement keydown s'est produit ou non
                     if event.key == pygame.K_g :
-                        self.inventory._obtain_item(self.inventory._get_Item(0), self.screen) 
+                        self.inventory._obtain_item(self.inventory._get_Item(6), self.screen) 
 
+                self.current_item = self.inventory._get_current_Item()
                 self.inventory._check_inventory_status(event)
                 self.inventory._check_buttons(event)
-                #self.current_item._check_item_status(event, self.inventory)
+                self.current_item._check_item_status(event, self.inventory)
                 self.save._check_buttons(event)
 
             #SAVE
@@ -71,8 +71,8 @@ class Game :
 
                 self.inventory._display_inventory(self.screen)                            #affiche l'inventaire si la condition est respectée
                 self.inventory._display_item(self.screen)
-                #self.uitem._use_usable_Item(self.player, self.screen, self.inventory, self.current_item)
-                #self.citem._Use_consumable_Item(self.screen, self.current_item)
+                self.uitem._use_usable_Item(self.player, self.screen, self.inventory, self.current_item)
+                self.citem._Use_consumable_Item(self.screen, self.current_item)
 
 
             pygame.display.flip()
