@@ -17,9 +17,5 @@ class Fight_Entity:
     def _get_sprite(self):
         return self.combat_sprite
     
-
-    def _get_spells(self):
-        return self.spells
-    
     def _get_objects(self):
         return self.objects

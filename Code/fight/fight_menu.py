@@ -12,7 +12,6 @@ class Fight_Menu :
             "Objet",
             "Fuir"
         ]
-
         self.main_index = 0
 
         # sub menu
@@ -20,7 +19,10 @@ class Fight_Menu :
         self.sub_index = 0
 
         self.in_sub_menu = False
-        self.current_option = "Attaque"
+        self.finished = False
+        self.locked_action = None
+        self.target = None
+        self.selected_option = None
 
         self._update_sub_menu()
 
@@ -29,7 +31,7 @@ class Fight_Menu :
         current = self.main_options[self.main_index]
 
         if current == "Attaque":
-            self.sub_options = ["Attaque normale", "Attaque magique"]
+            self.sub_options = ["Attaque physique", "Attaque magique"]
 
         else:
             self.sub_options = []
@@ -68,6 +70,35 @@ class Fight_Menu :
 
                 elif event.key == pygame.K_LEFT:
                     self.in_sub_menu = False
+    
+            if event.key == pygame.K_SPACE:
+                option = self._get_current_option()
+                if option in ("Attaque physique", "Attaque magique", "Objet", "Fuir"):
+                    self.finished = True
+                    self.selected_option = option
+
+    def _get_current_option(self):
+            if self.in_sub_menu and self.sub_options:
+                return self.sub_options[self.sub_index]
+
+            return self.main_options[self.main_index]
+    
+    def _get_selected_option(self):
+        return self.selected_option
+    
+    def _get_entity(self):
+        return self.entity
+    
+    def _get_target(self):
+        return self.target
+    
+    def _reset(self):
+        self.in_sub_menu = False
+        self.finished = False
+        self.locked_action = None
+        self.main_index = 0
+        self.sub_index = 0
+
 
     def _draw(self, screen):
         menu_high = 420
@@ -83,7 +114,6 @@ class Fight_Menu :
 
             if not self.in_sub_menu and i == self.main_index:
                 color = (255, 255, 0)
-                self.current_option = option
             else:
                 color = (255, 255, 255)
 
@@ -95,11 +125,8 @@ class Fight_Menu :
 
             if self.in_sub_menu and i == self.sub_index:
                 color = (255, 255, 0)
-                self.current_option = option
             else:
                 color = (255, 255, 255)
 
             text = self.font.render(str(option), True, color)
             screen.blit(text, (320, menu_high + i * 40))
-
-        print(self.current_option)
