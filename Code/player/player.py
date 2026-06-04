@@ -5,10 +5,11 @@ from Code.movement import Movement
 from Code.fight.fight_entity import Fight_Entity
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, name, game, groups, collision_groups):
+    def __init__(self, pos, name, game, groups, collision_groups, inventory):
         super().__init__(groups)
         self.game = Game()
 
+        self.inventory = inventory
         self.size = 100
         test_img = pygame.image.load("Images/Perso vue de devant_2.png").convert_alpha()
         self.base_titles = Tilesheet("Images/Perso vue de devant_2.png", self.size, self.size, 1, 1 )         #portfolio des sprites
@@ -45,7 +46,7 @@ class Player(pygame.sprite.Sprite):
         self.hitbox = self.rect.copy().inflate(0, 0)
         self.speed =200
         self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, collision_groups)
-        self.fight_entity = Fight_Entity(self.name, self.animations["down_im"][0],self.player_stat,["rien"],["Fire", "ice"])
+        self.fight_entity = Fight_Entity(self.name, self.animations["down_im"][0],self.player_stat,self.inventory)
 
     #regarde les input de déplacement du joueur et modifie les paramètre de déplacement en fonction
     def _input(self, actions):

@@ -2,12 +2,11 @@ import pygame
 
 class Fight_Entity:
 
-    def __init__(self, name, combat_sprite, statistic, items, spells):
+    def __init__(self, name, combat_sprite, statistic, items):
         self.name = name
         self.statistic = statistic
         self.combat_sprite = combat_sprite
         self.items = items
-        self.spells = spells
 
     def _get_stat(self, stat):
         return self.statistic[stat]

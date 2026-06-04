@@ -9,7 +9,6 @@ class Fight_Menu :
         # main menu
         self.main_options = [
             "Attaque",
-            "Sort",
             "Objet",
             "Fuir"
         ]
@@ -21,6 +20,7 @@ class Fight_Menu :
         self.sub_index = 0
 
         self.in_sub_menu = False
+        self.current_option = "Attaque"
 
         self._update_sub_menu()
 
@@ -28,14 +28,8 @@ class Fight_Menu :
 
         current = self.main_options[self.main_index]
 
-        if current == "Sort":
-            self.sub_options = self.entity.spells
-
-        elif current == "Objet":
-            self.sub_options = self.entity.items
-
-        elif current == "Attaque":
-            self.sub_options = ["Attaque normale"]
+        if current == "Attaque":
+            self.sub_options = ["Attaque normale", "Attaque magique"]
 
         else:
             self.sub_options = []
@@ -89,6 +83,7 @@ class Fight_Menu :
 
             if not self.in_sub_menu and i == self.main_index:
                 color = (255, 255, 0)
+                self.current_option = option
             else:
                 color = (255, 255, 255)
 
@@ -100,8 +95,11 @@ class Fight_Menu :
 
             if self.in_sub_menu and i == self.sub_index:
                 color = (255, 255, 0)
+                self.current_option = option
             else:
                 color = (255, 255, 255)
 
             text = self.font.render(str(option), True, color)
             screen.blit(text, (320, menu_high + i * 40))
+
+        print(self.current_option)
