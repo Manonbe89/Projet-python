@@ -24,6 +24,8 @@ class Fight_Menu :
         self.target = None
         self.selected_option = None
 
+        self.selecting_target = False
+
         self._update_sub_menu()
 
     def _update_sub_menu(self):
@@ -40,42 +42,48 @@ class Fight_Menu :
 
     def _handle_event(self, event):
 
-        if event.type == pygame.KEYDOWN:
+        if event.type != pygame.KEYDOWN:
+            return
 
-            if not self.in_sub_menu:
+        if not self.in_sub_menu:
 
-                if event.key == pygame.K_UP:
-                    self.main_index -= 1
-                    self.main_index %= len(self.main_options)
-                    self._update_sub_menu()
+            if event.key == pygame.K_UP:
+                self.main_index -= 1
+                self.main_index %= len(self.main_options)
+                self._update_sub_menu()
 
-                elif event.key == pygame.K_DOWN:
-                    self.main_index += 1
-                    self.main_index %= len(self.main_options)
-                    self._update_sub_menu()
+            elif event.key == pygame.K_DOWN:
+                self.main_index += 1
+                self.main_index %= len(self.main_options)
+                self._update_sub_menu()
 
-                elif event.key == pygame.K_RIGHT:
-                    if self.sub_options:
-                        self.in_sub_menu = True
+            elif event.key == pygame.K_RIGHT:
+                if self.sub_options:
+                    self.in_sub_menu = True
 
-            else:
+        else:
 
-                if event.key == pygame.K_UP:
-                    self.sub_index -= 1
-                    self.sub_index %= len(self.sub_options)
+            if event.key == pygame.K_UP:
+                self.sub_index -= 1
+                self.sub_index %= len(self.sub_options)
 
-                elif event.key == pygame.K_DOWN:
-                    self.sub_index += 1
-                    self.sub_index %= len(self.sub_options)
+            elif event.key == pygame.K_DOWN:
+                self.sub_index += 1
+                self.sub_index %= len(self.sub_options)
 
-                elif event.key == pygame.K_LEFT:
-                    self.in_sub_menu = False
-    
-            if event.key == pygame.K_SPACE:
-                option = self._get_current_option()
-                if option in ("Attaque physique", "Attaque magique", "Objet", "Fuir"):
-                    self.finished = True
-                    self.selected_option = option
+            elif event.key == pygame.K_LEFT:
+                self.in_sub_menu = False
+
+        if event.key == pygame.K_SPACE:
+            option = self._get_current_option()
+
+            if option in ("Attaque physique", "Attaque magique"):
+                self.selected_option = option
+                self.selecting_target = True
+
+            elif option in ("Objet", "Fuir"):
+                self.selected_option = option
+                self.finished = True
 
     def _get_current_option(self):
             if self.in_sub_menu and self.sub_options:

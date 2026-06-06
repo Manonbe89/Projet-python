@@ -25,7 +25,7 @@ class Interaction:
         enemy = self._search_enemy(enemy_group)
         if enemy is None:
             return
-        entities = [self.player.fight_entity, enemy.fight_entity]
+        entities = [self.player.fight_entity, enemy.fight_entity, enemy.fight_entity]
         self._start_combat(entities,allies_nb=1)
 
     def _start_combat(self, entities, allies_nb):

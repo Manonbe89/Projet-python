@@ -6,7 +6,7 @@ class Bat :
     def __init__(self):
         self.name = "bat"
         self.size = 25
-        self.path = 'Images/bat.png'
+        self.path = 'Images/epee_2.png'
         self.loot = 0
         self.detection_range = 400
         self.speed = 100

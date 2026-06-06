@@ -18,22 +18,61 @@ class Fight :
         for ally in self.allies:
             self.menus.append(Fight_Menu(ally))
 
+        self.target_index = 0
+        self.selecting_target = True
 
     def _handle_event(self, event):
+
         if self.state != "INPUT":
             return
-        
-        self.menus[self.active_menu_index]._handle_event(event)
-        if self.menus[self.active_menu_index].finished:
+
+        menu = self.menus[self.active_menu_index]
+
+        if menu.selecting_target:
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_DOWN:
+                    self.target_index = (self.target_index - 1) % len(self.enemys)
+
+                elif event.key == pygame.K_UP:
+                    self.target_index = (self.target_index + 1) % len(self.enemys)
+
+                elif event.key == pygame.K_SPACE:
+                    menu.target = self.enemys[self.target_index]
+                    menu.finished = True
+                    menu.selecting_target = False
+                    self._lock_action()
+
+                elif event.key == pygame.K_ESCAPE:
+                    menu.selecting_target = False
+            return
+
+        menu._handle_event(event)
+
+        if (menu.finished and menu._get_selected_option() in ("Objet", "Fuir")):
             self._lock_action()
 
     def _draw(self, screen):
         screen.blit(self.background_image, (0,0))
         for i, ally in enumerate(self.allies):
-            screen.blit(ally._get_sprite(), (100*(i+1),100*(i+1)))
+            screen.blit(ally._get_sprite(), (100,100*(i+1)))
+
+        menu = self.menus[self.active_menu_index]
 
         for i, enemy in enumerate(self.enemys):
-            screen.blit(enemy._get_sprite(), (800*(i+1),100*(i+1)))
+            pos = (800,100*(i+1))
+            sprite = enemy._get_sprite()
+
+            screen.blit(sprite, pos)
+
+            if menu.selecting_target and i == self.target_index:
+                rect = sprite.get_rect(topleft=pos)
+                pygame.draw.rect(
+                    screen,
+                    (255,255,0),
+                    rect.inflate(10,10),
+                    3
+                )
 
         for menu in self.menus:
             menu._draw(screen)
@@ -65,14 +104,6 @@ class Fight :
 
         actions.sort(key=lambda action: action.user._get_stat("speed"), reverse=True)
         return actions
-    
-    def _select_enemy(self):
-        menu = self.menus[self.active_menu_index]
-        if menu._get_selected_option() in ("Objet","Fuir"):
-            menu.target = menu._get_entity()
-
-        else :
-            menu.target = random.choice(self.enemys)
 
     def _resolve_turn(self):
         actions = self._get_all_actions()
@@ -84,8 +115,10 @@ class Fight :
             menu._reset()
 
     def _lock_action(self):
-        self._select_enemy()
         menu = self.menus[self.active_menu_index]
+
+        if menu._get_selected_option() in ("Objet", "Fuir"):
+            menu.target = menu._get_entity()
 
         menu.locked_action = Fight_action(
             menu._get_entity(),
@@ -98,5 +131,6 @@ class Fight :
             self.active_menu_index = 0
             self.state = "RESOLVE"
             self._resolve_turn()
+
     
         
