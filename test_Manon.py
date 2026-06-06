@@ -133,8 +133,9 @@ while running:
         fight = interaction._get_current_fight()
         fight._draw(screen)
         if interaction._get_current_fight()._is_finished():
-            interaction._set_world_state('world')
             tile._delete_an_enemy(interaction)
+            interaction._return_to_world()
+
 
     pygame.display.flip()
 

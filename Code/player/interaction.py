@@ -102,3 +102,7 @@ class Interaction:
     
     def _set_world_state(self, world_state):
         self.state = world_state
+
+    def _return_to_world(self):
+        self.state = 'world'
+        self.in_action = False
