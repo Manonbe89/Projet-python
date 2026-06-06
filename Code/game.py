@@ -7,6 +7,7 @@ from Code.player.player import Player
 from Code.player.interaction import Interaction
 from Code.enemys.bestiary import Bestiary
 from Code.map.map import Map
+from Code.map.teleportation import Teleportation
 from Code.save.save import Save
 
 class Game : 
@@ -23,8 +24,9 @@ class Game :
         self.screen = pygame.display.set_mode((900,600))
         self.clock = pygame.time.Clock()
         self.map = Map()
-        self.current_map = self.map.first_village._get_tile()
+        self.current_map = self.map._get_current_map()
         self.save = Save()
+        self.teleportation = Teleportation()
         self.save._load_data(self.screen, self.inventory, self.player)
         self._game_loop()
 

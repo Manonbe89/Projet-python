@@ -4,7 +4,27 @@ from Code.map.tile import Tile
 from Code.map.object import Object
 
 
-class Bedroom : 
+class Map : 
+
+    def __init__(self):
+        self.bedroom = Bedroom()
+        self.first_village = First_Village()
+        self.current_map = self.bedroom._get_tile()
+
+    def _get_tile(self):
+        return self.tile
+    
+    def _get_name_map(self) : 
+        return self.name
+    
+    def _get_current_map(self) :
+        return self.current_map
+    
+    def _set_current_map(self, name) :
+        self.current_map = name
+    
+
+class Bedroom(Map) : 
 
     def __init__(self):
         self.name = 'bedroom'
@@ -25,17 +45,14 @@ class Bedroom :
         self.tile._add_solid_walls('bot_bordure', 202, 560, top_bordure)
         self.tile._add_solid_walls('left_bordure', 202,60, side_bordure)
         self.tile._add_solid_walls('right_bordure', 701,60, side_bordure)
-
-    def _get_tile(self):
-        return self.tile
     
 
-class First_Village : 
+class First_Village(Map) : 
 
     def __init__(self):
         self.name = 'first_village'
         self.surf = pygame.image.load("Images/Map.png").convert_alpha()
-        self.camera = Camera(900, 600, 500, 500)
+        self.camera = Camera(900, 600, 1000, 1000)
         self.tile = Tile(self.surf, self.camera)
         self.object = Object()
         self._create_map()
@@ -49,12 +66,4 @@ class First_Village :
         self.tile._add_solid_walls('bot_bordure', 30, 970, top_bordure)
         self.tile._add_solid_walls('left_bordure', 30, 30, side_bordure)
         self.tile._add_solid_walls('right_bordure', 970, 30, side_bordure)
-
-    def _get_tile(self):
-        return self.tile
     
-class Map : 
-
-    def __init__(self):
-        self.bedroom = Bedroom()
-        self.first_village = First_Village()
