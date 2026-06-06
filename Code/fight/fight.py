@@ -20,6 +20,7 @@ class Fight :
 
         self.target_index = 0
         self.selecting_target = True
+        self.finished = False
 
     def _handle_event(self, event):
 
@@ -108,7 +109,9 @@ class Fight :
     def _resolve_turn(self):
         actions = self._get_all_actions()
         for action in actions:
-            print(action.user.name, action.action_type, action.target.name)
+            self.finished = self.fight_calculator._execute_action(action, self.enemys, self.allies)
+            if self.finished == True:
+                return
 
         self.state = "INPUT"
         for menu in self.menus:
@@ -131,6 +134,9 @@ class Fight :
             self.active_menu_index = 0
             self.state = "RESOLVE"
             self._resolve_turn()
+
+    def _is_finished(self):
+        return self.finished
 
     
         

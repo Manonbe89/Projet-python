@@ -10,6 +10,7 @@ class Interaction:
         self.last_space_action = False
         self.in_action = False
         self.state = 'world'
+        self.current_enemy = None
 
     def _search_enemy(self, enemy_group):
         self.interaction_rect = self.player.hitbox.copy()
@@ -18,6 +19,7 @@ class Interaction:
             if self.interaction_rect.colliderect(enemy.hitbox):
                 self.in_action = True
                 self.state = 'fight'
+                self.current_enemy = enemy
                 return enemy
         return None
 
@@ -97,3 +99,6 @@ class Interaction:
     
     def _get_world_state(self):
         return self.state
+    
+    def _set_world_state(self, world_state):
+        self.state = world_state

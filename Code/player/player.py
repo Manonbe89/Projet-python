@@ -5,7 +5,7 @@ from Code.movement import Movement
 from Code.fight.fight_entity import Fight_Entity
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, name, game, groups, collision_groups, inventory):
+    def __init__(self, pos, name, game, groups, inventory):
         super().__init__(groups)
         self.game = Game()
 
@@ -45,7 +45,7 @@ class Player(pygame.sprite.Sprite):
         self.pos = pygame.math.Vector2(self.rect.center)
         self.hitbox = self.rect.copy().inflate(0, 0)
         self.speed =200
-        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, collision_groups)
+        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size)
         self.fight_entity = Fight_Entity(self.name, self.animations["down_im"][0],self.player_stat,self.inventory)
 
     #regarde les input de déplacement du joueur et modifie les paramètre de déplacement en fonction
@@ -78,10 +78,10 @@ class Player(pygame.sprite.Sprite):
         self.pos = pos
         self.hitbox = hitbox
 
-    def update(self, dt, state):
+    def update(self, dt, state, current_map):
         if state == False:
             self._input(self.game.actions)
-            self.movement.update(dt)
+            self.movement.update(dt, current_map)
             self.movement._save_to_entity(self)
 
     def _get_Name(self):
@@ -103,4 +103,4 @@ class Player(pygame.sprite.Sprite):
             return self.pos.y
         
     def _set_money(self, money_add):
-        self.money +=self.money_add
+        self.money +=money_add

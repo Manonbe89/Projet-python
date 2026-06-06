@@ -24,22 +24,13 @@ inventory = Inventory()
 
 # GROUPES (pas exploité (sauf all_sprites) mais nécessaire pour faire des déplacements)
 all_sprites = pygame.sprite.Group()
-solid_walls = pygame.sprite.Group()
-breakable_walls = pygame.sprite.Group()
-pushable_walls = pygame.sprite.Group()
-npc_group = pygame.sprite.Group()
-enemy_group = pygame.sprite.Group()
 
 font = pygame.font.Font(None, 32)
-
-# SUPER GROUP
-
-collision_groups = Collision_groups(solid_walls, breakable_walls, pushable_walls, npc_group)
 
 # MAP
 map_surface = pygame.Surface((1000, 1000))
 map_surface.fill((80, 180, 80))
-tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls, npc_group, enemy_group)
+tile = Tile(map_surface)
 
 # MUR
 wall_surface = pygame.Surface((100, 100))
@@ -60,7 +51,7 @@ npc_surface.fill((255, 0, 0))
 tile._add_npc("Numerobis", npc_surface, 500, 500, "Vous savez, moi je ne crois pas qu’il y ait de bonne ou de mauvaise situation. Moi, si je devais résumer ma vie aujourd’hui avec vous, je dirais que c’est d’abord des rencontres. Des gens qui m’ont tendu la main, peut-être à un moment où je ne pouvais pas, où j’étais seul chez moi.")
 
 # JOUEUR
-player = Player((100, 100), "Test", game, all_sprites, collision_groups, inventory)
+player = Player((100, 100), "Test", game, all_sprites, inventory)
 
 # CAMERA
 camera = Camera(900, 600, 1000, 1000)
@@ -77,7 +68,7 @@ item = inventory._get_Item(9)
 
 #enemy
 bestiary = Bestiary()
-tile._add_ennemy(bestiary.bat, 800, 800, collision_groups)
+tile._add_ennemy(bestiary.bat, 800, 800)
 
 running = True
 while running:
@@ -111,7 +102,7 @@ while running:
         }
 
         # UPDATE
-        all_sprites.update(dt, interaction._get_state())
+        all_sprites.update(dt, interaction._get_state(),tile)
         camera._update(player)
 
         # DRAW
@@ -119,8 +110,8 @@ while running:
         screen.blit(player.image, camera._apply(player.rect))
 
         # INTERACTION
-        interaction._interact_npc(npc_group, screen, font)
-        interaction._intercat_with_enemy(enemy_group)
+        interaction._interact_npc(tile.npc_group, screen, font)
+        interaction._intercat_with_enemy(tile.enemy_group)
 
         current_item = inventory._get_current_Item()
         inventory._display_inventory(screen, font)                            #affiche l'inventaire si la condition est respectée
@@ -141,6 +132,9 @@ while running:
     elif interaction._get_world_state() == 'fight':
         fight = interaction._get_current_fight()
         fight._draw(screen)
+        if interaction._get_current_fight()._is_finished():
+            interaction._set_world_state('world')
+            tile._delete_an_enemy(interaction)
 
     pygame.display.flip()
 

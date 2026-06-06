@@ -6,7 +6,7 @@ from Code.fight.fight_entity import Fight_Entity
 
 class Enemy(pygame.sprite.Sprite) : 
 
-    def __init__(self, name, size, path, pos, loot, detection_range, speed, groups, collision_groups, items):
+    def __init__(self, name, size, path, pos, loot, detection_range, speed, groups, items, map):
         super().__init__(groups)
         self.name = name
         self.size = size
@@ -16,7 +16,7 @@ class Enemy(pygame.sprite.Sprite) :
             "armor" : 0,
             "magic armor" : 0,
             "magic" : 0,
-            "speed" : 0
+            "speed" : 1
             }
         self.pos = pos
         self.speed = speed
@@ -37,9 +37,9 @@ class Enemy(pygame.sprite.Sprite) :
         )
         self.loot = loot
         self.enemy_AI = Enemy_AI()
-        self.collision_groups = collision_groups
-        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, collision_groups)
+        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size)
         self.fight_entity = Fight_Entity(self.name, self.animations["combat_sp"][0], self.enemy_stat, items)
+        self.map = map
         
         
     def _set_stat(self, life, attack, armor, magic_armor, magic, speed):
@@ -90,5 +90,5 @@ class Enemy(pygame.sprite.Sprite) :
         if state == False:
             self.enemy_AI._update(player, self)
             self.movement._change_direction(self.direction)
-            self.movement.update(dt)
+            self.movement.update(dt, self.map)
             self.movement._save_to_entity(self)
