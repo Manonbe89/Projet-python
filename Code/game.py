@@ -23,7 +23,7 @@ class Game :
         self.screen = pygame.display.set_mode((900,600))
         self.clock = pygame.time.Clock()
         self.map = Map()
-        self.current_map = self.map.bedroom._get_tile()
+        self.current_map = self.map.first_village._get_tile()
         self.save = Save()
         self.save._load_data(self.screen, self.inventory, self.player)
         self._game_loop()
