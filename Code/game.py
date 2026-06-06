@@ -13,7 +13,7 @@ class Game :
 
     def __init__(self):
         self.all_sprites = pygame.sprite.Group()
-        self.player = Player((100, 100), "Test", self.all_sprites)
+        self.player = Player((430, 480), "Test", self.all_sprites)
         self.interaction = Interaction(self.player)
         self.inventory = Inventory()
         self.inventory._item_factory()
