@@ -11,6 +11,8 @@ from Code.player.interaction import Interaction
 from Code.enemys.enemy import Enemy
 from Code.enemys.bestiary import Bestiary
 from Code.save.save import Save
+from Code.action.action import Action
+from Code.map.map import Map
 
 pygame.init()
 save = Save()
@@ -18,6 +20,9 @@ screen = pygame.display.set_mode((900,600))        #définition de la fenêtre  
 pygame.display.set_caption('jeux')                 #nom de la fenêtre
 clock = pygame.time.Clock()
 inventory = Inventory()
+action = Action()
+map = Map()
+current_map = map.bedroom._get_tile()
 
 # GROUPES 
 all_sprites = pygame.sprite.Group()
@@ -33,14 +38,19 @@ font = pygame.font.Font(None, 32)
 
 collision_groups = Collision_groups(solid_walls, breakable_walls, pushable_walls, npc_group)
 
-player = Player((100, 100), "Test", action, all_sprites, collision_groups)
+# JOUEUR
+player = Player((100, 100), "Test", all_sprites)
+
 save._load_data(screen, inventory, player)
 inventory._item_factory()
+
+# CAMERA
+camera = Camera(900, 600, 1000, 1000)
 
 # MAP
 map_surface = pygame.Surface((1000, 1000))
 map_surface.fill((80, 180, 80))
-tile = Tile(map_surface, solid_walls, breakable_walls, pushable_walls, npc_group, enemy_group)
+tile = Tile(map_surface, camera)
 
 # MUR
 wall_surface = pygame.Surface((100, 100))
@@ -60,12 +70,6 @@ npc_surface = pygame.Surface((50, 50))
 npc_surface.fill((255, 0, 0))
 tile._add_npc("Numerobis", npc_surface, 500, 500, "Vous savez, moi je ne crois pas qu’il y ait de bonne ou de mauvaise situation. Moi, si je devais résumer ma vie aujourd’hui avec vous, je dirais que c’est d’abord des rencontres. Des gens qui m’ont tendu la main, peut-être à un moment où je ne pouvais pas, où j’étais seul chez moi.")
 
-# JOUEUR
-player = Player((100, 100), "Test", all_sprites, collision_groups)
-
-# CAMERA
-camera = Camera(900, 600, 1000, 1000)
-
 # INTERACTION
 interaction = Interaction(player)
 
@@ -76,7 +80,7 @@ citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 
 #enemy
 bestiary = Bestiary()
-tile._add_ennemy(bestiary.bat, 800, 800, collision_groups)
+tile._add_ennemy(bestiary.bat, 800, 800)
 
 running = True
 while running:
@@ -110,7 +114,7 @@ while running:
             }
 
         # UPDATE
-        all_sprites.update(dt, interaction._get_state())
+        all_sprites.update(dt, interaction._get_state(), current_map)
         camera._update(player)
 
         # DRAW
