@@ -25,7 +25,7 @@ class Game :
         self.clock = pygame.time.Clock()
         self.map = Map()
         self.save = Save()
-        self.teleportation = Teleportation(self.map)
+        self.teleportation = Teleportation()
         self.save._load_data(self.screen, self.inventory, self.player, self.map)
         self._game_loop()
 
@@ -61,7 +61,7 @@ class Game :
 
                 #Map
                 self.current_map = self.map._get_current_map()
-                self.teleportation._teleportation(self.player, self.map)
+                self.teleportation._teleportation(self.player, self.map, self.screen)
 
                 # UPDATE
                 self.all_sprites.update(dt, self.interaction._get_state(), self.current_map)
