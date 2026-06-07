@@ -24,10 +24,9 @@ class Game :
         self.screen = pygame.display.set_mode((900,600))
         self.clock = pygame.time.Clock()
         self.map = Map()
-        self.current_map = self.map._get_current_map()
         self.save = Save()
-        self.teleportation = Teleportation()
-        self.save._load_data(self.screen, self.inventory, self.player)
+        self.teleportation = Teleportation(self.map)
+        self.save._load_data(self.screen, self.inventory, self.player, self.map)
         self._game_loop()
 
     def _game_loop(self):
@@ -53,12 +52,16 @@ class Game :
 
             #SAVE
             self.save._display_menu(self.screen)
-            self.save._get_data(self.inventory, self.player)
+            self.save._get_data(self.inventory, self.player, self.map)
 
             # INPUT
             if not self.save._get_state_menu():
                 keys = pygame.key.get_pressed()
                 self.player.action._set_keys(keys)
+
+                #Map
+                self.current_map = self.map._get_current_map()
+                self.teleportation._teleportation(self.player, self.map)
 
                 # UPDATE
                 self.all_sprites.update(dt, self.interaction._get_state(), self.current_map)

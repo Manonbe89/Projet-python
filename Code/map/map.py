@@ -10,21 +10,24 @@ class Map :
         self.bedroom = Bedroom()
         self.first_village = First_Village()
         self.current_map = self.bedroom._get_tile()
-
-    def _get_tile(self):
-        return self.tile
+        self.name_current_map = 'bedroom'
     
-    def _get_name_map(self) : 
-        return self.name
+    def _get_name_current_map(self) : 
+        return self.name_current_map
     
     def _get_current_map(self) :
         return self.current_map
     
     def _set_current_map(self, name) :
-        self.current_map = name
+        self.name_current_map = name
+        if name == 'bedroom' : 
+            self.current_map = self.bedroom._get_tile()
+
+        elif name == 'first_village' :
+            self.current_map = self.first_village._get_tile()
     
 
-class Bedroom(Map) : 
+class Bedroom() : 
 
     def __init__(self):
         self.name = 'bedroom'
@@ -45,9 +48,15 @@ class Bedroom(Map) :
         self.tile._add_solid_walls('bot_bordure', 202, 560, top_bordure)
         self.tile._add_solid_walls('left_bordure', 202,60, side_bordure)
         self.tile._add_solid_walls('right_bordure', 701,60, side_bordure)
+
+    def _get_name_map(self) : 
+        return self.name
+    
+    def _get_tile(self):
+        return self.tile
     
 
-class First_Village(Map) : 
+class First_Village() : 
 
     def __init__(self):
         self.name = 'first_village'
@@ -61,9 +70,14 @@ class First_Village(Map) :
         house = pygame.transform.scale(self.object.invisible_wall, (197,149))
         top_bordure = pygame.transform.scale(self.object.invisible_wall, (500,1))
         side_bordure = pygame.transform.scale(self.object.invisible_wall, (1,500))
-        self.tile._add_solid_walls('table', 83, 97, house)
+        self.tile._add_solid_walls('house', 83, 97, house)
         self.tile._add_solid_walls('top_bordure', 30, 30, top_bordure)
         self.tile._add_solid_walls('bot_bordure', 30, 970, top_bordure)
         self.tile._add_solid_walls('left_bordure', 30, 30, side_bordure)
         self.tile._add_solid_walls('right_bordure', 970, 30, side_bordure)
+
+    def _get_name_map(self) : 
+        return self.name
     
+    def _get_tile(self):
+        return self.tile
