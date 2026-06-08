@@ -95,6 +95,8 @@ class Fight :
     def _get_enemy_actions(self):
         actions = []
         for enemy in self.enemys:
+            if enemy.is_dead():
+                continue
             actions.append(Fight_action(enemy, "Attaque physique", random.choice(self.allies)))
         return actions
     
@@ -103,7 +105,8 @@ class Fight :
 
         for menu in self.menus:
             if menu.locked_action is not None:
-                actions.append(menu.locked_action)
+                if not menu.locked_action.user.is_dead():
+                    actions.append(menu.locked_action)
 
         actions += self._get_enemy_actions()
 
@@ -113,7 +116,11 @@ class Fight :
     def _resolve_turn(self):
         actions = self._get_all_actions()
         for action in actions:
-            self.finished = self.fight_calculator._execute_action(action, self.enemys, self.allies)
+            if not action._get_user().is_dead():
+                self.finished = self.fight_calculator._execute_action(action, self.enemys, self.allies)
+                self._remove_dead_entities()
+            if not self.allies or not self.enemys:
+                    self.finished = True
             if self.finished == True:
                 return
 
@@ -163,5 +170,10 @@ class Fight :
 
         screen.blit(hp_text, text_rect)
 
+    def _remove_dead_entities(self):
+        self.allies = [a for a in self.allies if not a.is_dead()]
+        self.enemys = [e for e in self.enemys if not e.is_dead()]
+        self.menus = [m for m in self.menus if not m.entity.is_dead()]
+        self.active_menu_index %= len(self.menus)
     
         

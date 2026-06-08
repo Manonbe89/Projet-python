@@ -31,3 +31,6 @@ class Fight_Entity:
             self.statistic.copy(),
             self.items
         )
+    
+    def is_dead(self):
+        return self._get_stat("life") <= 0
