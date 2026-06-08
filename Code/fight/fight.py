@@ -21,6 +21,7 @@ class Fight :
         self.target_index = 0
         self.selecting_target = True
         self.finished = False
+        self.hp_font = pygame.font.Font(None, 24)
 
     def _handle_event(self, event):
 
@@ -55,8 +56,11 @@ class Fight :
 
     def _draw(self, screen):
         screen.blit(self.background_image, (0,0))
+
         for i, ally in enumerate(self.allies):
-            screen.blit(ally._get_sprite(), (100,100*(i+1)))
+            pos = (100, 50 + 150 * i )
+            screen.blit(ally._get_sprite(), pos)
+            self._draw_hp(screen, ally, pos)
 
         menu = self.menus[self.active_menu_index]
 
@@ -65,6 +69,7 @@ class Fight :
             sprite = enemy._get_sprite()
 
             screen.blit(sprite, pos)
+            self._draw_hp(screen, enemy, pos)
 
             if menu.selecting_target and i == self.target_index:
                 rect = sprite.get_rect(topleft=pos)
@@ -75,8 +80,7 @@ class Fight :
                     3
                 )
 
-        for menu in self.menus:
-            menu._draw(screen)
+        self.menus[self.active_menu_index]._draw(screen)
 
     def _update_turn(self):
         menu = self.menus[self.active_menu_index]
@@ -137,6 +141,27 @@ class Fight :
 
     def _is_finished(self):
         return self.finished
+    
+    def _draw_hp(self, screen, entity, pos):
+        sprite = entity._get_sprite()
+
+        current_hp = entity._get_stat("life")
+        max_hp = entity._get_max_life()
+
+        hp_text = self.hp_font.render(
+            f"{current_hp:.0f}/{max_hp:.0f}",
+            True,
+            (255, 255, 255)
+        )
+
+        text_rect = hp_text.get_rect(
+            center=(
+                pos[0] + sprite.get_width() // 2,
+                pos[1] + sprite.get_height() + 15
+            )
+        )
+
+        screen.blit(hp_text, text_rect)
 
     
         

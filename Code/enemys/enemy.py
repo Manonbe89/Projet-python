@@ -11,11 +11,11 @@ class Enemy(pygame.sprite.Sprite) :
         self.name = name
         self.size = size
         self.enemy_stat = {
-            "life" : 1,
-            "attack" : 0,
-            "armor" : 0,
-            "magic armor" : 0,
-            "magic" : 0,
+            "life" : 10,
+            "attack" : 6,
+            "armor" : 5,
+            "magic armor" : 5,
+            "magic" : 5,
             "speed" : 1
             }
         self.pos = pos
