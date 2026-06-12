@@ -11,10 +11,10 @@ class Interaction:
         self.in_action = False
         self.state = 'world'
         self.current_enemy = None
-
-    def _search_enemy(self, enemy_group):
         self.interaction_rect = self.player.hitbox.copy()
         self.interaction_rect.inflate_ip(20, 20)
+
+    def _search_enemy(self, enemy_group):
         for enemy in enemy_group:
             if self.interaction_rect.colliderect(enemy.hitbox):
                 self.in_action = True
@@ -38,9 +38,7 @@ class Interaction:
         return self.current_fight
 
     #fonction d'interaction avec les npc (affiche une bulle de dialogue quand le joueur appuie sur espace à proximité d'un npc)
-    def _interact_npc(self, npc_group, screen, font):
-        self.interaction_rect = self.player.hitbox.copy()
-        self.interaction_rect.inflate_ip(20, 20)
+    def _interact_npc(self, npc_group, screen):
         npc = self._search_npc(npc_group)
         if npc is None:
             return
@@ -107,3 +105,7 @@ class Interaction:
     def _return_to_world(self):
         self.state = 'world'
         self.in_action = False
+
+    def _interact(self,enemy_group, npc_group, screen):
+        self._interact_npc(npc_group, screen)
+        self._intercat_with_enemy(enemy_group)

@@ -24,7 +24,7 @@ class Enemy_AI:
         elif x_diference > 0:
             enemy._set_direction(0, 1)
         elif x_diference == 0:
-            enemy._set_directio,(0,0)
+            enemy._set_direction(0,0)
 
         y_diference = y_player - y_enemy
         if y_diference < 0:
@@ -32,7 +32,7 @@ class Enemy_AI:
         elif y_diference > 0:
             enemy._set_direction(1, 1)
         elif y_diference == 0:
-            enemy._set_directio,(1,0)
+            enemy._set_direction(1,0)
 
     #do the AI calcul
     def _update(self, player, enemy):
