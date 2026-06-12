@@ -85,6 +85,9 @@ class Enemy(pygame.sprite.Sprite) :
         self.pos = pos
         self.hitbox = hitbox
 
+    def _get_hitbox(self):
+        return self.hitbox
+
     #all the movement function
     def update(self, dt, state, player):
         if state == False:

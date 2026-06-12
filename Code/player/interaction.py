@@ -16,7 +16,7 @@ class Interaction:
 
     def _search_enemy(self, enemy_group):
         for enemy in enemy_group:
-            if self.interaction_rect.colliderect(enemy.hitbox):
+            if self.interaction_rect.colliderect(enemy._get_hitbox()):
                 self.in_action = True
                 self.state = 'fight'
                 self.current_enemy = enemy
@@ -29,6 +29,7 @@ class Interaction:
             return
 
         entities = [self.player.fight_entity._clone(), self.player.fight_entity._clone(), enemy.fight_entity._clone(), enemy.fight_entity._clone()]
+        print ("here enemy")
         self._start_combat(entities,allies_nb=2)
 
     def _start_combat(self, entities, allies_nb):
@@ -106,6 +107,11 @@ class Interaction:
         self.state = 'world'
         self.in_action = False
 
+    def _update_interaction_rect(self):
+        self.interaction_rect = self.player.hitbox.copy()
+        self.interaction_rect.inflate_ip(20, 20)
+
     def _interact(self,enemy_group, npc_group, screen):
+        self._update_interaction_rect()
         self._interact_npc(npc_group, screen)
         self._intercat_with_enemy(enemy_group)
