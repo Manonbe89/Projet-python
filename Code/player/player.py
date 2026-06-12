@@ -5,7 +5,7 @@ from Code.movement import Movement
 from Code.fight.fight_entity import Fight_Entity
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, name, groups):
+    def __init__(self, pos, name, groups, inventory):
         super().__init__(groups)
         self.action = Action()
 

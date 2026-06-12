@@ -2,6 +2,7 @@ import pygame
 from Code.map.camera import Camera
 from Code.map.tile import Tile
 from Code.map.object import Object
+from Code.enemys.bestiary import Bestiary
 
 
 class Bedroom : 
@@ -11,6 +12,7 @@ class Bedroom :
         self.surf = pygame.image.load('Images/Chambre1.png').convert_alpha()
         self.camera = Camera(900, 600, 500, 500)
         self.tile = Tile(self.surf, self.camera)
+        self.bestiary = Bestiary()
         self.object = Object()
         self._create_map()
 
@@ -25,6 +27,8 @@ class Bedroom :
         self.tile._add_solid_walls('bot_bordure', 0, 500, top_bordure)
         self.tile._add_solid_walls('left_bordure', 0,0, side_bordure)
         self.tile._add_solid_walls('right_bordure', 499,0, side_bordure)
+        bat = self.bestiary.bat
+        self.tile._add_ennemy(bat, 400, 100)
 
     def _get_tile(self):
         return self.tile
