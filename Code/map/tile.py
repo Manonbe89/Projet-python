@@ -54,9 +54,12 @@ class Tile:
         self.objects[key] = npc
 
     def _add_ennemy(self, enemy_to_create, x, y):
-        enemy = enemy_to_create._create_enemy((x, y), self.enemy_group)
+        enemy = enemy_to_create._create_enemy((x, y), self.enemy_group, self)
         key = f"enemy_{enemy.name}_{x}_{y}"
         self.enemies[key] = enemy
+
+    def _get_collision_groups(self):
+        return self.collision_group
 
     #charge la map et les différents élements qui lui sont associé en prenant en compte la camera
     def _draw(self, screen, dt, player, state):
@@ -65,7 +68,15 @@ class Tile:
             screen.blit(obj.image, self.camera._apply(obj.rect))
         for enemy in self.enemies.values():
             enemy.update(dt, state, player)
-            screen.blit(enemy.image, self.camera._apply(enemy.rect))
+            screen.blit(enemy.image, camera._apply(enemy.rect))
 
-    def _get_collision_group(self):
-        return self.collision_group
+    def _delete_an_enemy(self, interaction):
+        enemy = interaction.current_enemy
+        if enemy is None:
+            return
+
+        enemy.kill()
+        for key, value in list(self.enemies.items()):
+            if value == enemy:
+                del self.enemies[key]
+                break

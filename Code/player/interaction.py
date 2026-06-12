@@ -1,6 +1,7 @@
 import pygame
 from Code.text_box import Text_Box
 from Code.npc.npc import NPC
+from Code.fight.fight import Fight
 
 
 class Interaction:
@@ -8,10 +9,38 @@ class Interaction:
         self.player = player
         self.last_space_action = False
         self.in_action = False
-        self.font = pygame.font.Font(None, 32)
+        self.state = 'world'
+        self.current_enemy = None
+
+    def _search_enemy(self, enemy_group):
+        self.interaction_rect = self.player.hitbox.copy()
+        self.interaction_rect.inflate_ip(20, 20)
+        for enemy in enemy_group:
+            if self.interaction_rect.colliderect(enemy.hitbox):
+                self.in_action = True
+                self.state = 'fight'
+                self.current_enemy = enemy
+                return enemy
+        return None
+
+    def _intercat_with_enemy(self, enemy_group):
+        enemy = self._search_enemy(enemy_group)
+        if enemy is None:
+            return
+
+        entities = [self.player.fight_entity._clone(), self.player.fight_entity._clone(), enemy.fight_entity._clone(), enemy.fight_entity._clone()]
+        self._start_combat(entities,allies_nb=2)
+
+    def _start_combat(self, entities, allies_nb):
+        self.current_fight = Fight(entities, allies_nb)
+
+    def _get_current_fight(self):
+        return self.current_fight
 
     #fonction d'interaction avec les npc (affiche une bulle de dialogue quand le joueur appuie sur espace à proximité d'un npc)
-    def _interact_npc(self, npc_group, screen):
+    def _interact_npc(self, npc_group, screen, font):
+        self.interaction_rect = self.player.hitbox.copy()
+        self.interaction_rect.inflate_ip(20, 20)
         npc = self._search_npc(npc_group)
         if npc is None:
             return
@@ -22,10 +51,8 @@ class Interaction:
 
     #fonction qui cherche un npc à proximité du joueur (dans un rayon de 20 pixels)
     def _search_npc(self, npc_group):
-        interaction_rect = self.player.hitbox.copy()
-        interaction_rect.inflate_ip(20, 20)
         for npc in npc_group:
-            if interaction_rect.colliderect(npc.hitbox):
+            if self.interaction_rect.colliderect(npc.hitbox):
                 return npc
         return None
     
@@ -70,3 +97,13 @@ class Interaction:
     #renvoie l'état d'interaction du joueur
     def _get_state(self):
         return self.in_action
+    
+    def _get_world_state(self):
+        return self.state
+    
+    def _set_world_state(self, world_state):
+        self.state = world_state
+
+    def _return_to_world(self):
+        self.state = 'world'
+        self.in_action = False

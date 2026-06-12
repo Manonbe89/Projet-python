@@ -2,20 +2,21 @@ import pygame
 from Code.player.tilesheet import Tilesheet
 from Code.enemys.enemy_AI import Enemy_AI
 from Code.movement import Movement
+from Code.fight.fight_entity import Fight_Entity
 
 class Enemy(pygame.sprite.Sprite) : 
 
-    def __init__(self, name, size, path, pos, loot, detection_range, speed, groups):
+    def __init__(self, name, size, path, pos, loot, detection_range, speed, groups, items, map):
         super().__init__(groups)
         self.name = name
         self.size = size
         self.enemy_stat = {
-            "life" : 1,
-            "attack" : 0,
-            "armor" : 0,
-            "magic armor" : 0,
-            "magic" : 0,
-            "speed" : 0
+            "life" : 10,
+            "attack" : 6,
+            "armor" : 5,
+            "magic armor" : 5,
+            "magic" : 5,
+            "speed" : 1
             }
         self.pos = pos
         self.speed = speed
@@ -37,6 +38,8 @@ class Enemy(pygame.sprite.Sprite) :
         self.loot = loot
         self.enemy_AI = Enemy_AI()
         self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size)
+        self.fight_entity = Fight_Entity(self.name, self.animations["combat_sp"][0], self.enemy_stat, items)
+        self.map = map
         
         
     def _set_stat(self, life, attack, armor, magic_armor, magic, speed):
@@ -48,10 +51,10 @@ class Enemy(pygame.sprite.Sprite) :
         self.enemy_stat["speed"] = speed
 
     def _get_stat(self, stat):
-        return self.enemy_stat[f"{stat}"]
+        return self.enemy_stat[stat]
     
     def _mod_stat(self, stat, change):
-        self.enemy_stat[f"{stat}"]+=change
+        self.enemy_stat[stat]+=change
 
     def _get_pos(self, coo) :
         if coo == 0 : 
@@ -73,6 +76,7 @@ class Enemy(pygame.sprite.Sprite) :
             self.direction.y = 0 
             self.direction.y += dir
 
+    #update all the movement variable (because of the movemnt encapsulation)
     def _update_data(self, frame_index, image, rect, direction, pos, hitbox):
         self.frame_index = frame_index
         self.image = image
@@ -81,10 +85,10 @@ class Enemy(pygame.sprite.Sprite) :
         self.pos = pos
         self.hitbox = hitbox
 
-
-    def update(self, dt, state, player, current_map):
+    #all the movement function
+    def update(self, dt, state, player):
         if state == False:
             self.enemy_AI._update(player, self)
             self.movement._change_direction(self.direction)
-            self.movement.update(dt, current_map)
+            self.movement.update(dt, self.map)
             self.movement._save_to_entity(self)
