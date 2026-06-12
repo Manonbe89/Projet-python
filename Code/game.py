@@ -2,10 +2,8 @@ import pygame
 from Code.item.consumable_Item import Consumable_Item
 from Code.item.inventory import Inventory
 from Code.item.usable_Item import Usable_Item
-from Code.map.collision_group import Collision_groups
 from Code.player.player import Player
 from Code.player.interaction import Interaction
-from Code.enemys.bestiary import Bestiary
 from Code.map.map import Map
 from Code.save.save import Save
 
@@ -19,7 +17,6 @@ class Game :
         self.interaction = Interaction(self.player)
         self.uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
         self.citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
-        self.bestiary = Bestiary()
         self.screen = pygame.display.set_mode((900,600))
         self.clock = pygame.time.Clock()
         self.map = Map()
