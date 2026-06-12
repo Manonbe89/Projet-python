@@ -1,26 +1,31 @@
 import pygame
-from Code.game.game import Game
+from Code.action.action import Action
 from Code.player.tilesheet import Tilesheet
 from Code.movement import Movement
 from Code.fight.fight_entity import Fight_Entity
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, name, game, groups, inventory):
+    def __init__(self, pos, name, groups):
         super().__init__(groups)
-        self.game = Game()
+        self.action = Action()
 
         self.inventory = inventory
         self.size = 100
-        test_img = pygame.image.load("Images/Perso vue de devant_2.png").convert_alpha()
-        self.base_titles = Tilesheet("Images/Perso vue de devant_2.png", self.size, self.size, 1, 1 )         #portfolio des sprites
-        self.animations = {"down_im": [test_img],
-                           "up_im": [test_img],
-                           "left_im": [test_img],
-                           "right_im": [test_img],
-                           "down": [test_img],
-                           "up": [test_img],
-                           "left": [test_img],
-                           "right": [test_img],}                                    #les sprites de mouvement
+        test_img = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
+        img_down_idle = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
+        img_up_idle = pygame.image.load("Images/Perso vue de derriere.png").convert_alpha()
+        img_left_idle = pygame.image.load("Images/Perso vue de profil gauche.png").convert_alpha()
+        img_right_idle = pygame.image.load("Images/Perso vue de profil droite.png").convert_alpha()
+        img_left_move = pygame.image.load("Images/Perso vue de profil gauche marche.png").convert_alpha()
+        img_right_move = pygame.image.load("Images/Perso vue de profil droite marche.png").convert_alpha()
+        self.animations = {"down_im": [img_down_idle],
+                           "up_im": [img_up_idle],
+                           "left_im": [img_left_idle],
+                           "right_im": [img_right_idle],
+                           "down": [img_down_idle],
+                           "up": [img_up_idle],
+                           "left": [img_left_move, img_left_idle],
+                           "right": [img_right_move, img_right_idle],}                                    #les sprites de mouvement
         self.moving =False
 
         self.frame_index = 0
@@ -80,7 +85,9 @@ class Player(pygame.sprite.Sprite):
 
     def update(self, dt, state, current_map):
         if state == False:
-            self._input(self.game.actions)
+            self._input(self.action.actions)
+            self.movement._change_direction(self.direction)
+            self.movement._set_statut(self.statut)
             self.movement.update(dt, current_map)
             self.movement._save_to_entity(self)
 
@@ -93,8 +100,17 @@ class Player(pygame.sprite.Sprite):
     def _get_stat(self, stat):
         return self.player_stat[stat]
     
+    def _get_stat_table(self) : 
+        return self.player_stat
+    
     def _set_stat(self, stat, change):
         self.player_stat[stat]+=change
+
+    def _set_stat_table(self, table) : 
+        self.player_stat = table
+
+    def _set_money(self, money_add):
+        self.money +=money_add
     
     def _get_pos(self, coo):
         if coo == 0 : 
@@ -102,5 +118,8 @@ class Player(pygame.sprite.Sprite):
         if coo == 1 :
             return self.pos.y
         
-    def _set_money(self, money_add):
-        self.money +=money_add
+    def _set_pos(self, x, y) :
+        self.pos.x = x
+        self.pos.y = y
+
+        

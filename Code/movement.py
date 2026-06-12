@@ -11,14 +11,14 @@ class Movement :
         self.frame_index = 0
         self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (self.size,self.size))
         self.rect = self.image.get_rect(center = pos)
-        self.direction = pygame.math.Vector2(self.rect.center)
+        self.direction = pygame.math.Vector2()
         self.pos = pos
         self.hitbox = self.rect.copy().inflate(0, 0)
 
 
     def _change_direction(self, direction) :
         self.direction = direction
-        
+
     def _check_sprite(self):
         if self.statut not in self.im_statut:
             self.moving = True
@@ -54,7 +54,7 @@ class Movement :
         self.rect.center = self.hitbox.center
 
     def _collision(self, direction, current_map):
-        for sprite in current_map._get_collision_groups()._sprites():
+        for sprite in current_map._get_collision_group()._sprites():
             if hasattr(sprite, "hitbox"):
                 if self.hitbox.colliderect(sprite.hitbox):
 
@@ -81,3 +81,6 @@ class Movement :
             self._check_sprite()
             self._move(dt, current_map)
             self._animate(dt)
+
+    def _set_statut(self, statut):
+        self.statut = statut

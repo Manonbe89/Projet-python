@@ -1,5 +1,4 @@
 import pygame
-from Code.game.game import Game
 from Code.item.consumable_Item import Consumable_Item
 from Code.item.inventory import Inventory
 from Code.item.item import Item
@@ -7,22 +6,25 @@ from Code.item.usable_Item import Usable_Item
 from Code.map.camera import Camera
 from Code.map.collision_group import Collision_groups
 from Code.map.tile import Tile
-from Code.map.wall import Wall
-from Code.npc.npc import NPC
 from Code.player.player import Player
 from Code.player.interaction import Interaction
 from Code.enemys.enemy import Enemy
 from Code.enemys.bestiary import Bestiary
+from Code.save.save import Save
+from Code.action.action import Action
+from Code.map.map import Map
 
 pygame.init()
-
+save = Save()
 screen = pygame.display.set_mode((900,600))        #définition de la fenêtre  avant 1000 500
-pygame.display.set_caption('jeux')                  #nom de la fenêtre
+pygame.display.set_caption('jeux')                 #nom de la fenêtre
 clock = pygame.time.Clock()
-game = Game()
 inventory = Inventory()
+action = Action()
+map = Map()
+current_map = map.bedroom._get_tile()
 
-# GROUPES (pas exploité (sauf all_sprites) mais nécessaire pour faire des déplacements)
+# GROUPES 
 all_sprites = pygame.sprite.Group()
 
 font = pygame.font.Font(None, 32)
@@ -60,11 +62,9 @@ camera = Camera(900, 600, 1000, 1000)
 interaction = Interaction(player)
 
 #ma partie (test)
-inventory._item_factory()
 current_item = inventory._get_current_Item()
 uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
 citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
-item = inventory._get_Item(9)
 
 #enemy
 bestiary = Bestiary()

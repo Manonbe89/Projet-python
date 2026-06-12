@@ -7,12 +7,14 @@ class Inventory:
     def __init__(self):
         self.item = [] 
         self.inventory = []
-        self.item_status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.item_status = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.image = pygame.image.load('Images/Inventaire.png').convert_alpha() #permet d'afficher l'image
         self.open_inventory = False
         self.x = 175   
         self.y = 100                  #coordonnées de l'inventaire
-        self.current_item = 0
+        self.nb_current_item = 0
+
+        self.font = pygame.font.Font(None, 32)
 
         #Pour les boutons cliquables :
         self.status_buttons = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -32,24 +34,27 @@ class Inventory:
 
 #getters  
     def _get_current_Item(self):
-        if 0 <= self.current_item < len(self.item):
-            return self.item[self.current_item]
-        else :
-            return self.item[0]      #a enlever quand tt les items seront entrés
+        if 0 <= self.nb_current_item < len(self.item):
+            return self.item[self.nb_current_item]
     
     def _get_nb_current_Item(self) : 
-        return self.current_item
+        return self.nb_current_item
     
     def _get_Item(self, index) :
-        return self.item[index]
+        if 0 <= index < len(self.item):
+            return self.item[index]
+    
+    def _get_item_status(self) : 
+        return self.item_status
     
     def _get_state(self) :
         return self.open_inventory
     
-    def _get_item_status(self, index) :
-        return self.item_status[index]
-    
 #setters
+
+    def _set_nb_current_Item(self, Item) : 
+        self.nb_current_item = Item
+
     def _set_Item(self, Item):
         self.item.append(Item)
 
@@ -57,63 +62,60 @@ class Inventory:
         self.inventory.append(Item)
 
     def _set_item_status(self, index) :
-        self.item_status[index] = 1
+        for i in range(len(self.item_status)) :
+            if index[i] :
+                self.item_status[i] = 1
+            else :
+                self.item_status[i] = 0
+
 
     def _check_inventory_status(self, event):
         if event.type == pygame.KEYDOWN :                           # vérifie si l'événement keydown s'est produit ou non
              if event.key == pygame.K_i :                           # vérifie si la touche "i" a été pressée
                 self.open_inventory = not self.open_inventory       #inverse l'état de self.open_inventory
 
-    def _display_inventory(self, screen, font):
+    def _display_inventory(self, screen):
         if self.open_inventory : 
             screen.blit(self.image, (self.x, self.y))                     #affiche l'écran d'inventaire
 
-            if 0 <= self.current_item < len(self.item) and self.status_buttons[self.current_item] and self.item_status[self.current_item] :
-                        item = self.item[self.current_item]
+            if 0 < self.nb_current_item < len(self.item) and self.status_buttons[self.nb_current_item - 1] and self.item_status[self.nb_current_item] :
+                        item = self._get_current_Item()
                         item._set_Name(item._get_Name())
                         screen.blit(item._get_Picture(), (self.x + 373, self.y + 65))
-                        screen.blit(font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
+                        screen.blit(self.font.render(item._get_Description(), True, (0, 0, 0)), (self.x + 10, self.y + 330))
 
     def _check_buttons(self, event) :
         if event.type == pygame.MOUSEBUTTONDOWN:
             for i in range (18) :
-                if self.buttons[i].collidepoint(event.pos) and self.item_status[i] :
-                    self.status_buttons[i] = 1
-                    self.current_item = i
-                    print("bouton ok :", i)
+                if i > 0 and self.buttons[i - 1].collidepoint(event.pos) and self.item_status[i] :
+                    self.status_buttons[i - 1] = 1
+                    self.nb_current_item = i
         
-    def _obtain_item(self, item, screen, font) :
+    def _obtain_item(self, item, screen) :
         for i in range (18) :
-            if item == self._get_Item(i) :
-                if self.item_status[i] == 0 :
+            if item == self._get_Item(i) and self.item_status[i] == 0 :
                     self._set_Inventory(item)
-                    screen.blit(font.render("Vous obtenez : " + item._get_Name(), True, (255, 255, 255)), (100, 500)) 
+                    screen.blit(self.font.render("Vous obtenez : " + item._get_Name(), True, (255, 255, 255)), (100, 500)) 
                     print ("vous obenez : " + item._get_Name())
                     self.item_status[i] = 1
 
-    def _display_item(self, screen, item) :
+    def _display_item(self, screen) :
         if self.open_inventory : 
-                
-                if self.item_status[0] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 29, self.y + 65))
+                for i in range(len(self.item)) :
+                        item = self.item[i]
+                        if self.item_status[i] == 1 :
+                            if 0 < i <= 4 :
+                                x = 29 + (i-1)*63
+                                screen.blit(item._get_Picture(), (self.x + x, self.y + 65, 45, 45))
 
-                if self.item_status[4] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 26, self.y + 171))
+                            elif 5 <= i <= 12 :
+                                x = 29 + (i - 5)*63
+                                screen.blit(item._get_Picture(), (self.x + x, self.y + 169, 45, 45))
 
-                if self.item_status[5] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 89, self.y + 171))
+                            elif 13 <= i <= 20 :
+                                x = 29 + (i - 13)*63
+                                screen.blit(item._get_Picture(), (self.x + x, self.y + 227, 45, 45))
 
-                if self.item_status[6] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 154, self.y + 171))
-
-                if self.item_status[7] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 215, self.y + 171))
-
-                if self.item_status[8] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 279, self.y + 171))
-
-                if self.item_status[9] == 1 :
-                    screen.blit(item._get_Picture(), (self.x + 343, self.y + 171))
  
     def _item_factory(self) :
         rien = Item(0, "rien", "Vous ne faites rien", "", "")
@@ -133,10 +135,8 @@ class Inventory:
         tenue_de_garde_elfique = Item(14, "tenue de garde elfique", "Vous gagnez 5 points de defense et de vitesse mais perdez 5 points de defense magique", "Tenue traditionnelle des soldats elfes, elle s'adapte parfaitement à n'importe quel type de mouvement", "")
         tenue_de_sage_elfique = Item(15, "tenue de sage elfique", "Vous gagnez 5 points de magie et de defense magique mais perdez 5 points de defense", "L'ancienne tenue d'un noble elfe, elle convient à un mage expérimenté", "")
         grand_sceptre = Item(16, "grand sceptre", "Vous gagnez 10 points de magie mais perdez 5 points d'attaque", "Ce bâton légendaire aurait appartenu au célèbre gandolf le vert", "")
+        self._set_Item(rien)
         self._set_Item(epee_du_voyageur)
-        self._set_Item(rien)
-        self._set_Item(rien)
-        self._set_Item(rien)
         self._set_Item(potion)
         self._set_Item(bracelet_de_force)
         self._set_Item(bombe)
