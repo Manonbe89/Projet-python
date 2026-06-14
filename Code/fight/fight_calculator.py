@@ -5,7 +5,7 @@ class Fight_calculator:
     def __init__(self):
         pass
 
-    def _execute_action(self, action, enemys, allies):
+    def _execute_action(self, action, enemys, allies, inventory):
         finished = False
         if action._get_action_type() == "Attaque physique":
             self._attaque_physique(action)
@@ -20,7 +20,7 @@ class Fight_calculator:
             return finished
 
         elif action._get_action_type() == "Objet":
-            self._objet(action)
+            self._objet(action, inventory)
             return finished
 
     def _attaque_physique(self, action):
@@ -59,5 +59,5 @@ class Fight_calculator:
 
         return finished
 
-    def _objet(self, action):
+    def _objet(self, action, inventory):
         pass

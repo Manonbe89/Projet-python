@@ -23,17 +23,17 @@ class Interaction:
                 return enemy
         return None
 
-    def _intercat_with_enemy(self, enemy_group):
+    def _intercat_with_enemy(self, enemy_group, inventory):
         enemy = self._search_enemy(enemy_group)
         if enemy is None:
             return
 
         entities = [self.player.fight_entity._clone(), self.player.fight_entity._clone(), enemy.fight_entity._clone(), enemy.fight_entity._clone()]
         print ("here enemy")
-        self._start_combat(entities,allies_nb=2)
+        self._start_combat(inventory, entities,allies_nb=2)
 
-    def _start_combat(self, entities, allies_nb):
-        self.current_fight = Fight(entities, allies_nb)
+    def _start_combat(self, inventory, entities, allies_nb):
+        self.current_fight = Fight(inventory, entities, allies_nb)
 
     def _get_current_fight(self):
         return self.current_fight
@@ -111,7 +111,7 @@ class Interaction:
         self.interaction_rect = self.player.hitbox.copy()
         self.interaction_rect.inflate_ip(20, 20)
 
-    def _interact(self,enemy_group, npc_group, screen):
+    def _interact(self,enemy_group, npc_group, inventory, screen):
         self._update_interaction_rect()
         self._interact_npc(npc_group, screen)
-        self._intercat_with_enemy(enemy_group)
+        self._intercat_with_enemy(enemy_group, inventory)

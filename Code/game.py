@@ -69,7 +69,7 @@ class Game :
                     self.screen.blit(self.player.image, self.current_map.camera._apply(self.player.rect))
 
                     # INTERACTION
-                    self.interaction._interact(self.current_map.enemy_group, self.current_map.npc_group, self.screen)
+                    self.interaction._interact(self.current_map.enemy_group, self.current_map.npc_group, self.inventory, self.screen)
 
                     self.inventory._display_inventory(self.screen)                            #affiche l'inventaire si la condition est respectée
                     self.inventory._display_item(self.screen)

@@ -6,7 +6,7 @@ import random
 
 class Fight : 
 
-    def __init__(self, entities, allies_nb):
+    def __init__(self, inventory, entities, allies_nb):
         self.entities = entities
         self.background_image = pygame.image.load('Images/fight_background.jpg').convert_alpha()
         self.allies = entities[:allies_nb]
@@ -21,7 +21,9 @@ class Fight :
         self.target_index = 0
         self.selecting_target = True
         self.finished = False
+        self.inventory_is_open = False
         self.hp_font = pygame.font.Font(None, 24)
+        self.inventory = inventory
 
     def _handle_event(self, event):
 
@@ -82,6 +84,11 @@ class Fight :
 
         self.menus[self.active_menu_index]._draw(screen)
 
+        if self.inventory_is_open == True:
+            print("here")
+            self.inventory._display_inventory(screen)                            #affiche l'inventaire si la condition est respectée
+            self.inventory._display_item(screen)
+
     def _update_turn(self):
         menu = self.menus[self.active_menu_index]
         if menu.finished:
@@ -117,7 +124,7 @@ class Fight :
         actions = self._get_all_actions()
         for action in actions:
             if not action._get_user().is_dead():
-                self.finished = self.fight_calculator._execute_action(action, self.enemys, self.allies)
+                self.finished = self.fight_calculator._execute_action(action, self.enemys, self.allies, self.inventory)
                 self._remove_dead_entities()
             if not self.allies or not self.enemys:
                     self.finished = True
@@ -131,8 +138,13 @@ class Fight :
     def _lock_action(self):
         menu = self.menus[self.active_menu_index]
 
-        if menu._get_selected_option() in ("Objet", "Fuir"):
+        selected_option = menu._get_selected_option()
+
+        if selected_option in ("Objet", "Fuir"):
             menu.target = menu._get_entity()
+
+        if selected_option == "Objet":
+            self.inventory_is_open = True
 
         menu.locked_action = Fight_action(
             menu._get_entity(),
