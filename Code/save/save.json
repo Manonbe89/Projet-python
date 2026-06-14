@@ -1,0 +1,45 @@
+{
+    "inventory": {
+        "nb_current_item": 0,
+        "item_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ]
+    },
+    "player": {
+        "stats_player": {
+            "life": 10,
+            "attack": 10,
+            "armor": 10,
+            "magic armor": 10,
+            "magic": 10,
+            "speed": 10
+        },
+        "player_position": {
+            "x": 292.6949134723678,
+            "y": 505.1999999999998
+        }
+    },
+    "map": {
+        "current_map": "intersection"
+    }
+}
