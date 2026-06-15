@@ -12,6 +12,9 @@ class Fight_Entity:
         return self.statistic[stat]
 
     def _set_stat(self, stat, change):
+        self.statistic[stat] = change
+
+    def _add_stat(self, stat, change):
         self.statistic[stat] += change
 
     def _get_sprite(self):

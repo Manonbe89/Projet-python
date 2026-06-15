@@ -25,11 +25,11 @@ class Fight_calculator:
 
     def _attaque_physique(self, action):
         dammage = action._get_user()._get_stat("attack") - action._get_target()._get_stat("armor")/2
-        action._get_target()._set_stat("life",-dammage)
+        action._get_target()._add_stat("life",-dammage)
 
     def _attaque_magique(self, action):
         dammage = action._get_user()._get_stat("magic") - action._get_target()._get_stat("magic armor")/2
-        action._get_target()._set_stat("life",-dammage)
+        action._get_target()._add_stat("life",-dammage)
 
     def _fuir(self, enemys, allies):
         enemys_speed = 0

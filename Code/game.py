@@ -80,8 +80,17 @@ class Game :
                     fight = self.interaction._get_current_fight()
                     fight._draw(self.screen)
                     if self.interaction._get_current_fight()._is_finished():
+                        if self.interaction._get_current_fight()._is_win():
+                            self.player._sync_from_fight_entity()
+                            self.player._set_money(self.interaction.current_enemy._get_loot()*self.interaction.current_enemy._get_number())
+                
+                        else : 
+                            self.player.fight_entity._set_stat("life",self.player.fight_entity._get_max_life())
+                            self.player._set_money(-5)
+
                         self.current_map._delete_an_enemy(self.interaction)
                         self.interaction._return_to_world()
+                        print(self.player.money)
 
 
             pygame.display.flip()

@@ -33,7 +33,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (self.size, self.size))
 
         self.name = name
-        self.money = 0
+        self.money = 5
 
         self.player_stat = {
             "life" : 10,
@@ -107,11 +107,18 @@ class Player(pygame.sprite.Sprite):
     def _set_stat(self, stat, change):
         self.player_stat[stat]+=change
 
+    def _replace_stat(self, stat, value):
+        self.player_stat[stat] = value
+
+    def _sync_from_fight_entity(self):
+        self._replace_stat("life", self.fight_entity._get_stat("life"))
+
     def _set_stat_table(self, table) : 
         self.player_stat = table
 
     def _set_money(self, money_add):
-        self.money +=money_add
+        if self.money + money_add >= 0:
+            self.money +=money_add
     
     def _get_pos(self, coo):
         if coo == 0 : 

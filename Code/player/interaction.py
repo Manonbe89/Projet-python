@@ -28,9 +28,9 @@ class Interaction:
         if enemy is None:
             return
 
-        entities = []
+        entities = [self.player.fight_entity]
 
-        for i in range(self.player._get_allies_nb()):
+        for i in range(self.player._get_allies_nb()-1):
             entities.append(self.player.fight_entity._clone())
 
         for i in range(enemy._get_number()):
