@@ -81,7 +81,6 @@ class Game :
                     fight._draw(self.screen)
                     if self.interaction._get_current_fight()._is_finished():
                         if self.interaction._get_current_fight()._is_win():
-                            self.player._sync_from_fight_entity()
                             self.player._set_money(self.interaction.current_enemy._get_loot()*self.interaction.current_enemy._get_number())
                 
                         else : 

@@ -110,9 +110,6 @@ class Player(pygame.sprite.Sprite):
     def _replace_stat(self, stat, value):
         self.player_stat[stat] = value
 
-    def _sync_from_fight_entity(self):
-        self._replace_stat("life", self.fight_entity._get_stat("life"))
-
     def _set_stat_table(self, table) : 
         self.player_stat = table
 
