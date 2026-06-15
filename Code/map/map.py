@@ -27,8 +27,15 @@ class Bedroom :
         self.tile._add_solid_walls('bot_bordure', 0, 500, top_bordure)
         self.tile._add_solid_walls('left_bordure', 0,0, side_bordure)
         self.tile._add_solid_walls('right_bordure', 499,0, side_bordure)
+
         bat = self.bestiary.bat
-        self.tile._add_ennemy(bat, 400, 100)
+        self.tile._add_ennemy(bat, 400, 100, 1)
+
+        snake = self.bestiary.snake
+        self.tile._add_ennemy(snake, 400, 200, 1)
+
+        slime = self.bestiary.slime
+        self.tile._add_ennemy(slime, 400, 300, 1)
 
     def _get_tile(self):
         return self.tile

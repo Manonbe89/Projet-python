@@ -6,16 +6,18 @@ from Code.fight.fight_entity import Fight_Entity
 
 class Enemy(pygame.sprite.Sprite) : 
 
-    def __init__(self, name, size, path, pos, loot, detection_range, speed, groups, items, map):
+    def __init__(self, name, xsize, ysize, path, pos, loot, detection_range, speed, groups, map, number):
         super().__init__(groups)
         self.name = name
-        self.size = size
+        self.number = number
+        self.xsize = xsize
+        self.ysize = ysize
         self.enemy_stat = {
             "life" : 10,
-            "attack" : 6,
-            "armor" : 5,
-            "magic armor" : 5,
-            "magic" : 5,
+            "attack" : 1,
+            "armor" : 1,
+            "magic armor" : 1,
+            "magic" : 1,
             "speed" : 1
             }
         self.pos = pos
@@ -23,11 +25,12 @@ class Enemy(pygame.sprite.Sprite) :
         image = pygame.image.load(path).convert_alpha()
         self.animations = {"sprite_im": [image],
                            "sprite": [image],
-                           "combat_sp": [image]}
+                           "combat_sp": pygame.transform.scale(image,(self.xsize,self.ysize))}
         self.statut = "sprite"
         self.frame_index = 0
-        self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (self.size,self.size))
+        self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (self.xsize,self.ysize))
         self.rect = self.image.get_rect(center = pos)
+        self.hitbox = self.rect.copy()
         self.pos = pygame.math.Vector2(self.rect.center)
         self.direction = pygame.math.Vector2(self.rect.center)
         self.im_statut = ["sprite_im"]
@@ -37,8 +40,8 @@ class Enemy(pygame.sprite.Sprite) :
         )
         self.loot = loot
         self.enemy_AI = Enemy_AI()
-        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size)
-        self.fight_entity = Fight_Entity(self.name, self.animations["combat_sp"][0], self.enemy_stat, items)
+        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.xsize, self.ysize)
+        self.fight_entity = Fight_Entity(self.name, self.animations["combat_sp"], self.enemy_stat)
         self.map = map
         
         
@@ -87,6 +90,9 @@ class Enemy(pygame.sprite.Sprite) :
 
     def _get_hitbox(self):
         return self.hitbox
+    
+    def _get_number(self):
+        return self.number
 
     #all the movement function
     def update(self, dt, state, player):

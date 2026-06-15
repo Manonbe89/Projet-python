@@ -1,15 +1,16 @@
 import pygame
 
 class Movement :
-    def __init__(self, pos, statut, im_statut, animations, speed, size):
+    def __init__(self, pos, statut, im_statut, animations, speed, xsize, ysize):
         self.statut = statut
         self.im_statut = im_statut
-        self.size = size
+        self.xsize = xsize
+        self.ysize =ysize
         self.animations = animations
         self.speed = speed
         
         self.frame_index = 0
-        self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (self.size,self.size))
+        self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (self.xsize,self.ysize))
         self.rect = self.image.get_rect(center = pos)
         self.direction = pygame.math.Vector2()
         self.pos = pos
@@ -29,7 +30,7 @@ class Movement :
         self.frame_index += 4*dt
         if self.frame_index >= len(self.animations[self.statut]):
             self.frame_index = 0
-        self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (self.size, self.size))
+        self.image = pygame.transform.scale(self.animations[self.statut][int(self.frame_index)], (self.xsize, self.ysize))
 
     def _get_statut(self):
         if self.direction.magnitude() == 0:

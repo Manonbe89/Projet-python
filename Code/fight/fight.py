@@ -8,7 +8,7 @@ class Fight :
 
     def __init__(self, entities, allies_nb):
         self.entities = entities
-        self.background_image = pygame.image.load('Images/fight_background.jpg').convert_alpha()
+        self.background_image = pygame.image.load('Images/fond gris.png').convert_alpha()
         self.allies = entities[:allies_nb]
         self.enemys = entities[allies_nb:]
         self.menus = []

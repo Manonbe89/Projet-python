@@ -13,7 +13,7 @@ class Game :
         self.all_sprites = pygame.sprite.Group()
         self.inventory = Inventory()
         self.inventory._item_factory()
-        self.player = Player((100, 100), "Test", self.all_sprites, self.inventory)
+        self.player = Player((100, 100), "Test", self.all_sprites)
         self.interaction = Interaction(self.player)
         self.uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
         self.citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")

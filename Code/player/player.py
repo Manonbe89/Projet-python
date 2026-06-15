@@ -5,11 +5,10 @@ from Code.movement import Movement
 from Code.fight.fight_entity import Fight_Entity
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, name, groups, inventory):
+    def __init__(self, pos, name, groups):
         super().__init__(groups)
         self.action = Action()
 
-        self.inventory = inventory
         self.size = 100
         test_img = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
         img_down_idle = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
@@ -50,8 +49,10 @@ class Player(pygame.sprite.Sprite):
         self.pos = pygame.math.Vector2(self.rect.center)
         self.hitbox = self.rect.copy().inflate(0, 0)
         self.speed =200
-        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size)
-        self.fight_entity = Fight_Entity(self.name, self.animations["down_im"][0],self.player_stat,self.inventory)
+        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, self.size)
+        self.fight_entity = Fight_Entity(self.name, self.animations["down_im"][0],self.player_stat)
+
+        self.allies_nb = 1
 
     #regarde les input de déplacement du joueur et modifie les paramètre de déplacement en fonction
     def _input(self, actions):
@@ -122,4 +123,6 @@ class Player(pygame.sprite.Sprite):
         self.pos.x = x
         self.pos.y = y
 
+    def _get_allies_nb(self):
+        return self.allies_nb
         
