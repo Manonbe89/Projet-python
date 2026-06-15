@@ -35,11 +35,11 @@
             "speed": 10
         },
         "player_position": {
-            "x": 292.6949134723678,
-            "y": 505.1999999999998
+            "x": 502.66274169979613,
+            "y": 83.00000000000003
         }
     },
     "map": {
-        "current_map": "intersection"
+        "current_map": "first_village"
     }
 }

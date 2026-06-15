@@ -11,6 +11,7 @@ class Map :
         self.first_village = First_Village()
         self.intersection = Intersection()
         self.left_path = Left_path()
+        self.right_path = Right_path()
         self.current_map = self.bedroom._get_tile()
         self.name_current_map = 'bedroom'
     
@@ -33,6 +34,9 @@ class Map :
             
         elif name == 'left_path' :
             self.current_map = self.left_path._get_tile()
+
+        elif name == 'right_path' :
+            self.current_map = self.right_path._get_tile()
     
 
 class Bedroom() : 
@@ -145,6 +149,36 @@ class Left_path() :
         self.tile._add_solid_walls('left_bordure', 0, 970, bot_bordure)
         self.tile._add_solid_walls('right_bordure', 970, 840, right_bordure_1)
         self.tile._add_solid_walls('right_bordure', 970, 0, right_bordure_2)
+
+     def _get_name_map(self) : 
+        return self.name
+    
+     def _get_tile(self):
+        return self.tile
+     
+
+class Right_path() :
+     def __init__(self):
+        self.name = 'right_path'
+        self.surf = pygame.image.load("Images/Coin_droit.png").convert_alpha()
+        self.camera = Camera(900, 600, 1000, 1000)
+        self.tile = Tile(self.surf, self.camera)
+        self.object = Object()
+        self._create_map()
+    
+     def _create_map(self):
+        top_bordure_2 = pygame.transform.scale(self.object.invisible_wall, (148, 30))
+        top_bordure_1 = pygame.transform.scale(self.object.invisible_wall, (682, 30))
+        right_bordure = pygame.transform.scale(self.object.invisible_wall, (30, 1000))
+        bot_bordure = pygame.transform.scale(self.object.invisible_wall, (1000, 30))
+        left_bordure_1 = pygame.transform.scale(self.object.invisible_wall, (30, 160))
+        left_bordure_2 = pygame.transform.scale(self.object.invisible_wall, (30, 670))
+        self.tile._add_solid_walls('top_bordure', 0, 0, top_bordure_2)
+        self.tile._add_solid_walls('top_bordure', 318, 0, top_bordure_1)
+        self.tile._add_solid_walls('left_bordure', 0, 0, left_bordure_2)
+        self.tile._add_solid_walls('left_bordure', 0, 970, bot_bordure)
+        self.tile._add_solid_walls('right_bordure', 970, 840, left_bordure_1)
+        self.tile._add_solid_walls('right_bordure', 970, 0, right_bordure)
 
      def _get_name_map(self) : 
         return self.name
