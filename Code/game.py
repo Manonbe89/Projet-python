@@ -5,6 +5,7 @@ from Code.item.usable_Item import Usable_Item
 from Code.player.player import Player
 from Code.player.interaction import Interaction
 from Code.map.map import Map
+from Code.map.teleportation import Teleportation
 from Code.save.save import Save
 
 class Game : 
@@ -20,9 +21,9 @@ class Game :
         self.screen = pygame.display.set_mode((900,600))
         self.clock = pygame.time.Clock()
         self.map = Map()
-        self.current_map = self.map.bedroom._get_tile()
         self.save = Save()
-        self.save._load_data(self.screen, self.inventory, self.player)
+        self.teleportation = Teleportation()
+        self.save._load_data(self.screen, self.inventory, self.player, self.map)
         self._game_loop()
 
     def _game_loop(self):
@@ -52,7 +53,7 @@ class Game :
 
             #SAVE
             self.save._display_menu(self.screen)
-            self.save._get_data(self.inventory, self.player)
+            self.save._get_data(self.inventory, self.player, self.map)
 
             # INPUT
             if not self.save._get_state_menu():
@@ -60,6 +61,10 @@ class Game :
                     keys = pygame.key.get_pressed()
                     self.player.action._set_keys(keys)
 
+                    #Map
+                    self.current_map = self.map._get_current_map()
+                    self.teleportation._teleportation(self.player, self.map, self.screen)
+                    
                     # UPDATE
                     self.all_sprites.update(dt, self.interaction._get_state(), self.current_map)
                     self.current_map.camera._update(self.player)

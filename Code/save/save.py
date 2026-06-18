@@ -14,16 +14,18 @@ class Save() :
         self.buttons.append(pygame.Rect(327, 359 , 250, 59))
 
 
-    def _get_data(self, inventory, player) :
+    def _get_data(self, inventory, player, map) :
         if self.status_buttons[0] : 
             nb_current_item = inventory._get_nb_current_Item()
             item_status = inventory._get_item_status()
-            stats_player = player._get_stat_table()   
-            player_position = {"x" : player._get_pos(0), "y" :player._get_pos(1)}    
+            stats_player = player._get_stat_table() 
+            player_position = {"x" : player._get_pos(0), "y" :player._get_pos(1)}   
+            current_map = map._get_name_current_map()
             data = {"inventory" : {"nb_current_item": nb_current_item,
                                    "item_status": item_status},
                     "player" : {"stats_player" : stats_player,
-                                "player_position" : player_position}
+                                "player_position" : player_position},
+                    "map" : {"current_map" : current_map}
                                    }
             with open("Code/save/save.json", "w") as file :
                 json.dump(data, file, indent=4)
@@ -31,7 +33,7 @@ class Save() :
             self.status_buttons[0] = 0
 
 
-    def _load_data(self, screen, inventory, player) :
+    def _load_data(self, screen, inventory, player, map) :
         self._display_menu(screen)
         fileName = "Code/save/save.json"
         if os.path.isfile(fileName) and os.path.getsize(fileName) != 0 :    #verifie que le fichier existe et qu'il n'est pas vide
@@ -41,6 +43,7 @@ class Save() :
                 inventory._set_item_status(list(data["inventory"]["item_status"]))
                 player._set_stat_table(data["player"]["stats_player"])
                 player._set_pos(data["player"]["player_position"]["x"], data["player"]["player_position"]["y"])
+                map._set_current_map(data["map"]["current_map"])
 
         
     def _check_buttons(self, event) :
