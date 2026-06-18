@@ -67,7 +67,7 @@ class Teleportation :
                 self._chargement(screen)
                 print(map.current_map)
 
-            elif player._get_pos(0) == 500 and player._get_pos(1) <= -15 :
+            elif player._get_pos(0) == 500 and 0 <= player._get_pos(1) <= 30 :
                 map._set_current_map('Donjon')
                 player._set_pos(500, 920)
                 self._chargement(screen)

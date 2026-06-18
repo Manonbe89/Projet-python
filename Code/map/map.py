@@ -8,6 +8,7 @@ from Code.enemys.bestiary import Bestiary
 class Map : 
 
     def __init__(self):
+        self.name_before_village = ''
         self.bedroom = Bedroom()
         self.first_village = First_Village()
         self.intersection = Intersection()
@@ -15,16 +16,16 @@ class Map :
         self.right_path = Right_path()
         self.dwarf_village = Dwarf_village()
         self.elf_village = Elf_village()
-        self.donjon = Donjon()
+        self.donjon = Donjon(self.name_before_village)
         self.current_map = self.bedroom._get_tile()
         self.name_current_map = 'bedroom'
-        self.name_before_village = ''
     
     def _get_name_current_map(self) : 
         return self.name_current_map
     
     def _get_current_map(self) :
         return self.current_map
+        
     
     def _set_current_map(self, name) :
         self.name_current_map = name
@@ -273,17 +274,17 @@ class Dwarf_village() :
         return self.tile
      
 class Donjon() :
-    def __init__(self):
+    def __init__(self, map):
         self.name = 'Donjon'
         self.surf = pygame.image.load("Images/Donjon.png").convert_alpha()
         self.camera = Camera(900, 600, 1000, 1000)
         self.tile = Tile(self.surf, self.camera)
         self.object = Object()
         self.bestiary = Bestiary()
+        self.map = map
         self._create_map()
     
     def _create_map(self):
-        map = Map()
 
         top_bordure = pygame.transform.scale(self.object.invisible_wall, (450, 30))
         bot_bordure = pygame.transform.scale(self.object.invisible_wall, (1000, 30))
@@ -295,15 +296,15 @@ class Donjon() :
         self.tile._add_solid_walls('left_bordure', 0, 0, side_bordure)
         self.tile._add_solid_walls('right_bordure', 970, 0, side_bordure)
 
-        if map.before_village == 'dwarf_village' :
+        if self.map == 'dwarf_village' :
             golem = self.bestiary.golem
             self.tile._add_ennemy(golem, 500, 500, 1)
 
-        elif map.before_village == 'elf_village' :
+        elif self.map == 'elf_village' :
             butterflie = self.bestiary.butterflie
             self.tile._add_ennemy(butterflie, 500, 500, 1)
 
-        elif map.before_village == 'intersection' :
+        elif self.map == 'intersection' :
             dark_hero = self.bestiary.dark_hero
             self.tile._add_ennemy(dark_hero, 500, 500, 1)
 
