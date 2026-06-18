@@ -87,10 +87,11 @@ class Game :
                     if self.interaction._get_current_fight()._is_finished():
                         if self.interaction._get_current_fight()._is_win():
                             self.player._set_money(self.interaction.current_enemy._get_loot()*self.interaction.current_enemy._get_number())
-                            if self.interaction.current_enemy.name == "Golem":
+                            if self.interaction.current_enemy.name == "golem":
+                                print ("here")
                                 self.inventory._obtain_item(self.inventory._get_Item(3), self.screen)
 
-                            elif self.interaction.current_enemy.name == "Butterflie":
+                            elif self.interaction.current_enemy.name == "buterflie":
                                 self.inventory._obtain_item(self.inventory._get_Item(7), self.screen)
 
                         else : 

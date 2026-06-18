@@ -74,14 +74,14 @@ class Buterflie :
 
     def _create_enemy(self, pos, groups, map, number):
         enemy = Enemy(self.name, self.xsize, self.ysize, self.path, pos, self.loot, self.detection_range, self.speed, groups, map, number)
-        enemy._set_stat(15,15,15,15,15,15)
+        enemy._set_stat(10,10,10,10,10,10)
         return enemy
 
 class Golem :
     def __init__(self):
-        self.name = "buterflie"
-        self.xsize = 124
-        self.ysize = 168
+        self.name = "golem"
+        self.xsize = 62
+        self.ysize = 84
         self.path = 'Images/golem.png'
         self.loot = 50
         self.detection_range = 0
@@ -89,7 +89,7 @@ class Golem :
 
     def _create_enemy(self, pos, groups, map, number):
         enemy = Enemy(self.name, self.xsize, self.ysize, self.path, pos, self.loot, self.detection_range, self.speed, groups, map, number)
-        enemy._set_stat(15,15,15,15,15,15)
+        enemy._set_stat(10,10,10,10,10,10)
         return enemy
 
 
