@@ -79,7 +79,7 @@ class Game :
                     self.inventory._display_inventory(self.screen)                            #affiche l'inventaire si la condition est respectée
                     self.inventory._display_item(self.screen)
                     self.uitem._use_usable_Item(self.player, self.screen, self.inventory, self.current_item)
-                    self.citem._Use_consumable_Item(self.screen, self.current_item)
+                    self.citem._Use_consumable_Item(self.screen, self.current_item, self.player)
 
                 elif self.interaction._get_world_state() == 'fight':
                     fight = self.interaction._get_current_fight()

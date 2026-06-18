@@ -120,9 +120,9 @@ class Inventory:
     def _item_factory(self) :
         rien = Item(0, "rien", "Vous ne faites rien", "", "")
         epee_du_voyageur = Item(1, "epee du voyageur", "Vous gagnez 5 points d'attaque", "L'épée parfaite pour commencer une aventure", "Images/epee_2.png")
-        potion = Item(2, "potion", "A voir", "Ce breuvage augmente considerablement la (statistique) de son utilisateur", "Images/potion_2.png")
-        bracelet_de_force = Item(3, "bracelet de force", "A voir", "Objet gagné chez les nains", "Images/bracelet de force_2.png")
-        bombe = Item(4, "bombe", "A voir", "Attention à n'exploser personne", "Images/bombe_2.png")
+        potion = Item(2, "potion", "Vous gagnez 5 points de magie", "Ce breuvage augmente considerablement la (statistique) de son utilisateur", "Images/potion_2.png")
+        bracelet_de_force = Item(3, "bracelet de force", "Vous gagnez 5 points d'attaque", "Objet gagné chez les nains", "Images/bracelet de force_2.png")
+        bombe = Item(4, "bombe", "Vous gagnez 5 points d'attaque", "Attention à n'exploser personne", "Images/bombe_2.png")
         vieux_grimoire = Item(5, "vieux grimoire", "Vous gagnez 5 points de magie", "Le grimoire d'un magicien en herbe", "Images/Grimoire magique_2.png")
         cuirasse = Item(6, "cuirasse", "Vous gagnez 5 points de defense", "Une cuirasse robuste pour résister à n'importe quelle lame", "Images/cuirasse_2.png")
         chapeau_de_magicien = Item(7, "chapeau de magicien", "Vous gagnez 5 points de defense magique", "Objet obtenu chez les elfes", "Images/chapeau de magicien_2.png")
