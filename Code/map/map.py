@@ -158,6 +158,8 @@ class Left_path() :
         self.tile._add_solid_walls('right_bordure', 970, 840, right_bordure_1)
         self.tile._add_solid_walls('right_bordure', 970, 0, right_bordure_2)
 
+        human = pygame.image.load("Images/humain.png")
+        self.tile._add_npc("marchand", human, 500, 500, "Boutique de potion, ouverture prochaine")
         bat = self.bestiary.bat
         snake = self.bestiary.snake
         slime = self.bestiary.slime
@@ -197,6 +199,8 @@ class Right_path() :
         self.tile._add_solid_walls('right_bordure', 0, 840, left_bordure_1)
         self.tile._add_solid_walls('right_bordure', 970, 0, right_bordure)
 
+        human = pygame.image.load("Images/humain.png")
+        self.tile._add_npc("érudit", human, 500, 500, "Je suis un collectioneur, mais je n'ai rien à te vendre pour le moment")
         bat = self.bestiary.bat
         snake = self.bestiary.snake
         slime = self.bestiary.slime

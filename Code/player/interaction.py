@@ -13,6 +13,7 @@ class Interaction:
         self.current_enemy = None
         self.interaction_rect = self.player.hitbox.copy()
         self.interaction_rect.inflate_ip(20, 20)
+        self.font = pygame.font.Font(None, 32)
 
         self.font = pygame.font.Font(None, 32)
 
