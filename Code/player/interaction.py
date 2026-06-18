@@ -13,6 +13,7 @@ class Interaction:
         self.current_enemy = None
         self.interaction_rect = self.player.hitbox.copy()
         self.interaction_rect.inflate_ip(20, 20)
+        self.font = pygame.font.Font(None, 32)
 
     def _search_enemy(self, enemy_group):
         for enemy in enemy_group:
@@ -50,7 +51,7 @@ class Interaction:
         if npc is None:
             return
 
-        self._interact_with_text(screen, self.font, npc.text_box)
+        self._interact_with_text(screen, npc.text_box)
 
 
 
@@ -68,7 +69,7 @@ class Interaction:
 
         if self.in_action:
             # gérer la pagination
-            still_talking = self._handle_textbox(text_box, screen, self.font, space)
+            still_talking = self._handle_textbox(text_box, screen, space)
 
             if not still_talking:
                 self.in_action = False
