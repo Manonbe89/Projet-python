@@ -15,8 +15,6 @@ class Interaction:
         self.interaction_rect.inflate_ip(20, 20)
         self.font = pygame.font.Font(None, 32)
 
-        self.font = pygame.font.Font(None, 32)
-
     def _search_enemy(self, enemy_group):
         for enemy in enemy_group:
             if self.interaction_rect.colliderect(enemy._get_hitbox()):

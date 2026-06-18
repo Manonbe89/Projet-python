@@ -48,11 +48,31 @@ class Teleportation :
                 player._set_pos(80, 500)
                 self._chargement(screen)
 
+            if 151 <= player._get_pos(0) <= 314 and 0 <= player._get_pos(1) <= 30 :
+                map._set_current_map('dwarf_village')
+                #player._set_pos(496, 940)
+                player._set_pos(500, 895)
+                self._chargement(screen)
+
         elif map._get_name_current_map() == 'right_path' :
             if 0 <= player._get_pos(0) <= 30 and 673 <= player._get_pos(1) <= 838 :
                 map._set_current_map('intersection')
                 player._set_pos(920, 500)
                 self._chargement(screen)
+
+        elif map._get_name_current_map() == 'dwarf_village' :
+            if 495 <= player._get_pos(0) >= 510 and player._get_pos(1) == 1010:
+                map._set_current_map('left_path')
+                player._set_pos(300, 50)
+                self._chargement(screen)
+                print(map.current_map)
+
+            elif player._get_pos(0) == 500 and 0 <= player._get_pos(1) <= 30 :
+                map._create_donjon()
+                map._set_current_map('Donjon')
+                player._set_pos(500, 920)
+                self._chargement(screen)
+                print(map.current_map)
                 
 
     def _chargement(self, screen) : 
