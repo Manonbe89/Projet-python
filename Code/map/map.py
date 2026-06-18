@@ -56,6 +56,8 @@ class Map :
         elif name == 'Donjon':
             self.current_map = self.donjon._get_tile()
     
+    def _create_donjon(self):
+        self.donjon = Donjon(self.name_before_village)
 
 class Bedroom() : 
 
@@ -296,6 +298,7 @@ class Donjon() :
         self.tile._add_solid_walls('left_bordure', 0, 0, side_bordure)
         self.tile._add_solid_walls('right_bordure', 970, 0, side_bordure)
 
+        print(self.map)
         if self.map == 'dwarf_village' :
             golem = self.bestiary.golem
             self.tile._add_ennemy(golem, 500, 500, 1)
