@@ -25,7 +25,6 @@ class Game :
         self.teleportation = Teleportation()
         self.save._load_data(self.screen, self.inventory, self.player, self.map)
         self._game_loop()
-        self.inventory._obtain_item(self.inventory._get_Item(1), self.screen)
 
     def _game_loop(self):
 
@@ -40,7 +39,7 @@ class Game :
                     running = False
                 if event.type == pygame.KEYDOWN :                          # vérifie si l'événement keydown s'est produit ou non
                     if event.key == pygame.K_g :
-                        self.inventory._obtain_item(self.inventory._get_Item(6), self.screen)
+                        self.inventory._obtain_item(self.inventory._get_Item(1), self.screen)
 
                 if self.interaction._get_world_state() == 'fight':
                     fight = self.interaction._get_current_fight()

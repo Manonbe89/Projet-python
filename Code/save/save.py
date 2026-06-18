@@ -19,12 +19,15 @@ class Save() :
             nb_current_item = inventory._get_nb_current_Item()
             item_status = inventory._get_item_status()
             stats_player = player._get_stat_table() 
-            player_position = {"x" : player._get_pos(0), "y" :player._get_pos(1)}   
+            player_position = {"x" : player._get_pos(0), "y" :player._get_pos(1)}  
+            player_money = player._get_Money() 
             current_map = map._get_name_current_map()
             data = {"inventory" : {"nb_current_item": nb_current_item,
                                    "item_status": item_status},
                     "player" : {"stats_player" : stats_player,
-                                "player_position" : player_position},
+                                "player_position" : player_position,
+                                 "money" : player_money
+                                 },
                     "map" : {"current_map" : current_map}
                                    }
             with open("Code/save/save.json", "w") as file :
@@ -43,6 +46,7 @@ class Save() :
                 inventory._set_item_status(list(data["inventory"]["item_status"]))
                 player._set_stat_table(data["player"]["stats_player"])
                 player._set_pos(data["player"]["player_position"]["x"], data["player"]["player_position"]["y"])
+                player._set_Money(data["player"]["player_money"])
                 map._set_current_map(data["map"]["current_map"])
 
         
