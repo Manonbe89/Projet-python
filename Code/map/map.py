@@ -160,8 +160,11 @@ class Left_path() :
 
         bat = self.bestiary.bat
         snake = self.bestiary.snake
+        slime = self.bestiary.slime
         self.tile._add_ennemy(bat, 200, 100, 2)
         self.tile._add_ennemy(snake, 200, 200, 2)
+        self.tile._add_ennemy(slime, 400, 200, 3)
+        self.tile._add_ennemy(bat, 400, 500, 1)
 
      def _get_name_map(self) : 
         return self.name
@@ -193,6 +196,14 @@ class Right_path() :
         self.tile._add_solid_walls('left_bordure', 0, 970, bot_bordure)
         self.tile._add_solid_walls('right_bordure', 970, 840, left_bordure_1)
         self.tile._add_solid_walls('right_bordure', 970, 0, right_bordure)
+
+        bat = self.bestiary.bat
+        snake = self.bestiary.snake
+        slime = self.bestiary.slime
+        self.tile._add_ennemy(bat, 200, 100, 2)
+        self.tile._add_ennemy(snake, 200, 200, 2)
+        self.tile._add_ennemy(slime, 400, 200, 3)
+        self.tile._add_ennemy(bat, 400, 500, 1)
 
      def _get_name_map(self) : 
         return self.name
