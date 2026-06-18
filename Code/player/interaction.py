@@ -28,9 +28,15 @@ class Interaction:
         if enemy is None:
             return
 
-        entities = [self.player.fight_entity._clone(), self.player.fight_entity._clone(), enemy.fight_entity._clone(), enemy.fight_entity._clone()]
-        print ("here enemy")
-        self._start_combat(entities,allies_nb=2)
+        entities = [self.player.fight_entity]
+
+        for i in range(self.player._get_allies_nb()-1):
+            entities.append(self.player.fight_entity._clone())
+
+        for i in range(enemy._get_number()):
+            entities.append(enemy.fight_entity._clone())
+
+        self._start_combat(entities,allies_nb=self.player._get_allies_nb())
 
     def _start_combat(self, entities, allies_nb):
         self.current_fight = Fight(entities, allies_nb)

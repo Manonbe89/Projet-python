@@ -5,11 +5,10 @@ from Code.movement import Movement
 from Code.fight.fight_entity import Fight_Entity
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, name, groups, inventory):
+    def __init__(self, pos, name, groups):
         super().__init__(groups)
         self.action = Action()
 
-        self.inventory = inventory
         self.size = 100
         img_down_idle = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
         img_up_idle = pygame.image.load("Images/Perso vue de derriere.png").convert_alpha()
@@ -33,7 +32,7 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.animations[self.statut][self.frame_index], (self.size, self.size))
 
         self.name = name
-        self.money = 0
+        self.money = 5
 
         self.player_stat = {
             "life" : 10,
@@ -49,8 +48,10 @@ class Player(pygame.sprite.Sprite):
         self.pos = pygame.math.Vector2(self.rect.center)
         self.hitbox = self.rect.copy().inflate(0, 0)
         self.speed =200
-        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size)
-        self.fight_entity = Fight_Entity(self.name, self.animations["down_im"][0],self.player_stat,self.inventory)
+        self.movement = Movement(self.pos, self.statut, self.im_statut, self.animations, self.speed, self.size, self.size)
+        self.fight_entity = Fight_Entity(self.name, self.animations["down_im"][0],self.player_stat)
+
+        self.allies_nb = 1
 
     #regarde les input de déplacement du joueur et modifie les paramètre de déplacement en fonction
     def _input(self, actions):
@@ -105,11 +106,15 @@ class Player(pygame.sprite.Sprite):
     def _set_stat(self, stat, change):
         self.player_stat[stat]+=change
 
+    def _replace_stat(self, stat, value):
+        self.player_stat[stat] = value
+
     def _set_stat_table(self, table) : 
         self.player_stat = table
 
     def _set_money(self, money_add):
-        self.money +=money_add
+        if self.money + money_add >= 0:
+            self.money +=money_add
     
     def _get_pos(self, coo):
         if coo == 0 : 
@@ -121,4 +126,6 @@ class Player(pygame.sprite.Sprite):
         self.pos.x = x
         self.pos.y = y
 
+    def _get_allies_nb(self):
+        return self.allies_nb
         

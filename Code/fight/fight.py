@@ -8,7 +8,7 @@ class Fight :
 
     def __init__(self, entities, allies_nb):
         self.entities = entities
-        self.background_image = pygame.image.load('Images/fight_background.jpg').convert_alpha()
+        self.background_image = pygame.image.load('Images/fond gris.png').convert_alpha()
         self.allies = entities[:allies_nb]
         self.enemys = entities[allies_nb:]
         self.menus = []
@@ -22,6 +22,7 @@ class Fight :
         self.selecting_target = True
         self.finished = False
         self.hp_font = pygame.font.Font(None, 24)
+        self.win = False
 
     def _handle_event(self, event):
 
@@ -56,6 +57,9 @@ class Fight :
 
     def _draw(self, screen):
         screen.blit(self.background_image, (0,0))
+
+        if not self.menus:
+            return
 
         for i, ally in enumerate(self.allies):
             pos = (100, 50 + 150 * i )
@@ -119,8 +123,6 @@ class Fight :
             if not action._get_user().is_dead():
                 self.finished = self.fight_calculator._execute_action(action, self.enemys, self.allies)
                 self._remove_dead_entities()
-            if not self.allies or not self.enemys:
-                    self.finished = True
             if self.finished == True:
                 return
 
@@ -174,6 +176,17 @@ class Fight :
         self.allies = [a for a in self.allies if not a.is_dead()]
         self.enemys = [e for e in self.enemys if not e.is_dead()]
         self.menus = [m for m in self.menus if not m.entity.is_dead()]
-        self.active_menu_index %= len(self.menus)
-    
+        
+        if not self.allies:
+            self.win = False
+            self.finished = True
+            return
+
+        if not self.enemys:
+            self.win = True
+            self.finished = True
+            return
+
+    def _is_win(self):
+        return self.win
         

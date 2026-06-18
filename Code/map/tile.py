@@ -53,8 +53,8 @@ class Tile:
         key = f"npc_{name}_{x}_{y}"
         self.objects[key] = npc
 
-    def _add_ennemy(self, enemy_to_create, x, y):
-        enemy = enemy_to_create._create_enemy((x, y), self.enemy_group, self)
+    def _add_ennemy(self, enemy_to_create, x, y,number):
+        enemy = enemy_to_create._create_enemy((x, y), self.enemy_group, self, number)
         key = f"enemy_{enemy.name}_{x}_{y}"
         self.enemies[key] = enemy
 
