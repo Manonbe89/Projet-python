@@ -39,7 +39,7 @@ class Game :
                     running = False
                 if event.type == pygame.KEYDOWN :                          # vérifie si l'événement keydown s'est produit ou non
                     if event.key == pygame.K_g :
-                        self.inventory._obtain_item(self.inventory._get_Item(1), self.screen)
+                        self.inventory._obtain_item(self.inventory._get_Item(7), self.screen)
 
                 if self.interaction._get_world_state() == 'fight':
                     fight = self.interaction._get_current_fight()
@@ -63,7 +63,7 @@ class Game :
 
                     #Map
                     self.current_map = self.map._get_current_map()
-                    self.teleportation._teleportation(self.player, self.map, self.screen)
+                    self.teleportation._teleportation(self.player, self.map, self.screen, self.inventory)
                     
                     # UPDATE
                     self.all_sprites.update(dt, self.interaction._get_state(), self.current_map)

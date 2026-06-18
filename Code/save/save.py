@@ -46,7 +46,7 @@ class Save() :
                 inventory._set_item_status(list(data["inventory"]["item_status"]))
                 player._set_stat_table(data["player"]["stats_player"])
                 player._set_pos(data["player"]["player_position"]["x"], data["player"]["player_position"]["y"])
-                player._set_Money(data["player"]["player_money"])
+                player._set_money(data["player"]["money"])
                 map._set_current_map(data["map"]["current_map"])
 
         
