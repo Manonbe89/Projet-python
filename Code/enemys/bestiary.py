@@ -46,6 +46,52 @@ class Snake :
         enemy = Enemy(self.name, self.xsize, self.ysize, self.path, pos, self.loot, self.detection_range, self.speed, groups, map, number)
         enemy._set_stat(10,6,5,5,1,5)
         return enemy
+    
+class Dark_hero :
+    def __init__(self):
+        self.name = "dark_hero"
+        self.xsize = 100
+        self.ysize = 100
+        self.path = 'Images/boss final.png'
+        self.loot = 100
+        self.detection_range = 0
+        self.speed = 0
+
+    def _create_enemy(self, pos, groups, map, number):
+        enemy = Enemy(self.name, self.xsize, self.ysize, self.path, pos, self.loot, self.detection_range, self.speed, groups, map, number)
+        enemy._set_stat(30,30,30,30,30,30)
+        return enemy
+    
+class Buterflie :
+    def __init__(self):
+        self.name = "buterflie"
+        self.xsize = 78
+        self.ysize = 72
+        self.path = 'Images/papillon.png'
+        self.loot = 50
+        self.detection_range = 0
+        self.speed = 0
+
+    def _create_enemy(self, pos, groups, map, number):
+        enemy = Enemy(self.name, self.xsize, self.ysize, self.path, pos, self.loot, self.detection_range, self.speed, groups, map, number)
+        enemy._set_stat(15,15,15,15,15,15)
+        return enemy
+
+class Golem :
+    def __init__(self):
+        self.name = "buterflie"
+        self.xsize = 124
+        self.ysize = 168
+        self.path = 'Images/golem.png'
+        self.loot = 50
+        self.detection_range = 0
+        self.speed = 0
+
+    def _create_enemy(self, pos, groups, map, number):
+        enemy = Enemy(self.name, self.xsize, self.ysize, self.path, pos, self.loot, self.detection_range, self.speed, groups, map, number)
+        enemy._set_stat(15,15,15,15,15,15)
+        return enemy
+
 
 #the bestiary (have a example of each enemy for a smoother incorporation)
 class Bestiary : 
@@ -53,3 +99,6 @@ class Bestiary :
         self.bat = Bat()
         self.slime = Slime()
         self.snake = Snake()
+        self.dark_hero = Dark_hero()
+        self.butterflie = Buterflie()
+        self.golem = Golem()
