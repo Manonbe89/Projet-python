@@ -15,6 +15,7 @@ class Map :
         self.right_path = Right_path()
         self.dwarf_village = Dwarf_village()
         self.elf_village = Elf_village()
+        self.donjon = Donjon()
         self.current_map = self.bedroom._get_tile()
         self.name_current_map = 'bedroom'
         self.name_before_village = ''
@@ -282,6 +283,7 @@ class Donjon() :
         self._create_map()
     
     def _create_map(self):
+        map = Map()
 
         top_bordure = pygame.transform.scale(self.object.invisible_wall, (450, 30))
         bot_bordure = pygame.transform.scale(self.object.invisible_wall, (1000, 30))
