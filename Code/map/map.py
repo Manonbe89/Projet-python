@@ -175,11 +175,11 @@ class Right_path() :
         bot_bordure = pygame.transform.scale(self.object.invisible_wall, (1000, 30))
         left_bordure_1 = pygame.transform.scale(self.object.invisible_wall, (30, 160))
         left_bordure_2 = pygame.transform.scale(self.object.invisible_wall, (30, 670))
-        self.tile._add_solid_walls('top_bordure', 0, 0, top_bordure_2)
-        self.tile._add_solid_walls('top_bordure', 318, 0, top_bordure_1)
+        self.tile._add_solid_walls('top_bordure', 0, 0, top_bordure_1)
+        self.tile._add_solid_walls('top_bordure', 852, 0, top_bordure_2)
         self.tile._add_solid_walls('left_bordure', 0, 0, left_bordure_2)
-        self.tile._add_solid_walls('left_bordure', 0, 970, bot_bordure)
-        self.tile._add_solid_walls('right_bordure', 970, 840, left_bordure_1)
+        self.tile._add_solid_walls('bot_bordure', 0, 970, bot_bordure)
+        self.tile._add_solid_walls('right_bordure', 0, 840, left_bordure_1)
         self.tile._add_solid_walls('right_bordure', 970, 0, right_bordure)
 
      def _get_name_map(self) : 
