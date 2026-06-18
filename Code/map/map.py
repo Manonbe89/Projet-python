@@ -2,6 +2,7 @@ import pygame
 from Code.map.camera import Camera
 from Code.map.tile import Tile
 from Code.map.object import Object
+from Code.enemys.bestiary import Bestiary
 
 
 class Map : 
@@ -46,6 +47,7 @@ class Bedroom() :
         self.surf = pygame.image.load("Images/Chambre.png").convert_alpha()
         self.camera = Camera(900, 600, 500, 500)
         self.tile = Tile(self.surf, self.camera)
+        self.bestiary = Bestiary()
         self.object = Object()
         self._create_map()
 
