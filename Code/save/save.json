@@ -35,11 +35,11 @@
             "speed": 10
         },
         "player_position": {
-            "x": 210.7890916511724,
-            "y": 151.7890916511712
+            "x": 389.39167388793214,
+            "y": 615.3916738879315
         }
     },
     "map": {
-        "current_map": "left_path"
+        "current_map": "dwarf_village"
     }
 }

@@ -100,6 +100,9 @@ class First_Village() :
         self.tile._add_solid_walls('left_bordure', 0, 0, side_bordure)
         self.tile._add_solid_walls('right_bordure', 970, 0, side_bordure)
 
+        human = pygame.image.load("Images/humain.png").convert_alpha()
+        self.tile._add_npc("Corentin",human,350, 30,"Savais tu que l'épée boost ton attaque, tu devrais essayer !")
+
     def _get_name_map(self) : 
         return self.name
     
@@ -205,17 +208,20 @@ class Dwarf_village() :
         house = pygame.transform.scale(self.object.invisible_wall, (160,180))
         top_bordure = pygame.transform.scale(self.object.invisible_wall, (450, 30))
         side_bordure = pygame.transform.scale(self.object.invisible_wall, (30, 1000))
-        self.tile._add_solid_walls('house', 110, 70, house)                      #top left
-        self.tile._add_solid_walls('house', 690, 40, house)                      #top right
-        self.tile._add_solid_walls('house', 410, 280, house)                     #middle
-        self.tile._add_solid_walls('house', 190, 675, house)                     #bot left
-        self.tile._add_solid_walls('house', 710, 530, house)                     #bot right
+        self.tile._add_solid_walls('house', 130, 40, house)                      #top left
+        self.tile._add_solid_walls('house', 700, 20, house)                     #top right
+        self.tile._add_solid_walls('house', 410, 280, house)                    #middle
+        self.tile._add_solid_walls('house', 200, 670, house)                    #bot left
+        self.tile._add_solid_walls('house', 690, 510, house)                    #bot right
         self.tile._add_solid_walls('top_bordure', 0, 0, top_bordure)
         self.tile._add_solid_walls('top_bordure', 550, 0, top_bordure)
         self.tile._add_solid_walls('top_bordure', 0, 970, top_bordure)
         self.tile._add_solid_walls('top_bordure', 550, 970, top_bordure)
         self.tile._add_solid_walls('left_bordure', 0, 0, side_bordure)
         self.tile._add_solid_walls('right_bordure', 970, 0, side_bordure)
+
+        dwarf = pygame.image.load("Images/dwarf.png").convert_alpha()
+        self.tile._add_npc('roi des nains', dwarf, 600, 900,"Aide nous aventurier il faut terasser le golem caché dans la grotte à la sorti du village !")
 
      def _get_name_map(self) : 
         return self.name
