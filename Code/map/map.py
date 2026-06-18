@@ -205,7 +205,7 @@ class Dwarf_village() :
         self._create_map()
     
      def _create_map(self):
-        house = pygame.transform.scale(self.object.invisible_wall, (173,191))
+        house = pygame.transform.scale(self.object.invisible_wall, (160,180))
         top_bordure = pygame.transform.scale(self.object.invisible_wall, (450, 30))
         side_bordure = pygame.transform.scale(self.object.invisible_wall, (30, 1000))
         self.tile._add_solid_walls('house', 130, 40, house)                      #top left
