@@ -59,6 +59,12 @@ class Teleportation :
                 map._set_current_map('intersection')
                 player._set_pos(920, 500)
                 self._chargement(screen)
+
+        elif map._get_name_current_map() == 'dwarf_village' :
+            if 450 <= player._get_pos(0) >= 550 and player._get_pos(1) == 920:
+                map._set_current_map('left_path')
+                player._set_pos(300, 50)
+                self._chargement(screen)
                 
 
     def _chargement(self, screen) : 
