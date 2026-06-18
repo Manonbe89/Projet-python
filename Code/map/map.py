@@ -14,8 +14,10 @@ class Map :
         self.left_path = Left_path()
         self.right_path = Right_path()
         self.dwarf_village = Dwarf_village()
+        self.elf_village = Elf_village()
         self.current_map = self.bedroom._get_tile()
         self.name_current_map = 'bedroom'
+        self.name_before_village = ''
     
     def _get_name_current_map(self) : 
         return self.name_current_map
@@ -33,6 +35,7 @@ class Map :
 
         elif name == 'intersection' :
             self.current_map = self.intersection._get_tile()
+            self.name_before_village = 'intersection'
             
         elif name == 'left_path' :
             self.current_map = self.left_path._get_tile()
@@ -42,6 +45,11 @@ class Map :
 
         elif name == 'dwarf_village' :
             self.current_map = self.dwarf_village._get_tile()
+            self.name_before_village = 'dwarf_village'
+
+        elif name == 'elf_village' : 
+            self.current_map = self.elf_village._get_tile()
+            self.name_before_village = 'elf_village'
     
 
 class Bedroom() : 
@@ -228,3 +236,45 @@ class Dwarf_village() :
     
      def _get_tile(self):
         return self.tile
+     
+class Dwarf_village() :
+     def __init__(self):
+        self.name = 'dwarf_village'
+        self.surf = pygame.image.load("Images/Map_nain.png").convert_alpha()
+        self.camera = Camera(900, 600, 1000, 1000)
+        self.tile = Tile(self.surf, self.camera)
+        self.object = Object()
+        self._create_map()
+    
+     def _create_map(self):
+        house = pygame.transform.scale(self.object.invisible_wall, (160,180))
+        top_bordure = pygame.transform.scale(self.object.invisible_wall, (450, 30))
+        side_bordure = pygame.transform.scale(self.object.invisible_wall, (30, 1000))
+        self.tile._add_solid_walls('house', 130, 40, house)                      #top left
+        self.tile._add_solid_walls('house', 700, 20, house)                     #top right
+        self.tile._add_solid_walls('house', 410, 280, house)                    #middle
+        self.tile._add_solid_walls('house', 200, 670, house)                    #bot left
+        self.tile._add_solid_walls('house', 690, 510, house)                    #bot right
+        self.tile._add_solid_walls('top_bordure', 0, 0, top_bordure)
+        self.tile._add_solid_walls('top_bordure', 550, 0, top_bordure)
+        self.tile._add_solid_walls('top_bordure', 0, 970, top_bordure)
+        self.tile._add_solid_walls('top_bordure', 550, 970, top_bordure)
+        self.tile._add_solid_walls('left_bordure', 0, 0, side_bordure)
+        self.tile._add_solid_walls('right_bordure', 970, 0, side_bordure)
+
+        if map.before_village == 'dwarf_village' :
+            None #ennemi que tu veux mettre
+        elif map.before_village == 'elf_village' :
+            None
+        elif map.before_village == 'intersection' :
+            None
+
+     def _get_name_map(self) :
+         return self.name
+    
+     def _get_tile(self):
+        return self.tile
+     
+
+class Elf_village() :
+    None
