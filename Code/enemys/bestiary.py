@@ -5,8 +5,8 @@ from Code.enemys.enemy import Enemy
 class Bat : 
     def __init__(self):
         self.name = "bat"
-        self.xsize = 50
-        self.ysize = 24
+        self.xsize = 100
+        self.ysize = 48
         self.path = 'Images/BAT.png'
         self.loot = 2
         self.detection_range = 400
@@ -20,8 +20,8 @@ class Bat :
 class Slime : 
     def __init__(self):
         self.name = "bat"
-        self.xsize = 40
-        self.ysize = 30
+        self.xsize = 80
+        self.ysize = 60
         self.path = 'Images/slime.png'
         self.loot = 2
         self.detection_range = 400
@@ -35,8 +35,8 @@ class Slime :
 class Snake : 
     def __init__(self):
         self.name = "bat"
-        self.xsize = 50
-        self.ysize = 30
+        self.xsize = 100
+        self.ysize = 60
         self.path = 'Images/serpent.png'
         self.loot = 2
         self.detection_range = 400

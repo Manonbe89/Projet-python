@@ -63,6 +63,9 @@ class Bedroom() :
         self.tile._add_solid_walls('left_bordure', 202,60, side_bordure)
         self.tile._add_solid_walls('right_bordure', 701,60, side_bordure)
 
+        human = pygame.image.load("images/humain.png").convert_alpha()
+        self.tile._add_npc('Loris', human, 200, 100, "Vite! la paix entre les elfes et les nains est en danger. TU DOIS LES AIDER")
+
     def _get_name_map(self) : 
         return self.name
     
@@ -78,6 +81,7 @@ class First_Village() :
         self.camera = Camera(900, 600, 1000, 1000)
         self.tile = Tile(self.surf, self.camera)
         self.object = Object()
+        self.bestiary = Bestiary()
         self._create_map()
 
     def _create_map(self):
@@ -109,6 +113,7 @@ class Intersection() :
         self.camera = Camera(900, 600, 1000, 1000)
         self.tile = Tile(self.surf, self.camera)
         self.object = Object()
+        self.bestiary = Bestiary()
         self._create_map()
 
     def _create_map(self):
@@ -136,6 +141,7 @@ class Left_path() :
         self.camera = Camera(900, 600, 1000, 1000)
         self.tile = Tile(self.surf, self.camera)
         self.object = Object()
+        self.bestiary = Bestiary()
         self._create_map()
     
      def _create_map(self):
@@ -154,6 +160,13 @@ class Left_path() :
 
         human = pygame.image.load("Images/humain.png")
         self.tile._add_npc("marchand", human, 500, 500, "Boutique de potion, ouverture prochaine")
+        bat = self.bestiary.bat
+        snake = self.bestiary.snake
+        slime = self.bestiary.slime
+        self.tile._add_ennemy(bat, 200, 100, 2)
+        self.tile._add_ennemy(snake, 200, 200, 2)
+        self.tile._add_ennemy(slime, 400, 200, 3)
+        self.tile._add_ennemy(bat, 400, 500, 1)
 
      def _get_name_map(self) : 
         return self.name
@@ -169,6 +182,7 @@ class Right_path() :
         self.camera = Camera(900, 600, 1000, 1000)
         self.tile = Tile(self.surf, self.camera)
         self.object = Object()
+        self.bestiary = Bestiary()
         self._create_map()
     
      def _create_map(self):
@@ -178,15 +192,22 @@ class Right_path() :
         bot_bordure = pygame.transform.scale(self.object.invisible_wall, (1000, 30))
         left_bordure_1 = pygame.transform.scale(self.object.invisible_wall, (30, 160))
         left_bordure_2 = pygame.transform.scale(self.object.invisible_wall, (30, 670))
-        self.tile._add_solid_walls('top_bordure', 0, 0, top_bordure_2)
-        self.tile._add_solid_walls('top_bordure', 318, 0, top_bordure_1)
+        self.tile._add_solid_walls('top_bordure', 0, 0, top_bordure_1)
+        self.tile._add_solid_walls('top_bordure', 852, 0, top_bordure_2)
         self.tile._add_solid_walls('left_bordure', 0, 0, left_bordure_2)
-        self.tile._add_solid_walls('left_bordure', 0, 970, bot_bordure)
-        self.tile._add_solid_walls('right_bordure', 970, 840, left_bordure_1)
+        self.tile._add_solid_walls('bot_bordure', 0, 970, bot_bordure)
+        self.tile._add_solid_walls('right_bordure', 0, 840, left_bordure_1)
         self.tile._add_solid_walls('right_bordure', 970, 0, right_bordure)
 
         human = pygame.image.load("Images/humain.png")
         self.tile._add_npc("érudit", human, 500, 500, "Je suis un collectioneur, mais je n'ai rien à te vendre pour le moment")
+        bat = self.bestiary.bat
+        snake = self.bestiary.snake
+        slime = self.bestiary.slime
+        self.tile._add_ennemy(bat, 200, 100, 2)
+        self.tile._add_ennemy(snake, 200, 200, 2)
+        self.tile._add_ennemy(slime, 400, 200, 3)
+        self.tile._add_ennemy(bat, 400, 500, 1)
 
      def _get_name_map(self) : 
         return self.name
