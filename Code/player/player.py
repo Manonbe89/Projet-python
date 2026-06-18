@@ -11,7 +11,6 @@ class Player(pygame.sprite.Sprite):
 
         self.inventory = inventory
         self.size = 100
-        test_img = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
         img_down_idle = pygame.image.load("Images/Perso vue de devant.png").convert_alpha()
         img_up_idle = pygame.image.load("Images/Perso vue de derriere.png").convert_alpha()
         img_left_idle = pygame.image.load("Images/Perso vue de profil gauche.png").convert_alpha()

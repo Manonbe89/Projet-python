@@ -1,0 +1,45 @@
+{
+    "inventory": {
+        "nb_current_item": 0,
+        "item_status": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ]
+    },
+    "player": {
+        "stats_player": {
+            "life": 10,
+            "attack": 10,
+            "armor": 10,
+            "magic armor": 10,
+            "magic": 10,
+            "speed": 10
+        },
+        "player_position": {
+            "x": 502.66274169979613,
+            "y": 83.00000000000003
+        }
+    },
+    "map": {
+        "current_map": "first_village"
+    }
+}
