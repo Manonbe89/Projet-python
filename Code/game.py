@@ -25,6 +25,7 @@ class Game :
         self.teleportation = Teleportation()
         self.save._load_data(self.screen, self.inventory, self.player, self.map)
         self._game_loop()
+        self.inventory._obtain_item(self.inventory._get_Item(1), self.screen)
 
     def _game_loop(self):
 

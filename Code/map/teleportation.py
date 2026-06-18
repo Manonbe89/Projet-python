@@ -53,6 +53,12 @@ class Teleportation :
                 map._set_current_map('intersection')
                 player._set_pos(920, 500)
                 self._chargement(screen)
+
+            if 685 <= player._get_pos(0) <= 849 and 0 <= player._get_pos(1) <= 30 :
+                map._set_current_map('elf_village')
+                player._set_pos(496, 900)
+                self._chargement(screen)
+
                 
 
     def _chargement(self, screen) : 
