@@ -62,6 +62,9 @@ class Map :
         elif name == 'Donjon':
             self.current_map = self.donjon._get_tile()
 
+    def _reset_donjon(self):
+        self.donjon = Donjon(self.name_before_village)
+
 
 class Bedroom() : 
 
@@ -266,6 +269,9 @@ class Elf_village() :
         self.tile._add_solid_walls('top_bordure', 550, 970, top_bordure)
         self.tile._add_solid_walls('left_bordure', 0, 0, side_bordure)
         self.tile._add_solid_walls('right_bordure', 970, 0, side_bordure)
+
+        elfe = pygame.image.load("Images/humain.png").convert_alpha()
+        self.tile._add_npc('reine des elfes', elfe, 600, 850,"Un papillon magique pille notre temple sacré, tu dois nous aider aventurier !")
 
      def _get_name_map(self) : 
         return self.name
