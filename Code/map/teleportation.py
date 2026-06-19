@@ -44,6 +44,7 @@ class Teleportation :
             elif 418 <= player._get_pos(0) <= 582 and 0 <= player._get_pos(1) <= 30 :
                 status = inventory._get_item_status()
                 if status[3] == 1 and status[7] == 1 :
+                    map._reset_donjon()
                     map._set_current_map('Donjon')
                     player._set_pos(498, 934)
                     self._chargement(screen)
@@ -82,6 +83,7 @@ class Teleportation :
                 print(map.current_map)
 
             elif player._get_pos(0) == 500 and 0 <= player._get_pos(1) <= 30 :
+                map._reset_donjon()
                 map._set_current_map('Donjon')
                 player._set_pos(500, 920)
                 self._chargement(screen)
@@ -89,6 +91,7 @@ class Teleportation :
 
         elif map._get_name_current_map() == 'elf_village' :
             if player._get_pos(0) == 500 and 0 <= player._get_pos(1) <= 30 :
+                    map._reset_donjon()
                     map._set_current_map('Donjon')
                     player._set_pos(500, 920)
                     self._chargement(screen)
