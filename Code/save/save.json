@@ -3,13 +3,13 @@
         "nb_current_item": 0,
         "item_status": [
             0,
-            0,
-            0,
             1,
             0,
             0,
             0,
-            1,
+            0,
+            0,
+            0,
             0,
             0,
             0,
@@ -35,13 +35,13 @@
             "speed": 10
         },
         "player_position": {
-            "x": 504.10121933088203,
-            "y": 795.4741699796933
+            "x": 500.0,
+            "y": 150.0
         },
-        "money": 10
+        "money": 5
     },
     "map": {
-        "current_map": "elf_village",
-        "before_village": "elf_village"
+        "current_map": "bedroom",
+        "before_village": ""
     }
 }
