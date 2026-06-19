@@ -1,15 +1,15 @@
 {
     "inventory": {
-        "nb_current_item": 3,
+        "nb_current_item": 0,
         "item_status": [
             0,
+            0,
+            0,
             1,
             0,
+            0,
+            0,
             1,
-            0,
-            0,
-            0,
-            0,
             0,
             0,
             0,
@@ -35,12 +35,13 @@
             "speed": 10
         },
         "player_position": {
-            "x": 497.87867965644034,
-            "y": 141.73654403271036
+            "x": 504.10121933088203,
+            "y": 795.4741699796933
         },
-        "money": 20
+        "money": 10
     },
     "map": {
-        "current_map": "intersection"
+        "current_map": "elf_village",
+        "before_village": "elf_village"
     }
 }

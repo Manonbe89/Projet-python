@@ -44,8 +44,8 @@ class Teleportation :
             elif 418 <= player._get_pos(0) <= 582 and 0 <= player._get_pos(1) <= 30 :
                 status = inventory._get_item_status()
                 if status[3] == 1 and status[7] == 1 :
-                    map._set_current_map('final_donjon')
-                    player._set_pos(80, 755)
+                    map._set_current_map('Donjon')
+                    player._set_pos(498, 934)
                     self._chargement(screen)
                 else : 
                     self._check_item(screen)
@@ -57,6 +57,12 @@ class Teleportation :
                 player._set_pos(80, 500)
                 self._chargement(screen)
 
+            elif 151 <= player._get_pos(0) <= 314 and 0 <= player._get_pos(1) <= 30 :
+                map._set_current_map('dwarf_village')
+                player._set_pos(498, 915)
+                self._chargement(screen)
+
+
         elif map._get_name_current_map() == 'right_path' :
             if 0 <= player._get_pos(0) <= 30 and 673 <= player._get_pos(1) <= 838 :
                 map._set_current_map('intersection')
@@ -67,6 +73,49 @@ class Teleportation :
                 map._set_current_map('elf_village')
                 player._set_pos(496, 900)
                 self._chargement(screen)
+
+        elif map._get_name_current_map() == 'dwarf_village' :
+            if player._get_pos(0) == 500 and 970 <= player._get_pos(1) <= 1000 :
+                map._set_current_map('left_path')
+                player._set_pos(235, 300)
+                self._chargement(screen)
+                print(map.current_map)
+
+            elif player._get_pos(0) == 500 and 0 <= player._get_pos(1) <= 30 :
+                map._set_current_map('Donjon')
+                player._set_pos(500, 920)
+                self._chargement(screen)
+                print(map.current_map)
+
+        elif map._get_name_current_map() == 'elf_village' :
+            if player._get_pos(0) == 500 and 0 <= player._get_pos(1) <= 30 :
+                    map._set_current_map('Donjon')
+                    player._set_pos(500, 920)
+                    self._chargement(screen)
+                    print(map.current_map)
+
+            elif player._get_pos(0) == 500 and 970 <= player._get_pos(1) <= 1000 :
+                map._set_current_map('right_path')
+                player._set_pos(775, 300)
+                self._chargement(screen)
+                print(map.current_map)
+
+        elif map._get_name_current_map() == 'Donjon' :
+            if 416 <= player._get_pos(0) <= 585 and 970 <= player._get_pos(1) <= 1000 :
+                if map._get_before_village() == 'intersection':
+                    map._set_current_map('intersection')
+                    player._set_pos(508, 94)
+                    self._chargement(screen)
+
+                elif map._get_before_village() == 'dwarf_village':
+                    map._set_current_map('dwarf_village')
+                    player._set_pos(495, 90)
+                    self._chargement(screen)
+
+                elif map._get_before_village() == 'elf_village':
+                    map._set_current_map('elf_village')
+                    player._set_pos(495, 90)
+                    self._chargement(screen)
 
                 
 

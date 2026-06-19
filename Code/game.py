@@ -39,7 +39,7 @@ class Game :
                     running = False
                 if event.type == pygame.KEYDOWN :                          # vérifie si l'événement keydown s'est produit ou non
                     if event.key == pygame.K_g :
-                        self.inventory._obtain_item(self.inventory._get_Item(7), self.screen)
+                        self.inventory._obtain_item(self.inventory._get_Item(1), self.screen)
 
                 if self.interaction._get_world_state() == 'fight':
                     fight = self.interaction._get_current_fight()
