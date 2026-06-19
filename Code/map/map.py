@@ -14,8 +14,8 @@ class Map :
         self.intersection = Intersection()
         self.left_path = Left_path()
         self.right_path = Right_path()
-        self.dwarf_village = Dwarf_village()
         self.elf_village = Elf_village()
+        self.dwarf_village = Dwarf_village()
         self.donjon = Donjon(self.name_before_village)
         self.current_map = self.bedroom._get_tile()
         self.name_current_map = 'bedroom'
@@ -26,6 +26,12 @@ class Map :
     def _get_current_map(self) :
         return self.current_map
         
+    
+    def _get_before_village(self) :
+        return self.name_before_village
+    
+    def _set_before_village(self, new) :
+        self.name_before_village = new
     
     def _set_current_map(self, name) :
         self.name_current_map = name
@@ -45,19 +51,17 @@ class Map :
         elif name == 'right_path' :
             self.current_map = self.right_path._get_tile()
 
-        elif name == 'dwarf_village' :
-            self.current_map = self.dwarf_village._get_tile()
-            self.name_before_village = 'dwarf_village'
-
         elif name == 'elf_village' : 
             self.current_map = self.elf_village._get_tile()
             self.name_before_village = 'elf_village'
 
+        elif name == 'dwarf_village':
+            self.current_map = self.dwarf_village._get_tile()
+            self.name_before_village = 'dwarf_village'
+
         elif name == 'Donjon':
             self.current_map = self.donjon._get_tile()
-    
-    def _create_donjon(self):
-        self.donjon = Donjon(self.name_before_village)
+
 
 class Bedroom() : 
 
@@ -237,6 +241,38 @@ class Right_path() :
      def _get_tile(self):
         return self.tile
      
+class Elf_village() :
+     def __init__(self):
+        self.name = 'elf_village'
+        self.surf = pygame.image.load("Images/Map_elfes.png").convert_alpha()
+        self.camera = Camera(900, 600, 1000, 1000)
+        self.tile = Tile(self.surf, self.camera)
+        self.object = Object()
+        self.bestiary = Bestiary()
+        self._create_map()
+    
+     def _create_map(self):
+        house = pygame.transform.scale(self.object.invisible_wall, (150,160))
+        top_bordure = pygame.transform.scale(self.object.invisible_wall, (450, 30))
+        side_bordure = pygame.transform.scale(self.object.invisible_wall, (30, 1000))
+        self.tile._add_solid_walls('house', 140, 70, house)                      #top left
+        self.tile._add_solid_walls('house', 700, 40, house)                      #top right
+        self.tile._add_solid_walls('house', 430, 280, house)                     #middle
+        self.tile._add_solid_walls('house', 200, 685, house)                     #bot left
+        self.tile._add_solid_walls('house', 710, 530, house)                     #bot right
+        self.tile._add_solid_walls('top_bordure', 0, 0, top_bordure)
+        self.tile._add_solid_walls('top_bordure', 550, 0, top_bordure)
+        self.tile._add_solid_walls('top_bordure', 0, 970, top_bordure)
+        self.tile._add_solid_walls('top_bordure', 550, 970, top_bordure)
+        self.tile._add_solid_walls('left_bordure', 0, 0, side_bordure)
+        self.tile._add_solid_walls('right_bordure', 970, 0, side_bordure)
+
+     def _get_name_map(self) : 
+        return self.name
+    
+     def _get_tile(self):
+        return self.tile
+     
 class Dwarf_village() :
      def __init__(self):
         self.name = 'dwarf_village'
@@ -271,37 +307,6 @@ class Dwarf_village() :
      def _get_tile(self):
         return self.tile
      
-class Dwarf_village() :
-     def __init__(self):
-        self.name = 'dwarf_village'
-        self.surf = pygame.image.load("Images/Map_nain.png").convert_alpha()
-        self.camera = Camera(900, 600, 1000, 1000)
-        self.tile = Tile(self.surf, self.camera)
-        self.object = Object()
-        self._create_map()
-    
-     def _create_map(self):
-        house = pygame.transform.scale(self.object.invisible_wall, (160,180))
-        top_bordure = pygame.transform.scale(self.object.invisible_wall, (450, 30))
-        side_bordure = pygame.transform.scale(self.object.invisible_wall, (30, 1000))
-        self.tile._add_solid_walls('house', 130, 40, house)                      #top left
-        self.tile._add_solid_walls('house', 700, 20, house)                     #top right
-        self.tile._add_solid_walls('house', 410, 280, house)                    #middle
-        self.tile._add_solid_walls('house', 200, 670, house)                    #bot left
-        self.tile._add_solid_walls('house', 690, 510, house)                    #bot right
-        self.tile._add_solid_walls('top_bordure', 0, 0, top_bordure)
-        self.tile._add_solid_walls('top_bordure', 550, 0, top_bordure)
-        self.tile._add_solid_walls('top_bordure', 0, 970, top_bordure)
-        self.tile._add_solid_walls('top_bordure', 550, 970, top_bordure)
-        self.tile._add_solid_walls('left_bordure', 0, 0, side_bordure)
-        self.tile._add_solid_walls('right_bordure', 970, 0, side_bordure)
-
-     def _get_name_map(self) :
-         return self.name
-    
-     def _get_tile(self):
-        return self.tile
-     
 class Donjon() :
     def __init__(self, map):
         self.name = 'Donjon'
@@ -315,17 +320,16 @@ class Donjon() :
     
     def _create_map(self):
 
-        top_bordure = pygame.transform.scale(self.object.invisible_wall, (450, 30))
-        bot_bordure = pygame.transform.scale(self.object.invisible_wall, (1000, 30))
+        bot_bordure = pygame.transform.scale(self.object.invisible_wall, (415, 30))
+        top_bordure = pygame.transform.scale(self.object.invisible_wall, (1000, 30))
         side_bordure = pygame.transform.scale(self.object.invisible_wall, (30, 1000))
 
-        self.tile._add_solid_walls('top_bordure', 0, 0, bot_bordure)
-        self.tile._add_solid_walls('top_bordure', 550, 970, top_bordure)
-        self.tile._add_solid_walls('bot_bordure', 0, 970, top_bordure)
+        self.tile._add_solid_walls('top_bordure', 0, 0, top_bordure)
+        self.tile._add_solid_walls('bot_bordure', 585, 970, bot_bordure)
+        self.tile._add_solid_walls('bot_bordure', 0, 970, bot_bordure)
         self.tile._add_solid_walls('left_bordure', 0, 0, side_bordure)
         self.tile._add_solid_walls('right_bordure', 970, 0, side_bordure)
 
-        print(self.map)
         if self.map == 'dwarf_village' :
             golem = self.bestiary.golem
             self.tile._add_ennemy(golem, 500, 500, 1)
@@ -343,7 +347,3 @@ class Donjon() :
     
     def _get_tile(self):
         return self.tile
-     
-
-class Elf_village() :
-    None

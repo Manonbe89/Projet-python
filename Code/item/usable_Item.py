@@ -39,9 +39,7 @@ class Usable_Item (Item):
         if item.use_item == False : 
                 
                 if item._get_Name() == "bracelet de force" :
-                     item.use_item = True
-
-                if item._get_Name() == "bombe" :
+                     player._set_stat("attack", 5)
                      item.use_item = True
 
                 if item._get_Name() == "epee du voyageur" :

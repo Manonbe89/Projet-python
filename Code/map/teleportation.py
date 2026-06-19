@@ -5,7 +5,7 @@ class Teleportation :
     def __init__(self) :
         self.font = pygame.font.Font(None, 32)
 
-    def _teleportation(self, player, map, screen) :
+    def _teleportation(self, player, map, screen, inventory) :
         if map._get_name_current_map() == 'bedroom' :
             if 396 < player._get_pos(0) < 509 and player._get_pos(1) == 510 :
                 map._set_current_map('first_village')
@@ -16,14 +16,13 @@ class Teleportation :
         elif map._get_name_current_map() == 'first_village' :
             if 495 <= player._get_pos(0) <= 510 and player._get_pos(1) == 470 :
                 map._set_current_map('bedroom')
-                player._set_pos(450, 480)
+                player._set_pos(450, 500)
                 self._chargement(screen)
 
-            elif player._get_pos(0) == 500 and player._get_pos(1) <= -15 :
+            elif player._get_pos(0) == 500 and 0 <= player._get_pos(1) <= 30 :
                 map._set_current_map('intersection')
                 player._set_pos(500, 920)
                 self._chargement(screen)
-                print('go to intersection')
 
 
         elif map._get_name_current_map() == 'intersection' :
@@ -42,17 +41,27 @@ class Teleportation :
                 player._set_pos(80, 755)
                 self._chargement(screen)
 
+            elif 418 <= player._get_pos(0) <= 582 and 0 <= player._get_pos(1) <= 30 :
+                status = inventory._get_item_status()
+                if status[3] == 1 and status[7] == 1 :
+                    map._set_current_map('Donjon')
+                    player._set_pos(498, 934)
+                    self._chargement(screen)
+                else : 
+                    self._check_item(screen)
+
+
         elif map._get_name_current_map() == 'left_path' :
             if 970 <= player._get_pos(0) <= 1000 and 673 <= player._get_pos(1) <= 838 :
                 map._set_current_map('intersection')
                 player._set_pos(80, 500)
                 self._chargement(screen)
 
-            if 151 <= player._get_pos(0) <= 314 and 0 <= player._get_pos(1) <= 30 :
+            elif 151 <= player._get_pos(0) <= 314 and 0 <= player._get_pos(1) <= 30 :
                 map._set_current_map('dwarf_village')
-                #player._set_pos(496, 940)
-                player._set_pos(500, 895)
+                player._set_pos(498, 915)
                 self._chargement(screen)
+
 
         elif map._get_name_current_map() == 'right_path' :
             if 0 <= player._get_pos(0) <= 30 and 673 <= player._get_pos(1) <= 838 :
@@ -60,10 +69,15 @@ class Teleportation :
                 player._set_pos(920, 500)
                 self._chargement(screen)
 
+            if 685 <= player._get_pos(0) <= 849 and 0 <= player._get_pos(1) <= 30 :
+                map._set_current_map('elf_village')
+                player._set_pos(496, 900)
+                self._chargement(screen)
+
         elif map._get_name_current_map() == 'dwarf_village' :
-            if 495 <= player._get_pos(0) >= 510 and player._get_pos(1) == 1010:
+            if player._get_pos(0) == 500 and 970 <= player._get_pos(1) <= 1000 :
                 map._set_current_map('left_path')
-                player._set_pos(300, 50)
+                player._set_pos(235, 300)
                 self._chargement(screen)
                 print(map.current_map)
 
@@ -73,6 +87,37 @@ class Teleportation :
                 player._set_pos(500, 920)
                 self._chargement(screen)
                 print(map.current_map)
+
+        elif map._get_name_current_map() == 'elf_village' :
+            if player._get_pos(0) == 500 and 0 <= player._get_pos(1) <= 30 :
+                    map._set_current_map('Donjon')
+                    player._set_pos(500, 920)
+                    self._chargement(screen)
+                    print(map.current_map)
+
+            elif player._get_pos(0) == 500 and 970 <= player._get_pos(1) <= 1000 :
+                map._set_current_map('right_path')
+                player._set_pos(775, 300)
+                self._chargement(screen)
+                print(map.current_map)
+
+        elif map._get_name_current_map() == 'Donjon' :
+            if 416 <= player._get_pos(0) <= 585 and 970 <= player._get_pos(1) <= 1000 :
+                if map._get_before_village() == 'intersection':
+                    map._set_current_map('intersection')
+                    player._set_pos(508, 94)
+                    self._chargement(screen)
+
+                elif map._get_before_village() == 'dwarf_village':
+                    map._set_current_map('dwarf_village')
+                    player._set_pos(495, 90)
+                    self._chargement(screen)
+
+                elif map._get_before_village() == 'elf_village':
+                    map._set_current_map('elf_village')
+                    player._set_pos(495, 90)
+                    self._chargement(screen)
+
                 
 
     def _chargement(self, screen) : 
@@ -82,3 +127,7 @@ class Teleportation :
         pygame.time.delay(1000)
 
 
+    def _check_item(self, screen) :
+        screen.blit(self.font.render("Vous n'avez pas les items requis", True, (255, 255, 255)), (100, 500)) 
+        pygame.display.flip()
+        pygame.time.delay(25)
