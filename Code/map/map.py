@@ -25,6 +25,7 @@ class Map :
     
     def _get_current_map(self) :
         return self.current_map
+        
     
     def _get_before_village(self) :
         return self.name_before_village
@@ -122,6 +123,9 @@ class First_Village() :
         self.tile._add_solid_walls('left_bordure', 0, 0, side_bordure)
         self.tile._add_solid_walls('right_bordure', 970, 0, side_bordure)
 
+        human = pygame.image.load("Images/humain.png").convert_alpha()
+        self.tile._add_npc("Corentin",human,350, 30,"Savais tu que l'épée boost ton attaque, tu devrais essayer !")
+
     def _get_name_map(self) : 
         return self.name
     
@@ -180,6 +184,8 @@ class Left_path() :
         self.tile._add_solid_walls('right_bordure', 970, 840, right_bordure_1)
         self.tile._add_solid_walls('right_bordure', 970, 0, right_bordure_2)
 
+        human = pygame.image.load("Images/humain.png")
+        self.tile._add_npc("marchand", human, 500, 500, "Boutique de potion, ouverture prochaine")
         bat = self.bestiary.bat
         snake = self.bestiary.snake
         slime = self.bestiary.slime
@@ -219,6 +225,8 @@ class Right_path() :
         self.tile._add_solid_walls('right_bordure', 0, 840, left_bordure_1)
         self.tile._add_solid_walls('right_bordure', 970, 0, right_bordure)
 
+        human = pygame.image.load("Images/humain.png")
+        self.tile._add_npc("érudit", human, 500, 500, "Je suis un collectioneur, mais je n'ai rien à te vendre pour le moment")
         bat = self.bestiary.bat
         snake = self.bestiary.snake
         slime = self.bestiary.slime
