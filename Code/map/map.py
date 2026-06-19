@@ -270,7 +270,7 @@ class Elf_village() :
         self.tile._add_solid_walls('left_bordure', 0, 0, side_bordure)
         self.tile._add_solid_walls('right_bordure', 970, 0, side_bordure)
 
-        elfe = pygame.image.load("Images/humain.png").convert_alpha()
+        elfe = pygame.image.load("Images/reine_des_elfes.png").convert_alpha()
         self.tile._add_npc('reine des elfes', elfe, 600, 850,"Un papillon magique pille notre temple sacré, tu dois nous aider aventurier !")
 
      def _get_name_map(self) : 
