@@ -80,17 +80,19 @@ class Bedroom() :
     def _create_map(self):
         table = pygame.transform.scale(self.object.invisible_wall, (130,135))
         bed = pygame.transform.scale(self.object.invisible_wall, (80,165))
+        chest = pygame.transform.scale(self.object.invisible_wall, (80,75))
         top_bordure = pygame.transform.scale(self.object.invisible_wall, (500,1))
         side_bordure = pygame.transform.scale(self.object.invisible_wall, (1,500))
         self.tile._add_solid_walls('table', 395, 235, table)
         self.tile._add_solid_walls('bed', 632, 60, bed)
+        self.tile._add_solid_walls('chest', 400, 30, chest)
         self.tile._add_solid_walls('top_bordure', 202,60, top_bordure)
         self.tile._add_solid_walls('bot_bordure', 202, 560, top_bordure)
         self.tile._add_solid_walls('left_bordure', 202,60, side_bordure)
         self.tile._add_solid_walls('right_bordure', 701,60, side_bordure)
 
         human = pygame.image.load("images/humain.png").convert_alpha()
-        self.tile._add_npc('Loris', human, 200, 100, "Vite! la paix entre les elfes et les nains est en danger. TU DOIS LES AIDER")
+        self.tile._add_npc('Loris', human, 200, 100, "Vite! La paix entre les elfes et les nains est en danger. TU DOIS LES AIDER")
 
     def _get_name_map(self) : 
         return self.name

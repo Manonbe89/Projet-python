@@ -118,7 +118,12 @@ class Interaction:
         self.interaction_rect = self.player.hitbox.copy()
         self.interaction_rect.inflate_ip(20, 20)
 
+    def _interract_with_chest(self) :
+        if 
+
     def _interact(self,enemy_group, npc_group, screen):
         self._update_interaction_rect()
         self._interact_npc(npc_group, screen)
         self._intercat_with_enemy(enemy_group)
+
+    

@@ -14,7 +14,7 @@ class Game :
         self.all_sprites = pygame.sprite.Group()
         self.inventory = Inventory()
         self.inventory._item_factory()
-        self.player = Player((500,150), "Test", self.all_sprites)
+        self.player = Player((650,320), "Test", self.all_sprites)
         self.interaction = Interaction(self.player)
         self.uitem = Usable_Item(None, "", "Rien", "", "Images/bombe_2.png")
         self.citem = Consumable_Item(None, "", "Rien", "", "Images/bombe_2.png")
@@ -93,6 +93,9 @@ class Game :
 
                             elif self.interaction.current_enemy.name == "buterflie":
                                 self.inventory._obtain_item(self.inventory._get_Item(7), self.screen)
+
+                            elif self.interaction.current_enemy.name == "dark_hero":
+                                print("Bravo, vous avez gagné !")
 
                         else : 
                             self.player.fight_entity._set_stat("life",self.player.fight_entity._get_max_life())
